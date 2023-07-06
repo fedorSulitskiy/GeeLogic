@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:golden_eye_draft/widgets/gee_map_widget.dart';
 
 class CenterColumn extends StatefulWidget {
   const CenterColumn({super.key});
@@ -10,22 +11,23 @@ class CenterColumn extends StatefulWidget {
 class _CenterColumnState extends State<CenterColumn> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Title',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: Theme.of(context).colorScheme.primary),
-        ),
-        const PlaceholderCard(title: 'GEE API'),
-        const PlaceholderCard(title: 'JS / Python Code'),
-        const PlaceholderCard(title: 'Description'),
-        const PlaceholderCard(title: 'Tags or sth'),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Title',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
+          const MapWidget(),
+          const PlaceholderCard(title: 'JS / Python Code'),
+          const PlaceholderCard(title: 'Description'),
+          const PlaceholderCard(title: 'Tags or sth'),
+        ],
+      ),
     );
   }
 }

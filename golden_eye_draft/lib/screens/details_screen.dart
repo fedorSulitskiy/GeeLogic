@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:golden_eye_draft/widgets/center_column.dart';
-import 'package:golden_eye_draft/widgets/side_column.dart';
+// import 'package:golden_eye_draft/archive/side_column.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
@@ -18,14 +18,7 @@ class DetailsScreen extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SideColumn(),
-          CenterColumn(),
-          SideColumn(),
-        ],
-      ),
+      body: const CenterColumn(),
     );
   }
 }
