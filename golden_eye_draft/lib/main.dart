@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// import 'package:golden_eye_draft/screens/details_screen.dart';
+import 'package:golden_eye_draft/screens/details_screen.dart';
 import 'package:golden_eye_draft/screens/web_screen.dart';
 
 final theme = ThemeData(
