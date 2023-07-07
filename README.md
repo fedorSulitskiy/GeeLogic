@@ -7,9 +7,9 @@ advice!
 # To-do:
 - [x] Integrate geemap map widget into flutter web
 - [x] Clean up the code
-  - [ ] Get rid of useless files and excess code
-  - [ ] .gitignore
-  - [ ] rename folders to make things make more sense
+  - [x] Get rid of useless files and excess code
+  - [x] .gitignore
+  - [x] rename folders to make things make more sense
 - [ ] Create Figma prototype and post
 - [ ] Create entity diagrams & data flow diagrams & post
 - [ ] Fix aesthetics
