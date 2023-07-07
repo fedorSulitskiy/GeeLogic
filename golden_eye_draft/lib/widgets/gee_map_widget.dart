@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
@@ -21,7 +21,7 @@ class _MapWidgetState extends State<MapWidget> {
   void initState() {
     super.initState();
     // Load the HTML code for my_map.html
-    loadHTMLString().then((_) {
+    loadHTMLString('http://127.0.0.1:5000/get_map_widget').then((_) {
       setState(() {
         _isLoading = false;
       });
@@ -29,13 +29,10 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   // Function to load the HTML code
-  Future<void> loadHTMLString() async {
-    late final String htmlString;
-    try {
-      htmlString = await rootBundle.loadString('assets/my_map.html');
-    } catch (e) {
-      print('Error loading HTML file: $e');
-    }
+  Future<void> loadHTMLString(String uri) async {
+    final String htmlString;
+    http.Response response = await http.get(Uri.parse(uri));
+    htmlString = response.body;
     return _controller.loadHtmlString(htmlString);
   }
 
@@ -44,7 +41,7 @@ class _MapWidgetState extends State<MapWidget> {
     return Center(
       child: SizedBox(
         width: 700,
-        height: 900,
+        height: 320,
         child: _isLoading
             ? const CircularProgressIndicator()
             : PlatformWebViewWidget(

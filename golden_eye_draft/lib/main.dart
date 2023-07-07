@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    print(screenSize);
+    // var screenSize = MediaQuery.of(context).size;
+    // print(screenSize);
     return MaterialApp(
       title: 'Explore',
       theme: theme,

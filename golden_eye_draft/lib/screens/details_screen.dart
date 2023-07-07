@@ -7,18 +7,20 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'GIS Catalogue',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+    return SelectionArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'GIS Catalogue',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        body: const Center(child: CenterColumn()),
       ),
-      body: const CenterColumn(),
     );
   }
 }
