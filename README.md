@@ -6,7 +6,7 @@ advice!
 
 # To-do:
 - [x] Integrate geemap map widget into flutter web
-- [ ] Clean up the code
+- [x] Clean up the code
   - [ ] Get rid of useless files and excess code
   - [ ] .gitignore
   - [ ] rename folders to make things make more sense
