@@ -10,7 +10,12 @@ advice!
   - [x] Get rid of useless files and excess code
   - [x] .gitignore
   - [x] rename folders to make things make more sense
-- [ ] Create Figma prototype and post
-- [ ] Create entity diagrams & data flow diagrams & post
+- [x] Create Figma prototype and post
+- [x] Create entity diagrams & data flow diagrams & post
 - [ ] Fix aesthetics
 - [ ] Make rough home page
+
+- [ ] Pages diagram
+- [ ] Authentication mechanism
+- [ ] Dockerize the project
+- [ ] User input mechanism
