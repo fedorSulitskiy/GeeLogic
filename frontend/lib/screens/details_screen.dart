@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/widgets/center_column.dart';
+import 'package:frontend/widgets/details_stack.dart';
 
 // Screen for details of each algorithm
 class DetailsScreen extends StatelessWidget {

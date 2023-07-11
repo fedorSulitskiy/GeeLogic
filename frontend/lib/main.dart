@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Explore',
       theme: theme,
-      home: const DetailsScreen(),
+      home: const CatalogueScreen(),
     );
   }
 }
