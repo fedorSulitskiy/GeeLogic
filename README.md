@@ -15,6 +15,7 @@ advice!
 - [ ] Fix aesthetics
 - [ ] Make rough home page
 
+
 - [ ] Pages diagram
 - [ ] Authentication mechanism
 - [ ] Dockerize the project
