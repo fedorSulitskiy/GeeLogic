@@ -6,7 +6,7 @@ class PlaceholderMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 320,
+      height: 300,
       width: 700,
       color: Colors.blue,
     );

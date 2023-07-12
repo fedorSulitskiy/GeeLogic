@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/app_bar.dart';
+import 'package:frontend/widgets/catalogue_content.dart';
 
 class CatalogueScreen extends StatefulWidget {
   const CatalogueScreen({super.key});
@@ -13,6 +14,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Stack(
+        alignment: Alignment.center,
         children: <Widget>[
           // this will be fill the entire screen
           // Positioned.fill(
@@ -20,12 +22,11 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
           // ),
 
           Positioned(
-            top: 85,
-            child: Expanded(
-              child: Center(
-                child: Text('Body of my catalogue'),
-              ),
-            ),
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: CatalogueContent(),
           ),
 
           // App Bar
