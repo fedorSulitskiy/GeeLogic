@@ -20,3 +20,8 @@ advice!
 - [ ] Authentication mechanism
 - [x] Dockerize the project
 - [ ] User input mechanism
+
+//
+- [ ] Button to expand details page to full screen
+- [ ] Bookmark indicator persistance
+- [ ] Rework the map widget, potentially from the ground up :,(
