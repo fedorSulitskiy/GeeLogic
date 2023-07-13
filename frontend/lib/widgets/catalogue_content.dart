@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend/models/algo_card.dart';
+import 'package:frontend/providers/algo_box_selection_provider.dart';
 import 'package:frontend/widgets/algo_card.dart';
 import 'package:frontend/widgets/details_card.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
@@ -16,9 +17,12 @@ class CatalogueContent extends ConsumerStatefulWidget {
 }
 
 class _CatalogueContentState extends ConsumerState<CatalogueContent> {
+
   @override
   Widget build(BuildContext context) {
     final algos = ref.watch(algoInfoProvider);
+    final selectedId = ref.watch(algoCardSelectionProvider);
+    bool isSelected = false;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -34,8 +38,17 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                 ...List<Widget>.generate(
                   algos.length,
                   (index) {
+                    if (selectedId == index) {
+                      setState(() {
+                        isSelected = true;
+                      });
+                    } else {
+                      setState(() {
+                        isSelected = false;
+                      });
+                    }
                     AlgoCardData data = algos[index];
-                    return AlgoCard(data: data);
+                    return AlgoCard(data: data, index: index, isSelected: isSelected,);
                   },
                 ),
               ],
@@ -55,7 +68,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                   height: 120,
                 ),
                 // Details about each algorithm
-                DetailsCard(title: 'Title', datePosted: '13 July 2021', description: 'Generic shit', isBookmarked: false),
+                DetailsCard(),
               ],
             ),
           ),

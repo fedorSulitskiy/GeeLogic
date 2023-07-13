@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/algo_info_provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:frontend/widgets/placeholders/placeholder_map.dart';
 // import 'package:frontend/widgets/placeholders/data/placeholder_data.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-class DetailsCard extends StatelessWidget {
-  const DetailsCard({
-    super.key,
-    required this.title,
-    required this.datePosted,
-    required this.description,
-    required this.isBookmarked,
-  });
-
-  final String title;
-  final String datePosted;
-  final String description;
-  final bool isBookmarked;
+class DetailsCard extends ConsumerWidget {
+  const DetailsCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final algoId = ref.watch(algoIdProvider);
+    final data = ref.watch(algoInfoProvider).singleWhere(
+          (element) => element.id == algoId,
+        );
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -39,10 +35,10 @@ class DetailsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleText(title: title),
+                TitleText(title: data.title),
                 const PlaceholderMap(),
                 const TitleText(title: 'Desctiption'),
-                DescriptionText(text: description),
+                DescriptionText(text: data.description),
                 const TitleText(title: 'Tags'),
                 const TitleText(title: 'Comments'),
               ],
@@ -62,7 +58,7 @@ class TitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30.0),
@@ -79,7 +75,7 @@ class DescriptionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyMedium,
