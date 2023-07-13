@@ -12,11 +12,11 @@ advice!
   - [x] rename folders to make things make more sense
 - [x] Create Figma prototype and post
 - [x] Create entity diagrams & data flow diagrams & post
-- [ ] Fix aesthetics
-- [ ] Make rough home page
+- [x] Fix aesthetics
+- [x] Make rough home page
 
 //
 - [ ] Pages diagram
 - [ ] Authentication mechanism
-- [ ] Dockerize the project
+- [x] Dockerize the project
 - [ ] User input mechanism
