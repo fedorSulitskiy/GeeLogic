@@ -18,7 +18,7 @@ final dummyAlgoCardData = [
     title: 'Green Leaf Index in Nepal',
     upVotes: 200,
     downVotes: 100,
-    datePosted: DateTime(2023, 1, 21, 0, 0, 0),
+    datePosted: DateTime(2023, 2, 22, 0, 0, 0),
     isBookmarked: false,
     image:
         "https://images.squarespace-cdn.com/content/v1/59fc9bdfcd39c3f5ace09221/1548309805813-QLBHVE1C8AORIKQMK1ZP/RVI.jpg",
@@ -29,7 +29,7 @@ final dummyAlgoCardData = [
     title: 'VARI',
     upVotes: 50,
     downVotes: 100,
-    datePosted: DateTime(2023, 1, 21, 0, 0, 0),
+    datePosted: DateTime(2023, 3, 23, 0, 0, 0),
     isBookmarked: false,
     image:
         "https://upload.wikimedia.org/wikipedia/commons/4/45/Dem.jpg",
@@ -40,7 +40,7 @@ final dummyAlgoCardData = [
     title: 'Spectral Index GLSNA',
     upVotes: 40,
     downVotes: 100,
-    datePosted: DateTime(2023, 1, 21, 0, 0, 0),
+    datePosted: DateTime(2023, 4, 24, 0, 0, 0),
     isBookmarked: false,
     image:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Fortaleza%2C_centro_da_cidade_e_aeroporto.JPG/1280px-Fortaleza%2C_centro_da_cidade_e_aeroporto.JPG",
@@ -51,7 +51,7 @@ final dummyAlgoCardData = [
     title: 'Segmentation',
     upVotes: 1200,
     downVotes: 200,
-    datePosted: DateTime(2023, 1, 21, 0, 0, 0),
+    datePosted: DateTime(2023, 5, 25, 0, 0, 0),
     isBookmarked: true,
     image:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Crops_Kansas_AST_20010624.jpg/1024px-Crops_Kansas_AST_20010624.jpg",

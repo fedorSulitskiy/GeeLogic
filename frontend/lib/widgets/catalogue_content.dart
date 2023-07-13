@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:frontend/models/algo_card.dart';
-
 import 'package:frontend/widgets/algo_card.dart';
-import 'package:frontend/models/data/algo_card_temp_data.dart';
 import 'package:frontend/widgets/details_card.dart';
+import 'package:frontend/providers/algo_info_provider.dart';
 
-List<AlgoCardData> algos = dummyAlgoCardData;
+// List<AlgoCardData> algos = dummyAlgoCardData;
 
-class CatalogueContent extends StatefulWidget {
+class CatalogueContent extends ConsumerStatefulWidget {
   const CatalogueContent({super.key});
 
   @override
-  State<CatalogueContent> createState() => _CatalogueContentState();
+  ConsumerState<CatalogueContent> createState() => _CatalogueContentState();
 }
 
-class _CatalogueContentState extends State<CatalogueContent> {
+class _CatalogueContentState extends ConsumerState<CatalogueContent> {
   @override
   Widget build(BuildContext context) {
+    final algos = ref.watch(algoInfoProvider);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
