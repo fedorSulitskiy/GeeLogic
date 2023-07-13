@@ -9,8 +9,9 @@ class AlgoCardData {
     required this.upVotes,
     required this.downVotes,
     required this.datePosted,
-    required this.isFavourite,
     required this.image,
+    required this.description,
+    required this.isBookmarked,
   });
 
   final String id;
@@ -18,8 +19,9 @@ class AlgoCardData {
   final int upVotes;
   final int downVotes;
   final DateTime datePosted;
-  final bool isFavourite;
   final String image;
+  final String description;
+  final bool isBookmarked;
 
   int get netVotes {
     return upVotes - downVotes;

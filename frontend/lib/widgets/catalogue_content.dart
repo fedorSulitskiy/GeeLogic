@@ -3,7 +3,7 @@ import 'package:frontend/models/algo_card.dart';
 
 import 'package:frontend/widgets/algo_card.dart';
 import 'package:frontend/models/data/algo_card_temp_data.dart';
-import 'package:frontend/widgets/placeholders/placeholder_map.dart';
+import 'package:frontend/widgets/details_card.dart';
 
 List<AlgoCardData> algos = dummyAlgoCardData;
 
@@ -32,7 +32,7 @@ class _CatalogueContentState extends State<CatalogueContent> {
                   algos.length,
                   (index) {
                     AlgoCardData data = algos[index];
-                    return AlgoCard(algoCard: data);
+                    return AlgoCard(data: data);
                   },
                 ),
               ],
@@ -44,44 +44,15 @@ class _CatalogueContentState extends State<CatalogueContent> {
         ),
         ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: SingleChildScrollView(
+          child: const SingleChildScrollView(
             child: Column(
               children: [
                 // Ensures I can scroll beyond the app bar
-                const SizedBox(
+                SizedBox(
                   height: 120,
                 ),
                 // Details about each algorithm
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 700,
-                        height: 1000,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.blue,
-                            width: 3.0,
-                          ),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        child: const Column(
-                          children: [
-                            Text('Title'),
-                            PlaceholderMap(),
-                            Text('Description'),
-                            Text('bla bla bla bla'),
-                            Text('Tags'),
-                            Text('Comments'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                DetailsCard(title: 'Title', datePosted: '13 July 2021', description: 'Generic shit', isBookmarked: false),
               ],
             ),
           ),

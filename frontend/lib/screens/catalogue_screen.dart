@@ -21,6 +21,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
           //   child: Image.network('https://i.imgur.com/SJGDZUp.png'),
           // ),
 
+          // Content
           Positioned(
             top: 0,
             left: 0,

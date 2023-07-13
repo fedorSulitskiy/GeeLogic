@@ -4,10 +4,10 @@ import 'package:frontend/models/algo_card.dart';
 class AlgoCard extends StatelessWidget {
   const AlgoCard({
     super.key,
-    required this.algoCard,
+    required this.data,
   });
 
-  final AlgoCardData algoCard;
+  final AlgoCardData data;
 
   static double borderRadius = 16.0;
   static double cardHeight = 216.0;
@@ -39,7 +39,7 @@ class AlgoCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(borderRadius),
                   clipBehavior: Clip.hardEdge,
                   child: Image.network(
-                    algoCard.image,
+                    data.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -94,7 +94,7 @@ class AlgoCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          algoCard.title,
+                          data.title,
                           style: Theme.of(context)
                               .textTheme
                               .titleLarge!
@@ -102,7 +102,7 @@ class AlgoCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text(algoCard.formattedDate),
+                        Text(data.formattedDate),
                       ],
                     ),
                   ),
@@ -116,9 +116,9 @@ class AlgoCard extends StatelessWidget {
                           icon: Icons.bookmark_border, size: 24.0),
                       const _SideButton(icon: Icons.arrow_drop_up, size: 35.0),
                       Text(
-                        algoCard.netVotes.abs().toString(),
+                        data.netVotes.abs().toString(),
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: algoCard.netVotes.isNegative
+                            color: data.netVotes.isNegative
                                 ? negativeNet
                                 : positiveNet),
                       ),
