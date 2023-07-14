@@ -15,8 +15,7 @@ vis_params = {
     'max': 6000,
     'palette': ['006633', 'E5FFCC', '662A00', 'D8D8D8', 'F5F5F5'],
 }
-Map.addLayer(image, vis_params, 'SRTM')
-          ''';
+Map.addLayer(image, vis_params, 'SRTM')''';
 
 const String loremIpsum5 = '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero id faucibus nisl tincidunt eget nullam non nisi est. In massa tempor nec feugiat nisl pretium fusce. Tortor consequat id porta nibh. Turpis egestas pretium aenean pharetra magna ac. Nullam ac tortor vitae purus faucibus ornare suspendisse sed nisi. Adipiscing bibendum est ultricies integer quis auctor. Ullamcorper a lacus vestibulum sed arcu non. Magna fringilla urna porttitor rhoncus dolor. Dui accumsan sit amet nulla facilisi morbi. Sit amet mattis vulputate enim nulla aliquet porttitor lacus luctus. Sed arcu non odio euismod. Ornare lectus sit amet est placerat in. Fermentum dui faucibus in ornare quam viverra. Id aliquet lectus proin nibh. Mattis molestie a iaculis at erat pellentesque adipiscing commodo elit. Turpis egestas integer eget aliquet nibh praesent tristique magna.
 

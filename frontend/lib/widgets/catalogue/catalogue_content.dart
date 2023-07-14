@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend/models/algo_card.dart';
 import 'package:frontend/providers/algo_box_selection_provider.dart';
-import 'package:frontend/widgets/algo_card.dart';
-import 'package:frontend/widgets/details_card.dart';
+import 'package:frontend/widgets/catalogue/algo_card.dart';
+import 'package:frontend/widgets/catalogue/details_card.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
 
 // List<AlgoCardData> algos = dummyAlgoCardData;

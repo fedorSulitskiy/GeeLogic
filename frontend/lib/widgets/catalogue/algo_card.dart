@@ -64,6 +64,7 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                     ),
                   ),
                 ),
+                // selection aura
                 if (widget.isSelected)
                   Container(
                     width: cardWidth,

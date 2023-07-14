@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:frontend/providers/algo_info_provider.dart';
+import 'package:frontend/widgets/algo_details/description_text.dart';
+import 'package:frontend/widgets/algo_details/sub_title_text.dart';
+import 'package:frontend/widgets/algo_details/title_element.dart';
+import 'package:frontend/widgets/algo_details/code_display.dart';
 import 'package:frontend/widgets/placeholders/placeholder_map.dart';
+// import 'package:frontend/widgets/gee_map_widget.dart';
 // import 'package:frontend/widgets/placeholders/data/placeholder_data.dart';
 
 class DetailsCard extends ConsumerWidget {
@@ -35,50 +40,18 @@ class DetailsCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleText(title: data.title),
+                TitleElement(title: data.title, data: data),
+                // const MapWidget(),
                 const PlaceholderMap(),
-                const TitleText(title: 'Desctiption'),
+                const CodeDisplayWidget(),
+                const SubTitleText(title: 'Description'),
                 DescriptionText(text: data.description),
-                const TitleText(title: 'Tags'),
-                const TitleText(title: 'Comments'),
+                const SubTitleText(title: 'Tags'),
+                const SubTitleText(title: 'Comments'),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class TitleText extends StatelessWidget {
-  const TitleText({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30.0),
-      ),
-    );
-  }
-}
-
-class DescriptionText extends StatelessWidget {
-  const DescriptionText({super.key, required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
