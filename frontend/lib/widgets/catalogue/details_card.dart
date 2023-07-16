@@ -8,7 +8,7 @@ import 'package:frontend/widgets/algo_details/sub_title_text.dart';
 import 'package:frontend/widgets/algo_details/title_element.dart';
 import 'package:frontend/widgets/algo_details/code_display.dart';
 import 'package:frontend/widgets/placeholders/placeholder_map.dart';
-// import 'package:frontend/widgets/gee_map_widget.dart';
+// import 'package:frontend/widgets/algo_details/gee_map.dart';
 // import 'package:frontend/widgets/placeholders/data/placeholder_data.dart';
 
 class DetailsCard extends ConsumerWidget {

@@ -3,9 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 // import 'package:frontend/screens/details_screen.dart';
-import 'package:frontend/screens/catalogue_screen.dart';
+// import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/login_screen.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -18,7 +21,11 @@ final theme = ThemeData(
 );
 
 // main.dart
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   WebViewPlatform.instance = WebWebViewPlatform();
   runApp(
     const ProviderScope(
@@ -37,7 +44,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Explore',
       theme: theme,
-      home: const CatalogueScreen(),
+      home: LoginScreen(),
     );
   }
 }

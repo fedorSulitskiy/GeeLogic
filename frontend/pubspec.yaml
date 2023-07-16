@@ -42,6 +42,8 @@ dependencies:
   flutter_highlight: ^0.7.0
   intl: ^0.18.1
   flutter_riverpod: ^2.3.6
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.0
 
 dev_dependencies:
   flutter_test:
