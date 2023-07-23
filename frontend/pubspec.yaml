@@ -44,6 +44,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.0
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -67,8 +68,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - assets/my_map.html
+  assets:
+    - assets/google_g.png
   #   - assets/my_map_one.html
 
   # An image asset can refer to one or more resolution-specific "variants", see
