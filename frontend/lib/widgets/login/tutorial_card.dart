@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/common/loading_star.dart';
 
-const List<TutorialCard> tutorialCards = [
-  TutorialCard(title: 'Cum'),
-  TutorialCard(title: 'Piss'),
-  TutorialCard(title: 'Shit'),
-  TutorialCard(title: 'Dicks'),
-  TutorialCard(title: 'Vagina'),
-  TutorialCard(title: 'Yo'),
+List<TutorialCard> tutorialCards = [
+  TutorialCard(content: _WelcomeContent()),
+  TutorialCard(content: Placeholder()),
+  TutorialCard(content: Placeholder()),
+  TutorialCard(content: Placeholder()),
 ];
 
 class TutorialCard extends StatelessWidget {
-  const TutorialCard({super.key, required this.title});
+  const TutorialCard({super.key, required this.content});
 
-  final String title;
+  final Widget content;
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +25,99 @@ class TutorialCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40.0),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
-              Text('Some details'),
-              Text('page indicators')
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: content,
           ),
         ),
       ),
+    );
+  }
+}
+
+class _WelcomeContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const LoadingStar(),
+            Text(
+              'Welcome!',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Text(
+          'We enable researchers and developers to easily host, access, and collaborate on earth observation algorithms.',
+          style: Theme.of(context)
+              .textTheme
+              .displaySmall!
+              .copyWith(fontSize: 19.0),
+        ),
+        const SizedBox(
+          height: 15.0,
+        ),
+        const _BulletPoint(
+            text:
+                "Host your analysis algorithms in a scalable cloud environment"),
+        const _BulletPoint(
+            text: "Interact with algorithms through an intuitive interface"),
+        const _BulletPoint(
+            text: "Engage in discussions with a community of experts"),
+        const _BulletPoint(
+            text: "Rapidly prototype new ideas and get feedback"),
+        const SizedBox(
+          height: 15.0,
+        ),
+        Text(
+          'By providing a centralized platform for earth observation algorithms, we aim to accelerate research, encourage collaboration, and drive the development of impactful solutions!',
+          style: Theme.of(context)
+              .textTheme
+              .displaySmall!
+              .copyWith(fontSize: 19.0),
+        ),
+      ],
+    );
+  }
+}
+
+class _BulletPoint extends StatelessWidget {
+  const _BulletPoint({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 5.0),
+        Row(
+          children: [
+            const SizedBox(width: 15.0),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("•  "),
+                SizedBox(
+                  width: 310.0,
+                  child: Text(
+                    text,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(fontSize: 16.0),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

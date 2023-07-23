@@ -20,7 +20,7 @@ class _ScrollIndicatorState extends State<ScrollIndicator> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color.fromARGB(255, 255, 255, 240),
+      color: Colors.white,
       elevation: 10.0,
       child: Padding(
         padding: const EdgeInsets.all(4.0),

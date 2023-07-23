@@ -9,22 +9,35 @@ class LoginDetails extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        const Positioned(
-          top: 80.0,
+        Positioned(
+          top: 120.0,
           left: 20.0,
           child: SizedBox(
             width: 700.0,
-            child: Text(
-              'Welcome to GeeLogic',
-              style: TextStyle(fontSize: 100.0, height: -1),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Welcome to ',
+                  style: TextStyle(fontSize: 100.0, height: -1),
+                ),
+                Image.asset(
+                  'assets/logo_bold.png',
+                  width: 600.0,
+                  // height: 40.0,
+                ),
+              ],
             ),
           ),
         ),
-        const Center(child: SignInButton()),
+        const Positioned(
+          bottom: 280.0,
+          child: SignInButton(),
+        ),
         Positioned(
-          bottom: 250.0,
+          bottom: 200.0,
           child: Text(
-            'to access our resources you must sign up using Google account',
+            'to access our resources you must sign up using your Google account',
             style: Theme.of(context)
                 .textTheme
                 .displaySmall!

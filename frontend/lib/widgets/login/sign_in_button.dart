@@ -51,6 +51,7 @@ class _SignInButtonState extends State<SignInButton> {
             height: buttonDimensions[0],
             width: buttonDimensions[1],
             duration: const Duration(seconds: 2),
+            curve: Curves.linear,
             onEnd: () {
               setState(() {
                 index = index + 1;
