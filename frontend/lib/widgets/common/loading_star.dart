@@ -32,13 +32,20 @@ class _LoadingStarState extends State<LoadingStar>
   bool isExpanded = true;
 
   @override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 2), () {
-      setState(() {
-        bottomColor = Colors.blue;
-      });
-    });
+  void initState() {
+    super.initState();
 
+    Future.delayed(const Duration(milliseconds: 2), () {
+      if (mounted) {
+        setState(() {
+          bottomColor = Colors.blue;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       width: 30.0,
       // Dirty way to keep the animated container from
