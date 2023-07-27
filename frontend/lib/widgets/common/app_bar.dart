@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Colours unique to App Bar (for now)
@@ -38,15 +39,35 @@ class _CustomAppBarState extends State<CustomAppBar> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 MenuButton(text: 'Tutorials'),
-                VerticalDivider(color: dividerColour, thickness: 1, endIndent: 15, indent: 15, width: 1),
+                VerticalDivider(
+                    color: dividerColour,
+                    thickness: 1,
+                    endIndent: 15,
+                    indent: 15,
+                    width: 1),
                 MenuButton(text: 'Indices'),
-                VerticalDivider(color: dividerColour, thickness: 1, endIndent: 15, indent: 15, width: 1),
+                VerticalDivider(
+                    color: dividerColour,
+                    thickness: 1,
+                    endIndent: 15,
+                    indent: 15,
+                    width: 1),
                 MenuButton(text: 'Algos'),
                 EyeLogo(),
                 MenuButton(text: 'GEE'),
-                VerticalDivider(color: dividerColour, thickness: 1, endIndent: 15, indent: 15, width: 1),
+                VerticalDivider(
+                    color: dividerColour,
+                    thickness: 1,
+                    endIndent: 15,
+                    indent: 15,
+                    width: 1),
                 MenuButton(text: 'geemap'),
-                VerticalDivider(color: dividerColour, thickness: 1, endIndent: 15, indent: 15, width: 1),
+                VerticalDivider(
+                    color: dividerColour,
+                    thickness: 1,
+                    endIndent: 15,
+                    indent: 15,
+                    width: 1),
                 MenuButton(text: 'About'),
               ],
             ),
@@ -56,7 +77,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
+            IconButton(
+              onPressed: () {
+                // TODO: use this button properly and migrate the signout
+                //  button elsewhere
+                FirebaseAuth.instance.signOut();
+              },
+              icon: const Icon(Icons.person),
+            ),
           ],
         ),
       ],
@@ -97,10 +125,9 @@ class _MenuButtonState extends State<MenuButton> {
         onPressed: () {},
         child: Text(
           widget.text,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: textColour,),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: textColour,
+              ),
         ),
       ),
     );

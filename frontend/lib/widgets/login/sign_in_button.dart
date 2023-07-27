@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/user_credentials_provider.dart';
 
 final _firebase = FirebaseAuth.instance;
 // TODO:
 //  add all relevant scopes for proper authentication.
-GoogleAuthProvider googleProvider = GoogleAuthProvider().addScope('https://www.googleapis.com/auth/earthengine');
+GoogleAuthProvider googleProvider = GoogleAuthProvider()
+    .addScope('https://www.googleapis.com/auth/earthengine');
 
 const double borderRadius = 10.0;
-const List<double> buttonDimensions = [70.0,150.0];
+const List<double> buttonDimensions = [70.0, 150.0];
 
-class SignInButton extends StatefulWidget {
+class SignInButton extends ConsumerStatefulWidget {
   const SignInButton({super.key});
 
   @override
-  State<SignInButton> createState() => _SignInButtonState();
+  ConsumerState<SignInButton> createState() => _SignInButtonState();
 }
 
-class _SignInButtonState extends State<SignInButton> {
+class _SignInButtonState extends ConsumerState<SignInButton> {
   List<Color> colorList = [
     Colors.red,
     Colors.blue,
@@ -36,13 +39,20 @@ class _SignInButtonState extends State<SignInButton> {
   Alignment end = Alignment.topRight;
 
   @override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 2), () {
-      setState(() {
-        bottomColor = Colors.blue;
-      });
-    });
+  void initState() {
+    super.initState();
 
+    Future.delayed(const Duration(milliseconds: 2), () {
+      if (mounted) {
+        setState(() {
+          bottomColor = Colors.blue;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -65,7 +75,8 @@ class _SignInButtonState extends State<SignInButton> {
               });
             },
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(borderRadius)),
+              borderRadius:
+                  const BorderRadius.all(Radius.circular(borderRadius)),
               gradient: LinearGradient(
                 begin: begin,
                 end: end,
@@ -80,15 +91,35 @@ class _SignInButtonState extends State<SignInButton> {
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(
                   const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(borderRadius)),
                   ),
                 ),
               ),
               onPressed: () async {
                 // TODO:
-                //  use userCredentials for user specific actions.
-                // final userCredentials = 
-                _firebase.signInWithPopup(googleProvider);
+                //  use userCredentials for user specific actions
+                try {
+                  // create user credentials upon 
+                  final userCredentials =
+                      await _firebase.signInWithPopup(googleProvider);
+                  // listener that takes the provider
+                  ref
+                      .read(userCredentialsProvider.notifier)
+                      .setCredential(userCredentials);
+
+                  // User currentUser = _firebase.currentUser!;
+                  // print(currentUser.uid);
+                } on FirebaseAuthException catch (error) {
+                  // TODO:
+                  //  Get better error messages done.
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(error.message ?? 'Authentication failed.'),
+                    ),
+                  );
+                }
               },
               child: Image.asset(
                 'assets/google_g.png',

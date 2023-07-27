@@ -75,7 +75,7 @@ class _LoginDetailsState extends State<LoginDetails> {
                       // final userCredentials = 
                       _firebase.signInWithPopup(googleProvider);
                     },
-                    child: Text('google')),
+                    child: const Text('google')),
               ),
               // email input
               TextFormField(

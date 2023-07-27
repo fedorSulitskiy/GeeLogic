@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class LoadingStar extends StatefulWidget {
-  const LoadingStar({super.key});
+  const LoadingStar({super.key, this.size = 30.0});
+
+  final double size;
 
   @override
   State<LoadingStar> createState() => _LoadingStarState();
@@ -28,12 +30,16 @@ class _LoadingStarState extends State<LoadingStar>
   Color topColor = Colors.yellow;
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
-  double size = 30.0;
   bool isExpanded = true;
+  late double size;
 
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      size = widget.size;
+    });
 
     Future.delayed(const Duration(milliseconds: 2), () {
       if (mounted) {
@@ -47,7 +53,7 @@ class _LoadingStarState extends State<LoadingStar>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 30.0,
+      width: widget.size,
       // Dirty way to keep the animated container from
       // affecting the neighbouring widgets.
       // TODO: find better way to constraint it.
@@ -58,7 +64,7 @@ class _LoadingStarState extends State<LoadingStar>
             child: AnimatedContainer(
               height: size,
               width: size,
-              padding: EdgeInsets.all(30.0 - size),
+              // padding: EdgeInsets.all(30.0 - size),
               duration: const Duration(seconds: 1),
               curve: Curves.fastEaseInToSlowEaseOut,
               onEnd: () {
@@ -74,7 +80,7 @@ class _LoadingStarState extends State<LoadingStar>
 
                   // animate the size
                   isExpanded = !isExpanded;
-                  isExpanded ? size = 20.0 : size = 30.0;
+                  isExpanded ? size = widget.size*0.8 : size = widget.size;
                 });
               },
               decoration: BoxDecoration(
