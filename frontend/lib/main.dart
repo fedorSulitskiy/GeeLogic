@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
 
                 if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                   // User's email exists in the users collection
-                  return CatalogueScreen();
+                  return const CatalogueScreen();
                 } else {
                   // User does not exist in the collection
                   return const SignUpScreen();
