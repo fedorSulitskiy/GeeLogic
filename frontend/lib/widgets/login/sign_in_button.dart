@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/user_credentials_provider.dart';
+import 'package:frontend/functions/signin.dart';
 
 final _firebase = FirebaseAuth.instance;
-// TODO:
-//  add all relevant scopes for proper authentication.
-GoogleAuthProvider googleProvider = GoogleAuthProvider()
-    .addScope('https://www.googleapis.com/auth/earthengine');
 
 const double borderRadius = 10.0;
 const List<double> buttonDimensions = [70.0, 150.0];
@@ -97,19 +93,9 @@ class _SignInButtonState extends ConsumerState<SignInButton> {
                 ),
               ),
               onPressed: () async {
-                // TODO:
-                //  use userCredentials for user specific actions
                 try {
-                  // create user credentials upon 
-                  final userCredentials =
-                      await _firebase.signInWithPopup(googleProvider);
-                  // listener that takes the provider
-                  ref
-                      .read(userCredentialsProvider.notifier)
-                      .setCredential(userCredentials);
-
-                  // User currentUser = _firebase.currentUser!;
-                  // print(currentUser.uid);
+                  final oAuthCredential = await signInWithGoogle();
+                  await _firebase.signInWithCredential(oAuthCredential);
                 } on FirebaseAuthException catch (error) {
                   // TODO:
                   //  Get better error messages done.
