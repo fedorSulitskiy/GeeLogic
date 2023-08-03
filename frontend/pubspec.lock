@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.3"
+  code_text_field:
+    dependency: "direct main"
+    description:
+      name: code_text_field
+      sha256: "0cbffbb2932cf82e1d022996388041de3493a476acad3fbb13e5917cac0fc5f2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   collection:
     dependency: transitive
     description:
@@ -297,7 +305,7 @@ packages:
     source: hosted
     version: "0.12.0+2"
   highlight:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: highlight
       sha256: "5353a83ffe3e3eca7df0abfb72dcf3fa66cc56b953728e7113ad4ad88497cf21"
@@ -336,6 +344,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+  languagetool_textfield:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: a0637cb8d6d69441402568b6f233157b0e8eb9a1
+      url: "https://github.com/fedorSulitskiy/languagetool_textformfield.git"
+    source: git
+    version: "0.0.1"
+  linked_scroll_controller:
+    dependency: transitive
+    description:
+      name: linked_scroll_controller
+      sha256: e6020062bcf4ffc907ee7fd090fa971e65d8dfaac3c62baf601a3ced0b37986a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   lints:
     dependency: transitive
     description:
@@ -533,6 +558,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  throttling:
+    dependency: transitive
+    description:
+      name: throttling
+      sha256: "0b328adb283db092373b2835574fbcdf7d0e472d24f0455717c836ef9824def9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:

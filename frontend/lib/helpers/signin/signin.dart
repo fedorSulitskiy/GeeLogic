@@ -8,6 +8,8 @@ const List<String> scopes = <String>[
 ];
 
 Future<OAuthCredential> signInWithGoogle() async {
+  // TODO: consider using silentSingIn or sth
+
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser =
       await GoogleSignIn(scopes: scopes).signIn();

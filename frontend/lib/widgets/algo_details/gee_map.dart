@@ -29,7 +29,7 @@ class _MapWidgetState extends State<MapWidget> {
     super.initState();
     // Load the HTML code for my_map.html
     loadHTMLString(
-            'http://10.92.91.244:3001/get_map_widget?height=${widget.height.toString()}',
+            'http://127.0.0.1:3001/get_map_widget?height=${widget.height.toString()}',
             pycode)
         .then((_) {
       setState(() {
@@ -57,9 +57,7 @@ class _MapWidgetState extends State<MapWidget> {
         width: widget.width,
         height: widget.height + 20,
         child: _isLoading
-            ? const Center(
-                child: LoadingStar(size: 50.0),
-              )
+            ? const Center(child: LoadingStar(size: 50.0))
             : PlatformWebViewWidget(
                 PlatformWebViewWidgetCreationParams(controller: _controller),
               ).build(context),

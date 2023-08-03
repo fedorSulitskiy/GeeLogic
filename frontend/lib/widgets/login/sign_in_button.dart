@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/functions/signin.dart';
+import 'package:frontend/helpers/signin/signin.dart';
 
 final _firebase = FirebaseAuth.instance;
 

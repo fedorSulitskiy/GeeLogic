@@ -54,6 +54,7 @@ class _LoadingStarState extends State<LoadingStar>
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.size,
+      height: widget.size,
       // Dirty way to keep the animated container from
       // affecting the neighbouring widgets.
       // TODO: find better way to constraint it.

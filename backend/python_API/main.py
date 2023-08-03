@@ -34,6 +34,7 @@ def get_map_widget():
     user_code = user_code.replace('\\n', '\n')
    
     # Set up service account credentials for authorization
+    # NOTE: for the service account to be discoverable the command prompt must be in its directory.
     service_account = os.getenv('SERVICE_ACCOUNT_KEY_NAME')
     service_email = os.getenv('SERVICE_ACCOUNT_EMAIL')
     credentials = ee.ServiceAccountCredentials(email=service_email, key_file=service_account)
