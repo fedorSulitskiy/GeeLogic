@@ -19,7 +19,7 @@ final theme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.light,
-    seedColor: const Color.fromARGB(255, 63, 17, 177),
+    seedColor: const Color.fromARGB(255, 66, 133, 244),
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: GoogleFonts.josefinSansTextTheme(),
