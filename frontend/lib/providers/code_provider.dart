@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// Provides code input by the user for their algorithm
 class InputCode extends StateNotifier<String> {
   InputCode() : super('');
 
@@ -8,11 +9,11 @@ class InputCode extends StateNotifier<String> {
     state = code;
   }
 }
-
 final codeProvider = StateNotifierProvider<InputCode, String>((ref) {
   return InputCode();
 });
 
+// Provides the boolean if the the code is valid
 class IsValidNotifier extends ChangeNotifier {
   bool? _isValid;
 
@@ -23,6 +24,5 @@ class IsValidNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
-
 final isValidProvider =
     ChangeNotifierProvider<IsValidNotifier>((ref) => IsValidNotifier());

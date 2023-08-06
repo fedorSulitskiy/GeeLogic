@@ -7,6 +7,7 @@ const {
     down_vote,
     remove, 
     add_tag,
+    search_tags,
 } = require('./II.controller');
 
 const router = require('express').Router();
@@ -19,5 +20,6 @@ router.patch("/up_vote", up_vote);
 router.patch("/down_vote", down_vote);
 router.delete("/remove", remove);
 router.post("/add_tag", add_tag);
+router.post("/search_tags", search_tags);
 
 module.exports = router;

@@ -138,5 +138,23 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    search_tags: (data, callBack) => {
+        pool.query(
+            `SELECT * FROM
+                tags 
+            WHERE 
+                tag_name 
+            LIKE ?`,
+            [
+                `%${data.keyword}%`
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 }

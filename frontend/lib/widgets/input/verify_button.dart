@@ -84,9 +84,8 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
   void initState() {
     super.initState();
 
-    ref.read(isValidProvider.notifier).setValid(null);
-
     Future.delayed(const Duration(milliseconds: 2), () {
+      ref.read(isValidProvider.notifier).setValid(null);
       if (mounted) {
         setState(() {
           bottomColor = Colors.blue;
@@ -170,7 +169,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                     ];
                   });
                   final url =
-                      Uri.parse('http://192.168.8.125:3001/get_map_widget');
+                      Uri.parse('http://127.0.0.1:3001/get_map_widget');
                   final headers = {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   };

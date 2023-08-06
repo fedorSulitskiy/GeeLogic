@@ -15,4 +15,5 @@ class AlgoIdNotifier extends StateNotifier<String> {
   }
 }
 
-final algoIdProvider = StateNotifierProvider<AlgoIdNotifier, String>((ref) => AlgoIdNotifier());
+final algoIdProvider =
+    StateNotifierProvider<AlgoIdNotifier, String>((ref) => AlgoIdNotifier());

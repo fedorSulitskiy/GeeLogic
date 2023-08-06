@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:frontend/providers/user_credentials_provider.dart';
 import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 
@@ -38,7 +37,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Uint8List? _pickedImageFileInBytes;
 
   // Submit the signup form
-  void _submit(userCredential) async {
+  void _submit() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid || _pickedImageFileInBytes == null) {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -95,9 +94,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userCredential = ref.watch(userCredentialsProvider);
     // Check if user still loggen in in development
-    // print(userCredential.isNull);
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -168,7 +165,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: googleBlue),
                             onPressed: () {
-                              _submit(userCredential);
+                              _submit();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => const CatalogueScreen(),

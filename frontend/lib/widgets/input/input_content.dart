@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/input/code_input.dart';
 import 'package:frontend/widgets/input/description_input.dart';
+import 'package:frontend/widgets/input/tags_input.dart';
 import 'package:frontend/widgets/input/title_input.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 
@@ -54,20 +55,17 @@ class _InputContentState extends State<InputContent> {
                   // Giving the appbar some space
                   const SizedBox(height: 120),
                   // Title Input
-                  TitleInput(controller: _controllerTitle,),
+                  TitleInput(
+                    controller: _controllerTitle,
+                  ),
                   // Code Input
-                  CodeInput(),
+                  const CodeInput(),
+                  const SizedBox(height: 30.0),
                   // Description Input
                   DescriptionInput(controller: _controllerDescr),
-                  Text(
-                    'Spelling and grammar checking courtesy of LanguageTool',
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .copyWith(fontSize: 12.0),
-                  ),
+                  const SizedBox(height: 30.0),
                   // Tags Inputs
-                  Text('tags'),
+                  const TagsInput(),
                 ],
               ),
             ),
