@@ -30,7 +30,8 @@ class _CodeInputState extends ConsumerState<CodeInput> {
   @override
   void initState() {
     super.initState();
-    const source = "print('Hello Google Earth Engine!')";
+    const source = workingCode;
+    //  "print('Hello Google Earth Engine!')";
     // Instantiate the CodeController
     _codeController = CodeController(
       text: source,

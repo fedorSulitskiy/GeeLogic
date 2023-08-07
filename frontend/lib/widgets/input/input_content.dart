@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/input/code_input.dart';
 import 'package:frontend/widgets/input/description_input.dart';
+import 'package:frontend/widgets/input/submit_button.dart';
 import 'package:frontend/widgets/input/tags_input.dart';
 import 'package:frontend/widgets/input/title_input.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
@@ -60,12 +61,16 @@ class _InputContentState extends State<InputContent> {
                   ),
                   // Code Input
                   const CodeInput(),
-                  const SizedBox(height: 30.0),
+                  const SizedBox(height: 15.0),
                   // Description Input
                   DescriptionInput(controller: _controllerDescr),
-                  const SizedBox(height: 30.0),
+                  const SizedBox(height: 15.0),
                   // Tags Inputs
                   const TagsInput(),
+                  const SizedBox(height: 30.0),
+                  // Submit Button
+                  const SubmitButton(),
+                  const SizedBox(height: 30.0),
                 ],
               ),
             ),

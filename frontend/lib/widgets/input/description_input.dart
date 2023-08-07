@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/description_provider.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 
-class DescriptionInput extends StatelessWidget {
+class DescriptionInput extends ConsumerWidget {
   const DescriptionInput(
       {super.key, required this.controller, this.width = 900.0});
 
@@ -10,7 +12,7 @@ class DescriptionInput extends StatelessWidget {
   final double width;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
       children: [
         LanguageToolTextField(
@@ -29,7 +31,7 @@ class DescriptionInput extends StatelessWidget {
               maxWidth: width,
             ),
             contentPadding: const EdgeInsets.only(
-              top: 8.0,
+              top: 0.0,
               bottom: 34.0,
               left: 8.0,
               right: 8.0,
@@ -39,6 +41,9 @@ class DescriptionInput extends StatelessWidget {
           minLines: 5,
           language: 'en-US',
           cursorColor: googleGreen,
+          onChanged: (value) {
+            ref.read(descriptionProvider.notifier).getDescription(value);
+          },
         ),
         Positioned(
           bottom: 10.0,

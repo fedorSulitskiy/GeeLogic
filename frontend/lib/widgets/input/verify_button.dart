@@ -2,6 +2,7 @@ import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/map_html_code_provider.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 import 'package:http/http.dart' as http;
 
@@ -168,8 +169,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       Colors.yellow
                     ];
                   });
-                  final url =
-                      Uri.parse('http://127.0.0.1:3001/get_map_widget');
+                  final url = Uri.parse('http://127.0.0.1:3001/get_map_widget');
                   final headers = {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   };
@@ -177,6 +177,9 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
 
                   final response =
                       await http.post(url, headers: headers, body: body);
+                  ref
+                      .read(mapWidgetHTMLCodeProvider.notifier)
+                      .getCode(response.body);
 
                   setState(() {
                     _isLoading = false;
@@ -216,7 +219,8 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       snackBar(
                         color: googleRed,
                         icon: Icons.error_outline_rounded,
-                        subtitle: "Please try to rewrite your code to specification!",
+                        subtitle:
+                            "Please try to rewrite your code to specification!",
                         title: "Invalid code",
                       ),
                     );

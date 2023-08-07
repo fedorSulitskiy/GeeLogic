@@ -6,15 +6,21 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-
-import time
+from selenium.webdriver.chrome.options import Options;
 
 app = Flask(__name__)
 CORS(app)
 
 async def get_screenshot(html_string):
+    # Set up options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1980,960")
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    
     # Initialise selenium driver
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=chrome_options)
 
     # Create a data URI from the HTML code
     data_uri = f"data:text/html;charset=utf-8,{html_string}"
@@ -38,7 +44,7 @@ async def get_screenshot(html_string):
     driver.quit()
     return image
 
-@app.route('/get_thumbnail', methods=['POST'])
+@app.route('/thumbnail_api/get_thumbnail', methods=['POST'])
 def get_map_thumbnail():
     html_string = request.form.get('data')
 
