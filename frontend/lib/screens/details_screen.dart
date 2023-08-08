@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:frontend/widgets/common/app_bar/add_algorithm_button.dart';
+import 'package:frontend/widgets/common/app_bar/search_gee_logic_bar.dart';
+import 'package:frontend/widgets/common/app_bar/side_menu.dart';
+
 import 'package:frontend/models/algo_card.dart';
 import 'package:frontend/widgets/algo_details/details_content.dart';
-import 'package:frontend/widgets/common/app_bar.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.data});
@@ -11,27 +15,32 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-
-          // Content
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: DetailsContent(data: data),
-          ),
-
-          // App Bar
-          const Positioned(
-            top: 15,
-            left: 50,
-            right: 50,
-            child: CustomAppBar(),
-          ),
-        ],
+      body: Center(
+        child: Row(
+          children: [
+            // List of menu options
+            const Flexible(
+              flex: 1,
+              child: SideMenu(),
+            ),
+            // Search and main content
+            Flexible(
+              flex: 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SearchGeeLogicBar(),
+                  Expanded(child: DetailsContent(data: data,)),
+                ],
+              ),
+            ),
+            // Add Button
+            const Flexible(
+              flex: 1,
+              child: AddAlgorithmButton(),
+            )
+          ],
+        ),
       ),
     );
   }

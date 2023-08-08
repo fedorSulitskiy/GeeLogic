@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/input_screen.dart';
 
 const double borderRadius = 18.0;
 const List<double> buttonDimensions = [45.0, 80.0];
@@ -44,72 +45,85 @@ class _AddAlgorithmButtonState extends State<AddAlgorithmButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10.0,
-        right: 16.0,
-      ),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          AnimatedContainer(
-            height: buttonDimensions[0],
-            width: buttonDimensions[1],
-            duration: const Duration(seconds: 2),
-            curve: Curves.linear,
-            onEnd: () {
-              setState(() {
-                index = index + 1;
-                // animate the color
-                bottomColor = colorList[index % colorList.length];
-                topColor = colorList[(index + 1) % colorList.length];
-
-                // animate the alignment
-                begin = alignmentList[index % alignmentList.length];
-                end = alignmentList[(index + 2) % alignmentList.length];
-              });
-            },
-            decoration: BoxDecoration(
-              borderRadius:
-                  const BorderRadius.all(Radius.circular(borderRadius)),
-              gradient: LinearGradient(
-                begin: begin,
-                end: end,
-                colors: [bottomColor, topColor],
-              ),
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: Container()),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            right: 16.0,
           ),
-          SizedBox(
-            height: buttonDimensions[0],
-            width: buttonDimensions[1],
-            child: TextButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(borderRadius)),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              AnimatedContainer(
+                height: buttonDimensions[0],
+                width: buttonDimensions[1],
+                duration: const Duration(seconds: 2),
+                curve: Curves.linear,
+                onEnd: () {
+                  setState(() {
+                    index = index + 1;
+                    // animate the color
+                    bottomColor = colorList[index % colorList.length];
+                    topColor = colorList[(index + 1) % colorList.length];
+
+                    // animate the alignment
+                    begin = alignmentList[index % alignmentList.length];
+                    end = alignmentList[(index + 2) % alignmentList.length];
+                  });
+                },
+                decoration: BoxDecoration(
+                  borderRadius:
+                      const BorderRadius.all(Radius.circular(borderRadius)),
+                  gradient: LinearGradient(
+                    begin: begin,
+                    end: end,
+                    colors: [bottomColor, topColor],
                   ),
                 ),
               ),
-              onPressed: () {},
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (child, animation) {
-                  return ScaleTransition(
-                    scale: animation,
-                    child: child,
-                  );
-                },
-                child: const Icon(
-                  Icons.add,
-                  size: 40,
-                  color: Colors.white,
+              SizedBox(
+                height: buttonDimensions[0],
+                width: buttonDimensions[1],
+                child: TextButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(borderRadius)),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => const InputScreen(),
+                      ),
+                    );
+                  },
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) {
+                      return ScaleTransition(
+                        scale: animation,
+                        child: child,
+                      );
+                    },
+                    child: const Icon(
+                      Icons.add,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

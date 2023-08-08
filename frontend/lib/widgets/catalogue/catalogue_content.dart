@@ -33,7 +33,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
             child: Column(
               children: [
                 // Ensures I can scroll beyond the app bar
-                const SizedBox(height: 120),
+                const SizedBox(height: 25),
                 // The algo cards
                 ...List<Widget>.generate(
                   algos.length,
@@ -65,7 +65,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
               children: [
                 // Ensures I can scroll beyond the app bar
                 SizedBox(
-                  height: 120,
+                  height: 25,
                 ),
                 // Details about each algorithm
                 DetailsCard(),

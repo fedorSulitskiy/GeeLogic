@@ -54,7 +54,7 @@ class _InputContentState extends State<InputContent> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Giving the appbar some space
-                  const SizedBox(height: 120),
+                  const SizedBox(height: 25.0),
                   // Title Input
                   TitleInput(
                     controller: _controllerTitle,

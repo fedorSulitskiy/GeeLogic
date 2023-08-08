@@ -6,13 +6,12 @@ const backgroundColor = Color.fromARGB(255, 254, 251, 255);
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
-  
+
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
 
-class _SideMenuState extends State<SideMenu>
-    with TickerProviderStateMixin {
+class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
   bool _isOpened = true;
   bool _renderTitle = true;
 
@@ -20,7 +19,7 @@ class _SideMenuState extends State<SideMenu>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 16.0,
+        top: 10.0,
         left: 16.0,
       ),
       child: Column(
@@ -83,7 +82,7 @@ class _SideMenuState extends State<SideMenu>
             renderTitle: _renderTitle,
           ),
           _MenuOption(
-            title: 'google earth engine',
+            title: 'earth engine',
             icon: Icons.g_mobiledata_sharp,
             onPressed: () {},
             iconSize: 30.0,
@@ -114,11 +113,7 @@ class _SideMenuState extends State<SideMenu>
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
-          Expanded(
-            child: Container(
-              color: Colors.red,
-            ),
-          )
+          Expanded(child: Container())
         ],
       ),
     );
@@ -149,14 +144,7 @@ class _MenuOption extends StatefulWidget {
 }
 
 class __MenuOptionState extends State<_MenuOption> {
-  // There are two ways of getting width of the text widget in this widget
-  // One involves approximating using calculateTextWidth() executed in the build
-  // method and the other involves GlobalKey being meddled with in the initState
   Color color = iconGrey;
-
-  final GlobalKey _textKey = GlobalKey();
-  double _textWidth = 0.0;
-  double _textHeight = 0.0;
   double _approximateWidth = 0.0;
 
   double calculateTextWidth(String text, TextStyle style) {
@@ -165,21 +153,6 @@ class __MenuOptionState extends State<_MenuOption> {
       textDirection: TextDirection.ltr,
     )..layout();
     return textPainter.width;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Get the size of the Text widget after it has been rendered
-      final RenderBox textRenderBox =
-          _textKey.currentContext?.findRenderObject() as RenderBox;
-      setState(() {
-        _textWidth = textRenderBox.size.width;
-        _textHeight = textRenderBox.size.height;
-      });
-    });
   }
 
   @override
@@ -231,7 +204,6 @@ class __MenuOptionState extends State<_MenuOption> {
                           child: Stack(
                             children: [
                               Row(
-                                key: _textKey,
                                 children: [
                                   const SizedBox(width: 8.0),
                                   Text(
@@ -249,8 +221,9 @@ class __MenuOptionState extends State<_MenuOption> {
                               AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 color: backgroundColor,
-                                width: widget.isOpened ? 0.0 : _textWidth,
-                                height: _textHeight,
+                                width:
+                                    widget.isOpened ? 0.0 : _approximateWidth,
+                                height: 24,
                               ),
                             ],
                           ),

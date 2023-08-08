@@ -21,12 +21,12 @@ class DetailsContent extends StatelessWidget {
         children: [
           // Ensures I can scroll beyond the app bar
           const SizedBox(
-            height: 120,
+            height: 25,
           ),
           SubTitleText(title: data.title, fontSize: 50.0),
           const MapWidget(
             height: 500,
-            width: 1000.0,
+            width: 900.0,
           ),
           const CodeDisplayWidget(),
           const SubTitleText(title: 'Description'),

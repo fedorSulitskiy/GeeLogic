@@ -11,9 +11,7 @@ import 'firebase_options.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
-// import 'package:frontend/screens/catalogue_screen.dart';
-
-import 'package:frontend/screens/placeholders/test.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -72,8 +70,7 @@ class MyApp extends StatelessWidget {
 
                 if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                   // User's email exists in the users collection
-                  // return const CatalogueScreen();
-                  return const NewAppBarTest();
+                  return const CatalogueScreen();
                 } else {
                   // User does not exist in the collection
                   return const SignUpScreen();

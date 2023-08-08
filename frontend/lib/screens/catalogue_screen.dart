@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/common/app_bar.dart';
+
+import 'package:frontend/widgets/common/app_bar/add_algorithm_button.dart';
+import 'package:frontend/widgets/common/app_bar/search_gee_logic_bar.dart';
+import 'package:frontend/widgets/common/app_bar/side_menu.dart';
+
 import 'package:frontend/widgets/catalogue/catalogue_content.dart';
 
 class CatalogueScreen extends StatefulWidget {
@@ -13,27 +17,32 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-
-          // Content
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: CatalogueContent(),
-          ),
-
-          // App Bar
-          Positioned(
-            top: 15,
-            left: 50,
-            right: 50,
-            child: CustomAppBar(),
-          ),
-        ],
+      body: Center(
+        child: Row(
+          children: [
+            // List of menu options
+            Flexible(
+              flex: 14,
+              child: SideMenu(),
+            ),
+            // Search and main content
+            Flexible(
+              flex: 75,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SearchGeeLogicBar(),
+                  Expanded(child: CatalogueContent()),
+                ],
+              ),
+            ),
+            // Add Button
+            Flexible(
+              flex: 14,
+              child: AddAlgorithmButton(),
+            )
+          ],
+        ),
       ),
     );
   }
