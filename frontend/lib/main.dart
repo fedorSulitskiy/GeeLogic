@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/user_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
@@ -70,7 +71,8 @@ class MyApp extends StatelessWidget {
 
                 if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                   // User's email exists in the users collection
-                  return const CatalogueScreen();
+                  // return const CatalogueScreen();
+                  return const UserScreen();
                 } else {
                   // User does not exist in the collection
                   return const SignUpScreen();

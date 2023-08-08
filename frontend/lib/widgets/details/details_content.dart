@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:frontend/models/algo_card.dart';
-import 'package:frontend/widgets/algo_details/code_display.dart';
-import 'package:frontend/widgets/algo_details/description_text.dart';
-import 'package:frontend/widgets/algo_details/gee_map.dart';
-import 'package:frontend/widgets/algo_details/sub_title_text.dart';
+import 'package:frontend/widgets/details/code_display.dart';
+import 'package:frontend/widgets/details/description_text.dart';
+import 'package:frontend/widgets/details/gee_map.dart';
+import 'package:frontend/widgets/details/sub_title_text.dart';
 
 class DetailsContent extends StatelessWidget {
   const DetailsContent({

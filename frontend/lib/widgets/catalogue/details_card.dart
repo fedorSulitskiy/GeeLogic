@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:frontend/providers/algo_info_provider.dart';
-import 'package:frontend/widgets/algo_details/description_text.dart';
-import 'package:frontend/widgets/algo_details/sub_title_text.dart';
-import 'package:frontend/widgets/algo_details/title_element.dart';
-import 'package:frontend/widgets/algo_details/code_display.dart';
-import 'package:frontend/widgets/algo_details/gee_map.dart';
+import 'package:frontend/widgets/details/description_text.dart';
+import 'package:frontend/widgets/details/sub_title_text.dart';
+import 'package:frontend/widgets/details/title_element.dart';
+import 'package:frontend/widgets/details/code_display.dart';
+import 'package:frontend/widgets/details/gee_map.dart';
 
 class DetailsCard extends ConsumerWidget {
   const DetailsCard({super.key});

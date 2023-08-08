@@ -5,7 +5,7 @@ import 'package:frontend/widgets/common/app_bar/search_gee_logic_bar.dart';
 import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 
 import 'package:frontend/models/algo_card.dart';
-import 'package:frontend/widgets/algo_details/details_content.dart';
+import 'package:frontend/widgets/details/details_content.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.data});
