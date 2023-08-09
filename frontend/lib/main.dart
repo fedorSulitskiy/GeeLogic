@@ -6,6 +6,7 @@ import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 
 import 'package:frontend/screens/login_screen.dart';
@@ -36,6 +37,9 @@ void main() async {
     ),
   );
 }
+
+// TODO: doc strings and comments
+// TODO: more sophisticated error handling and communication
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

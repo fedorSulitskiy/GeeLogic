@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/screens/tutorial_screen.dart';
 import 'package:frontend/screens/user_screen.dart';
@@ -18,9 +21,21 @@ class SideMenu extends StatefulWidget {
 class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
   /// Indicates if the menu is "opened" (is the text visible or are just icons shown)
   bool _isOpened = true;
+
   /// Secondary to _isOpened as it controls if the [AnimatedContainer]
   /// containing the text has width of 0.0 or not.
   bool _renderTitle = true;
+
+  final Uri geemapURL = Uri.parse('https://geemap.org/');
+  final Uri googleEarthEngineURL = Uri.parse('https://earthengine.google.com/');
+
+  _launchURL(url) async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +97,7 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           ),
           _MenuOption(
             title: 'python api',
-            icon: Icons.javascript,
+            icon: CustomIcons.python,
             onPressed: () {},
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -90,7 +105,7 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           ),
           _MenuOption(
             title: 'javaScript api',
-            icon: Icons.javascript,
+            icon: CustomIcons.jsSquare,
             onPressed: () {},
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -98,16 +113,20 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           ),
           _MenuOption(
             title: 'earth engine',
-            icon: Icons.g_mobiledata_sharp,
-            onPressed: () {},
+            icon: CustomIcons.google,
+            onPressed: () {
+              _launchURL(googleEarthEngineURL);
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
           _MenuOption(
             title: 'geemap',
-            icon: Icons.g_mobiledata,
-            onPressed: () {},
+            icon: CustomIcons.geemap,
+            onPressed: () {
+              _launchURL(geemapURL);
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
@@ -152,6 +171,7 @@ class _MenuOption extends StatefulWidget {
     required this.iconSize,
     required this.renderTitle,
     this.isMenu = false,
+    this.iconContainerSize,
   });
 
   final String title;
@@ -161,6 +181,7 @@ class _MenuOption extends StatefulWidget {
   final double iconSize;
   final bool renderTitle;
   final bool isMenu;
+  final double? iconContainerSize;
 
   @override
   State<_MenuOption> createState() => __MenuOptionState();
