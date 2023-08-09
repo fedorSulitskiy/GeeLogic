@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
+import 'package:frontend/screens/about_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:frontend/screens/catalogue_screen.dart';
@@ -148,7 +149,7 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
             icon: Icons.info_outline_rounded,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const TutorialScreen(),
+                builder: (context) => const AboutScreen(),
               ));
             },
             iconSize: 30.0,
