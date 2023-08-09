@@ -66,26 +66,28 @@ class ContributedAlgorithm extends StatelessWidget {
                 ),
               ),
               // Text and Tags
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: tags
-                          .map((e) => TagBubblePlain(
-                                id: e['tag_id'],
-                                title: e['tag_name'],
-                              ))
-                          .toList(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
-                  ),
-                ],
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: tags
+                            .map((e) => TagBubblePlain(
+                                  id: e['tag_id'],
+                                  title: e['tag_name'],
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

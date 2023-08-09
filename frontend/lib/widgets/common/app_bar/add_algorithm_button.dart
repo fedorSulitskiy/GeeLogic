@@ -4,6 +4,7 @@ import 'package:frontend/screens/input_screen.dart';
 const double borderRadius = 18.0;
 const List<double> buttonDimensions = [45.0, 80.0];
 
+/// Button at the top right corner that directs user to the input screen.
 class AddAlgorithmButton extends StatefulWidget {
   const AddAlgorithmButton({super.key});
 

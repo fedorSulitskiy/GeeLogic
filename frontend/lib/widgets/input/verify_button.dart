@@ -11,6 +11,10 @@ import 'package:frontend/providers/code_provider.dart';
 const double borderRadius = 15.0;
 const List<double> buttonDimensions = [32.0, 80.0];
 
+/// Button found at the bottom of the code input on input screen. It verifies
+/// if the algorithm input by the user can be handled by the backend.
+/// It sends an http POST request to the 'python API' and depending on if the
+/// response status is successful will verify the algorithm.
 class VerifyButton extends ConsumerStatefulWidget {
   const VerifyButton({super.key});
 
@@ -37,8 +41,8 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
 
+  /// Determines if the function is waiting for response from the backend.
   var _isLoading = false;
-  // dynamic _isValid = Null;
 
   SnackBar snackBar({
     required Color color,
@@ -204,8 +208,8 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       ),
                     );
                   } else {
-                    // Request failed, handle the error here
-                    print('Error: ${response.statusCode}');
+                    // TODO: Request failed, handle the error here
+                    // print('Error: ${response.statusCode}');
                     setState(() {
                       // _isValid = false;
                       ref.read(isValidProvider.notifier).setValid(false);

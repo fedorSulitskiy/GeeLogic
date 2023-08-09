@@ -12,7 +12,17 @@ import 'package:frontend/widgets/input/input_content.dart';
 const double borderRadius = 30.0;
 const List<double> buttonDimensions = [30.0, 100.0];
 
+/// Button found at the bottom of the input screen which on press launches the 
+/// [uploadLogic] conditional on if the [VerifyButton] has been pressed and
+/// confirmed validy of code, as well as if all fields have some data.
+/// 
+/// If successful it will result in the algorithm being added to database, if 
+/// not user will be informed via [SnackBar]
 class SubmitButton extends ConsumerStatefulWidget {
+  // TODO: implment a better vision of user being released to CatalogueScreen
+  //  during loading and all subsequent errors being sent to the screen wherever
+  //  they are, with ability to return to this screen by clicking on it with all
+  //  data saved.
   const SubmitButton({super.key});
 
   @override
