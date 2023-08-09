@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/tags_provider.dart';
 
 class TagBubble extends ConsumerStatefulWidget {
-  const TagBubble({super.key, required this.title, required this.id});
+  const TagBubble({super.key, required this.title, required this.id, this.isExpandable = true});
 
   final String title;
   final int id;
+  final bool isExpandable;
 
   @override
   ConsumerState<TagBubble> createState() => _TagBubbleState();
@@ -38,14 +39,14 @@ class _TagBubbleState extends ConsumerState<TagBubble> {
               });
             },
             child: Container(
-              padding: !_isTapped
-                  ? const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0)
-                  : const EdgeInsets.only(
+              padding: _isTapped && widget.isExpandable
+                  ? const EdgeInsets.only(
                       left: 10.0,
                       right: 0.0,
                       top: 2.0,
                       bottom: 2.0,
-                    ),
+                    )
+                  : const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               child: Row(
                 children: [
                   Container(
@@ -56,7 +57,7 @@ class _TagBubbleState extends ConsumerState<TagBubble> {
                           const TextStyle(fontSize: 16.0, color: Colors.white),
                     ),
                   ),
-                  if (_isTapped)
+                  if (_isTapped && widget.isExpandable)
                     SizedBox(
                       height: 22.0,
                       width: 22.0,

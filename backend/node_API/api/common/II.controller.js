@@ -1,6 +1,8 @@
 const { 
     create, 
     show,
+    show_by_user,
+    show_tags,
     update,
     add_image,
     up_vote,
@@ -32,6 +34,28 @@ module.exports = {
                 return res.status(500).send('Database connection error');
             }
             logger.info('"GET node_api/show" - 200');
+            return res.status(200).send(results);
+        });
+    },
+    show_by_user: (req, res) => {
+        const body = req.body;
+        show_by_user(body, (err, results) => {
+            if (err) {
+                logger.error(`"${err}" - 500`);
+                return res.status(500).send('Database connection error');
+            }
+            logger.info('"POST node_api/show_by_user" - 200');
+            return res.status(200).send(results);
+        });
+    },
+    show_tags: (req, res) => {
+        const body = req.body;
+        show_tags(body, (err, results) => {
+            if (err) {
+                logger.error(`"${err}" - 500`);
+                return res.status(500).send('Database connection error');
+            }
+            logger.info('"POST node_api/show_tags" - 200');
             return res.status(200).send(results);
         });
     },

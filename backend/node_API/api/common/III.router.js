@@ -1,6 +1,8 @@
 const { 
     create,
     show,
+    show_by_user,
+    show_tags,
     update,
     add_image,
     up_vote,
@@ -14,6 +16,8 @@ const router = require('express').Router();
 
 router.post("/create", create);
 router.get("/show", show);
+router.post("/show_by_user", show_by_user);
+router.post("/show_tags", show_tags);
 router.patch("/update", update);
 router.patch("/add_image", add_image);
 router.patch("/up_vote", up_vote);

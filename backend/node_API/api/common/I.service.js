@@ -35,6 +35,38 @@ module.exports = {
             }
         );
     },
+    show_by_user: (data, callBack) => {
+        pool.query(
+            `SELECT * FROM algos 
+            WHERE user_creator = ?`,
+            [
+                data.user_creator,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            } 
+        )
+    },
+    show_tags: (data, callBack) => {
+        pool.query(
+            `SELECT t.*
+            FROM tags t
+            INNER JOIN algo_tag at ON t.tag_id = at.tag_id
+            WHERE at.algo_id = ?`,
+            [
+                data.algo_id,
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            } 
+        )
+    },
     update: (data, callBack) => {
         pool.query(
             `UPDATE algos SET

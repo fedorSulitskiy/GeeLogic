@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/tags_provider.dart';
-import 'package:frontend/widgets/input/tag_bubble.dart';
+import 'package:frontend/widgets/common/tag_bubble.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/widgets/_archive/login_details.dart';

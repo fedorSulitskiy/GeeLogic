@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/tutorial_screen.dart';
+import 'package:frontend/screens/user_screen.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 
 const iconGrey = Color.fromARGB(255, 110, 110, 110);
 const backgroundColor = Color.fromARGB(255, 254, 251, 255);
 
+/// Displays the menu of options visible on the left side of the screen.
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
 
@@ -12,7 +16,10 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
+  /// Indicates if the menu is "opened" (is the text visible or are just icons shown)
   bool _isOpened = true;
+  /// Secondary to _isOpened as it controls if the [AnimatedContainer]
+  /// containing the text has width of 0.0 or not.
   bool _renderTitle = true;
 
   @override
@@ -52,7 +59,11 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           _MenuOption(
             title: 'profile',
             icon: Icons.person_outline_rounded,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const UserScreen(),
+              ));
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
@@ -60,7 +71,11 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           _MenuOption(
             title: 'all algorithms',
             icon: Icons.language,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CatalogueScreen(),
+              ));
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
@@ -100,7 +115,11 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           _MenuOption(
             title: 'tutorials',
             icon: Icons.lightbulb_outline_rounded,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const TutorialScreen(),
+              ));
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
@@ -108,7 +127,11 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           _MenuOption(
             title: 'about',
             icon: Icons.info_outline_rounded,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const TutorialScreen(),
+              ));
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
