@@ -173,7 +173,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       Colors.yellow
                     ];
                   });
-                  final url = Uri.parse('http://127.0.0.1:3001/get_map_widget');
+                  final url = Uri.parse('http://127.0.0.1:3001/python_api/get_map_widget');
                   final headers = {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   };

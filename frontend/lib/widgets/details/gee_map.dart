@@ -29,7 +29,7 @@ class _MapWidgetState extends State<MapWidget> {
     super.initState();
     // Load the HTML code for my_map.html
     loadHTMLString(
-            'http://127.0.0.1:3001/get_map_widget?height=${widget.height.toString()}',
+            'http://127.0.0.1:3001/python_api/get_map_widget?height=${widget.height.toString()}',
             pycode)
         .then((_) {
       if (mounted) {

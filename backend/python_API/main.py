@@ -26,7 +26,7 @@ CORS(app)
 
 
 # API mechanism to import the map widget HTML code as string
-@app.route("/get_map_widget", methods=["POST"])
+@app.route("/python_api/get_map_widget", methods=["POST"])
 def get_map_widget():
     # Get data from front-end
     height = request.args.get("height", 300)
@@ -41,13 +41,27 @@ def get_map_widget():
     credentials = ee.ServiceAccountCredentials(
         email=service_email, key_file=service_account
     )
-    
+
+    # Initialize default attributes
+    default_options = {
+        "zoom_ctrl": True,
+        "data_ctrl": False,
+        "fullscreen_ctrl": False,
+        "search_ctrl": False,
+        "draw_ctrl": False,
+        "scale_ctrl": False,
+        "measure_ctrl": False,
+        "toolbar_ctrl": False,
+        "layer_ctrl": False,
+        "attribution_ctrl": False,
+    }
+
     # Add geemap import and initialization
     code = f"import geemap\nimport ee\nee.Initialize(credentials=credentials)\n{str(user_code)}"
 
     try:
         # Execute user code
-        namespace = {"credentials": credentials, "Map": None}
+        namespace = {"credentials": credentials, "Map": None, "default_options": default_options}
         exec(code, namespace)
 
         # Access the Map object from the namespace
