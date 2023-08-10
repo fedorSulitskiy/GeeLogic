@@ -44,10 +44,10 @@ class _UserContentState extends State<UserContent> {
 
   /// The function [_getRelatedTags] sends a POST request to a specified URL with a JSON body containing
   /// an algorithm ID, and returns a list of dynamic objects parsed from the response body.
-  /// 
+  ///
   /// Args:
   ///   [algoId] (int): The [algoId] parameter is an integer that represents the ID of an algorithm.
-  /// 
+  ///
   /// Returns:
   ///   The function [_getRelatedTags] returns a [Future] that resolves to a [List<dynamic>].
   Future<List<dynamic>> _getRelatedTags({required int algoId}) async {
@@ -127,16 +127,6 @@ class _UserContentState extends State<UserContent> {
                   ),
                   const SizedBox(height: 25.0),
                   const Divider(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-                    child: Text(
-                      "User's Algorithms",
-                      style: Theme.of(context)
-                          .textTheme
-                          .displaySmall!
-                          .copyWith(fontSize: 24.0, color: Colors.black87),
-                    ),
-                  ),
                 ],
               );
             }
@@ -158,28 +148,44 @@ class _UserContentState extends State<UserContent> {
               // FutureBuilder requesting tags
               return SingleChildScrollView(
                 child: Column(
-                  children: contributedAlgorithms.map((contribution) {
-                    return FutureBuilder(
-                      future: _getRelatedTags(algoId: contribution['algo_id']),
-                      builder: (context, snapshotTags) {
-                        if (snapshotTags.connectionState ==
-                            ConnectionState.done) {
-                          // Widget of the Contributed Algorithm
-                          return ContributedAlgorithm(
-                            title: contribution['title'],
-                            imageURL: contribution['photo'],
-                            tags: snapshotTags.data!,
-                          );
-                        } else if (snapshotTags.hasError) {
-                          return Text('Error: ${snapshotTags.error}');
-                        } else if (!snapshotTags.hasData ||
-                            snapshotTags.data!.isEmpty) {
-                          return const Text('No data available.');
-                        }
-                        return const LoadingStar();
-                      },
-                    );
-                  }).toList(),
+                  children: [
+                    if (contributedAlgorithms.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 4.0),
+                        child: Text(
+                          "User's Algorithms",
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall!
+                              .copyWith(fontSize: 24.0, color: Colors.black87),
+                        ),
+                      ),
+                    ...contributedAlgorithms.map((contribution) {
+                      return FutureBuilder(
+                        future:
+                            _getRelatedTags(algoId: contribution['algo_id']),
+                        builder: (context, snapshotTags) {
+                          if (snapshotTags.connectionState ==
+                                  ConnectionState.done &&
+                              contribution['imageURL'] != null) {
+                            // Widget of the Contributed Algorithm
+                            return ContributedAlgorithm(
+                              title: contribution['title'],
+                              imageURL: contribution['photo'],
+                              tags: snapshotTags.data!,
+                            );
+                          } else if (snapshotTags.hasError) {
+                            return Text('Error: ${snapshotTags.error}');
+                          } else if (!snapshotTags.hasData ||
+                              snapshotTags.data!.isEmpty) {
+                            return const Text('No data available.');
+                          }
+                          return const LoadingStar();
+                        },
+                      );
+                    }).toList(),
+                  ],
                 ),
               );
             } else if (snapshot.hasError) {
