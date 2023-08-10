@@ -5,15 +5,17 @@ module.exports = {
         pool.query(
             `INSERT INTO algos(
                 title,
-                py_code,
+                code,
                 description,
-                user_creator
-            ) VALUES(?,?,?,?)`,
+                user_creator,
+                api
+            ) VALUES(?,?,?,?,?)`,
             [
                 data.title,
-                data.py_code,
+                data.code,
                 data.description,
                 data.user_creator,
+                data.api,
             ],
             (error, results, fields) => {
                 if (error) {
@@ -71,15 +73,17 @@ module.exports = {
         pool.query(
             `UPDATE algos SET
                 title = ?,
-                py_code = ?,
+                code = ?,
                 description = ?,
-                photo = ?
+                photo = ?,
+                api = ?
             WHERE algo_id = ?`,
             [
                 data.title,
-                data.py_code,
+                data.code,
                 data.description,
                 data.photo,
+                data.api,
                 data.algo_id,
             ],
             (error, results, fields) => {

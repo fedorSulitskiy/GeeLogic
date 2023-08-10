@@ -11,8 +11,10 @@ import 'package:flutter_highlight/themes/googlecode.dart';
 
 import 'package:frontend/widgets/input/verify_button.dart';
 
+/// Python code set-up to allow the user easier way to input valid geemap code.
 const pythonDefaultCode =
     "# Create a map using GEE API and geemap\nMap = geemap.Map(\n\t\t **default_options,\n\t\t\tcenter=[21.79, 70.87], \n\t\t\tzoom=3,\n)\n\n# Input your code here please!\n\n";
+const javaScriptDefaultCode = "console.log('Hello Google Earth Engine!');";
 
 class CodeInput extends ConsumerStatefulWidget {
   const CodeInput({super.key});
@@ -24,14 +26,13 @@ class CodeInput extends ConsumerStatefulWidget {
 class _CodeInputState extends ConsumerState<CodeInput> {
   CodeController? _codeController;
   final _language = python;
-  var _isPython = true;
+  // var _isPython = true;
   var _codeChanged = false;
 
   @override
   void initState() {
     super.initState();
     const source = pythonDefaultCode;
-    //  "print('Hello Google Earth Engine!')";
     // Instantiate the CodeController
     _codeController = CodeController(
       text: source,
@@ -48,6 +49,7 @@ class _CodeInputState extends ConsumerState<CodeInput> {
   @override
   Widget build(BuildContext context) {
     final currentCode = ref.watch(codeProvider);
+    final isPython = ref.watch(apiLanguageProvider);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -101,15 +103,15 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                           TextButton(
                             onPressed: () {
                               setState(() {
-                                _isPython = true;
+                                ref.read(apiLanguageProvider.notifier).setLanguage(true);
                                 _codeController!.language = python;
-                                _codeController!.text = _codeChanged ? currentCode : "print('Hello Google Earth Engine!')";
+                                _codeController!.text = _codeChanged ? currentCode : pythonDefaultCode;
                               });
                             },
                             child: Text(
                               '<< Python',
                               style: GoogleFonts.sourceCodePro(
-                                color: _isPython ? googleBlue : Colors.black87,
+                                color: isPython ? googleBlue : Colors.black87,
                               ),
                             ),
                           ),
@@ -121,16 +123,16 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                           TextButton(
                             onPressed: () {
                               setState(() {
-                                _isPython = false;
+                                ref.read(apiLanguageProvider.notifier).setLanguage(false);
                                 _codeController!.language = javascript;
-                                _codeController!.text = _codeChanged ? currentCode : "console.log('Hello Google Earth Engine!');";
+                                _codeController!.text = _codeChanged ? currentCode : javaScriptDefaultCode;
                               });
                             },
                             child: Text(
                               'JavaScript >>',
                               style: GoogleFonts.sourceCodePro(
                                 color:
-                                    _isPython ? Colors.black87 : googleYellow,
+                                    isPython ? Colors.black87 : googleYellow,
                               ),
                             ),
                           ),

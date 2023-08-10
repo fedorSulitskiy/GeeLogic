@@ -112,6 +112,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
     final code = ref.watch(codeProvider);
     final tags = ref.watch(selectedTagsProvider);
     final mapCode = ref.watch(mapWidgetHTMLCodeProvider);
+    final isPython = ref.watch(apiLanguageProvider);
 
     if (isValid.isValid == true) {
       setState(() {
@@ -207,6 +208,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   tags: tags,
                   code: code,
                   mapCode: mapCode,
+                  isPython: isPython,
                 );
                 // Complete the task
                 setState(() {

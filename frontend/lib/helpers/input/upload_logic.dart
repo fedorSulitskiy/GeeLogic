@@ -15,6 +15,7 @@ Future uploadLogic({
   required List<dynamic> tags,
   required String code,
   required String mapCode,
+  required bool isPython,
 }) async {
   //**
   // UPLOAD DATA --> get id
@@ -98,9 +99,10 @@ Future uploadLogic({
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       'title': title,
-      "py_code": code,
+      "code": code,
       "description": description,
       "user_creator": currentUser!.uid,
+      "api": isPython ? 1 : 0,
     });
     nodeResponse = await http.post(nodeUrl, headers: headers, body: body);
   } catch (e) {
