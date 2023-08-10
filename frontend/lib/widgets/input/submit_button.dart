@@ -200,6 +200,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 });
                 // Get current user id
                 await uploadLogic(
+                  scaffoldMessengerContext: scaffoldMessengerContext,
                   context: context,
                   title: title,
                   description: description,
@@ -211,16 +212,6 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 setState(() {
                   _isUploading = false;
                 });
-                // Show confirmation to user
-                scaffoldMessengerContext.clearSnackBars();
-                scaffoldMessengerContext.showSnackBar(
-                  snackBar(
-                    color: googleGreen,
-                    icon: Icons.check,
-                    subtitle: "Your algorithm has been successfully added to our database!",
-                    title: "Algorithm created",
-                  ),
-                );
               },
               child: _isUploading
                   ? const SizedBox(

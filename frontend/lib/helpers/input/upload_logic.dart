@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future uploadLogic({
+  required ScaffoldMessengerState scaffoldMessengerContext,
   required BuildContext context,
   required String title,
   required String description,
@@ -29,9 +30,8 @@ Future uploadLogic({
   final http.Response thumbnailResponse;
   final String imageBytes;
   final String imageURL;
-  final scaffoldMessengerContext = ScaffoldMessenger.of(context);
 
-  // Error message
+  /// Error message
   SnackBar snackBar({
     required Color color,
     required IconData icon,
@@ -73,6 +73,25 @@ Future uploadLogic({
     );
   }
 
+  /// Delete mechanism to undo previous transactions.
+  Future undoTransactionChanges({required int id, required bool fromFirebaseToo}) async {
+    // Delete data from SQL database
+    final nodeUrl = Uri.parse('http://localhost:3000/node_api/remove');
+    final headers = {'Content-Type': 'application/json'};
+    final body = json.encode({
+      "algo_id": id,
+    });
+    await http.delete(nodeUrl, headers: headers, body: body);
+
+    // Delete image from firebase storage
+    if (fromFirebaseToo) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final desertRef = storageRef.child("algo_images/$id.jpg");
+
+    await desertRef.delete();
+    }
+  }
+
   // Upload data to SQL db
   try {
     final nodeUrl = Uri.parse('http://localhost:3000/node_api/create');
@@ -109,6 +128,9 @@ Future uploadLogic({
     };
     thumbnailResponse = await http.post(thumbnailUrl, body: body);
     imageBytes = thumbnailResponse.body;
+    if (thumbnailResponse.statusCode != 200) {
+      throw Exception('There was an error processing the image.');
+    }
   } catch (e) {
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
@@ -119,6 +141,7 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+    await undoTransactionChanges(id: algoId, fromFirebaseToo: false);
     return;
   }
 
@@ -143,6 +166,7 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+    await undoTransactionChanges(id: algoId, fromFirebaseToo: true);
     return;
   }
 
@@ -151,27 +175,9 @@ Future uploadLogic({
     final imageUrl = Uri.parse('http://localhost:3000/node_api/add_image');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({"algo_id": algoId, "photo": imageURL});
-    await http.patch(imageUrl, headers: headers, body: body);
-  } catch (e) {
-    scaffoldMessengerContext.clearSnackBars();
-    scaffoldMessengerContext.showSnackBar(
-      snackBar(
-        color: googleRed,
-        icon: Icons.error_outline_outlined,
-        subtitle: e.toString(),
-        title: "Something went wrong!",
-      ),
-    );
-    return;
-  }
-
-  // Upload tags data to SQL db
-  try {
-    for (var tag in tags) {
-      final tagUrl = Uri.parse('http://localhost:3000/node_api/add_tag');
-      final headers = {'Content-Type': 'application/json'};
-      final body = json.encode({"algo_id": algoId, "tag_id": tag["tag_id"]});
-      await http.post(tagUrl, headers: headers, body: body);
+    final response = await http.patch(imageUrl, headers: headers, body: body);
+    if (response.statusCode != 200) {
+      throw Exception('There was an error processing the image.');
     }
   } catch (e) {
     scaffoldMessengerContext.clearSnackBars();
@@ -183,6 +189,43 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+    await undoTransactionChanges(id: algoId, fromFirebaseToo: true);
     return;
   }
+
+  // Upload tags data to SQL db
+  try {
+    for (var tag in tags) {
+      final tagUrl = Uri.parse('http://localhost:3000/node_api/add_tag');
+      final headers = {'Content-Type': 'application/json'};
+      final body = json.encode({"algo_id": algoId, "tag_id": tag["tag_id"]});
+      final response = await http.post(tagUrl, headers: headers, body: body);
+      if (response.statusCode != 200) {
+      throw Exception('There was an error processing the image.');
+    }
+    }
+  } catch (e) {
+    scaffoldMessengerContext.clearSnackBars();
+    scaffoldMessengerContext.showSnackBar(
+      snackBar(
+        color: googleRed,
+        icon: Icons.error_outline_outlined,
+        subtitle: e.toString(),
+        title: "Something went wrong!",
+      ),
+    );
+    await undoTransactionChanges(id: algoId, fromFirebaseToo: true);
+    return;
+  }
+
+  // Show confirmation of successful completion to user to user
+  scaffoldMessengerContext.clearSnackBars();
+  scaffoldMessengerContext.showSnackBar(
+    snackBar(
+      color: googleGreen,
+      icon: Icons.check,
+      subtitle: "Your algorithm has been successfully added to our database!",
+      title: "Algorithm created",
+    ),
+  );
 }

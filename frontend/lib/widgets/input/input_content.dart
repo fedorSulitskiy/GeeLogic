@@ -70,7 +70,7 @@ class _InputContentState extends State<InputContent> {
                   const SizedBox(height: 30.0),
                   // Submit Button
                   const SubmitButton(),
-                  const SizedBox(height: 30.0),
+                  const SizedBox(height: 300.0),
                 ],
               ),
             ),
