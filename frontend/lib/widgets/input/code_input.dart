@@ -13,7 +13,7 @@ import 'package:frontend/widgets/input/verify_button.dart';
 
 /// Python code set-up to allow the user easier way to input valid geemap code.
 const pythonDefaultCode =
-    "# Create a map using GEE API and geemap\nMap = geemap.Map(\n\t\t **default_options,\n\t\t\tcenter=[21.79, 70.87], \n\t\t\tzoom=3,\n)\n\n# Input your code here please!\n\n";
+    "# Create a map using GEE API and geemap\nMap = geemap.Map(\n\t**default_options,\n\tcenter=[21.79, 70.87], \n\tzoom=3,\n)\n\n# Input your code here please!\n\n";
 const javaScriptDefaultCode = "console.log('Hello Google Earth Engine!');";
 
 class CodeInput extends ConsumerStatefulWidget {

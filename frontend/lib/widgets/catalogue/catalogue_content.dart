@@ -27,6 +27,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
       data: (algosFromBackend) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ScrollConfiguration(
               behavior:
