@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/widgets/details/description_text.dart';
 import 'package:frontend/widgets/details/sub_title_text.dart';
 import 'package:frontend/widgets/details/title_element.dart';
 import 'package:frontend/widgets/details/code_display.dart';
 import 'package:frontend/widgets/details/gee_map.dart';
+import 'package:frontend/providers/algo_box_selection_provider.dart';
+import 'package:frontend/models/algo_data.dart';
 
 class DetailsCard extends ConsumerWidget {
-  const DetailsCard({super.key});
+  const DetailsCard({super.key, required this.loadedAlgos});
+
+  final List<AlgoData> loadedAlgos;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final algoId = ref.watch(algoIdProvider);
-    final data = ref.watch(algoInfoProvider).singleWhere(
-          (element) => element.id == algoId,
-        );
+    final selectedIndex = ref.watch(selectedAlgoIndexProvider);
+    final data = loadedAlgos[selectedIndex];
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -37,10 +38,12 @@ class DetailsCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleElement(title: data.title, data: data),
-                const MapWidget(),
-                // const PlaceholderMap(),
-                const CodeDisplayWidget(),
+                TitleElement(
+                  title: data.title,
+                  data: data,
+                ),
+                MapWidget(code: data.code),
+                CodeDisplayWidget(code: data.code),
                 const SubTitleText(title: 'Description'),
                 DescriptionText(text: data.description),
                 const SubTitleText(title: 'Tags'),

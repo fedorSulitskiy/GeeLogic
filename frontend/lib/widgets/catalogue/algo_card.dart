@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:frontend/models/algo_card.dart';
+import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/algo_box_selection_provider.dart';
-import 'package:frontend/providers/algo_info_provider.dart';
 
 class AlgoCard extends ConsumerStatefulWidget {
   const AlgoCard({
@@ -13,7 +12,7 @@ class AlgoCard extends ConsumerStatefulWidget {
     required this.isSelected,
   });
 
-  final AlgoCardData data;
+  final AlgoData data;
   final int index;
   final bool isSelected;
 
@@ -22,7 +21,6 @@ class AlgoCard extends ConsumerStatefulWidget {
 }
 
 class _AlgoCardState extends ConsumerState<AlgoCard> {
-  
   static double borderRadius = 16.0;
   static double cardHeight = 216.0;
   static double cardWidth = 360.0;
@@ -34,8 +32,7 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        ref.read(algoCardSelectionProvider.notifier).selectCard(widget.index);
-        ref.read(algoIdProvider.notifier).getAlgoId(widget.data.id);
+        ref.read(selectedAlgoIndexProvider.notifier).selectCard(widget.index);
       },
       splashColor: cardColour,
       child: Card(

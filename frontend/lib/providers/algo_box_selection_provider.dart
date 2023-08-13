@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Provides the algorithm selected by user for catalogue screen
+/// The [AlgoCardSelectionState] class is a state notifier that keeps track of
+/// the selected card index on the catalogue screen.
 class AlgoCardSelectionState extends StateNotifier<int> {
   AlgoCardSelectionState() : super(0);
 
@@ -8,7 +9,9 @@ class AlgoCardSelectionState extends StateNotifier<int> {
     state = index;
   }
 }
-final algoCardSelectionProvider =
+
+/// Provides the the index of the card that is selected.
+final selectedAlgoIndexProvider =
     StateNotifierProvider<AlgoCardSelectionState, int>((ref) {
   return AlgoCardSelectionState();
 });

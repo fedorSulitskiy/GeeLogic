@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/models/algo_card.dart';
+import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/widgets/details/code_display.dart';
 import 'package:frontend/widgets/details/description_text.dart';
 import 'package:frontend/widgets/details/gee_map.dart';
@@ -12,7 +12,7 @@ class DetailsContent extends StatelessWidget {
     required this.data,
   });
 
-  final AlgoCardData data;
+  final AlgoData data;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,12 @@ class DetailsContent extends StatelessWidget {
             height: 25,
           ),
           SubTitleText(title: data.title, fontSize: 50.0),
-          const MapWidget(
+          MapWidget(
+            code: data.code,
             height: 500,
             width: 900.0,
           ),
-          const CodeDisplayWidget(),
+          CodeDisplayWidget(code: data.code),
           const SubTitleText(title: 'Description'),
           DescriptionText(text: data.description),
           const SubTitleText(title: 'Tags'),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/algo_card.dart';
+import 'package:frontend/models/algo_data.dart';
 
 import 'package:frontend/screens/details_screen.dart';
 
@@ -15,7 +15,7 @@ class TitleElement extends StatelessWidget {
   const TitleElement({super.key, required this.title, required this.data});
 
   final String title;
-  final AlgoCardData data;
+  final AlgoData data;
 
   @override
   Widget build(BuildContext context) {

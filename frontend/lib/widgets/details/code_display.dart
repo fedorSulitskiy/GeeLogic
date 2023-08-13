@@ -6,11 +6,11 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/googlecode.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:frontend/widgets/placeholders/data/placeholder_data.dart';
-
 // Widget to display source code of each algorithms
 class CodeDisplayWidget extends StatelessWidget {
-  const CodeDisplayWidget({super.key});
+  const CodeDisplayWidget({super.key, required this.code});
+
+  final String code;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,8 @@ class CodeDisplayWidget extends StatelessWidget {
                     bottomRight: Radius.circular(16.0),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.only(
+                child: Padding(
+                  padding: const EdgeInsets.only(
                     right: 12.0,
                     left: 12.0,
                   ),
@@ -53,8 +53,8 @@ class CodeDisplayWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Python'),
-                      CopyButton(),
+                      const Text('Python'),
+                      CopyButton(code: code),
                     ],
                   ),
                 ),
@@ -68,7 +68,9 @@ class CodeDisplayWidget extends StatelessWidget {
 }
 
 class CopyButton extends StatefulWidget {
-  const CopyButton({super.key});
+  const CopyButton({super.key, required this.code});
+
+  final String code;
 
   @override
   CopyButtonState createState() => CopyButtonState();
@@ -82,7 +84,7 @@ class CopyButtonState extends State<CopyButton> {
       isCopied = true;
     });
 
-    Clipboard.setData(const ClipboardData(text: code));
+    Clipboard.setData(ClipboardData(text: widget.code));
 
     Timer(const Duration(seconds: 3), () {
       setState(() {

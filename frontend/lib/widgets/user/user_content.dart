@@ -168,7 +168,7 @@ class _UserContentState extends State<UserContent> {
                         builder: (context, snapshotTags) {
                           if (snapshotTags.connectionState ==
                                   ConnectionState.done &&
-                              contribution['imageURL'] != null) {
+                              contribution['photo'] != null) {
                             // Widget of the Contributed Algorithm
                             return ContributedAlgorithm(
                               title: contribution['title'],
