@@ -20,10 +20,11 @@ class TitleElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+          padding: const EdgeInsets.only(top: 20.0, left: 50.0),
           child: Text(
             title,
             style: Theme.of(context)

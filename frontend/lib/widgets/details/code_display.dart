@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/googlecode.dart';
+import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
+import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Widget to display source code of each algorithms
+/// Widget to display source code of each algorithms.
 class CodeDisplayWidget extends StatelessWidget {
-  const CodeDisplayWidget({super.key, required this.code});
+  const CodeDisplayWidget({super.key, required this.code, required this.apiType});
 
+  /// Code displayed to the user. 
   final String code;
+  /// If 1 -> python api . If 0 -> JS api.
+  final int apiType;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class CodeDisplayWidget extends StatelessWidget {
               SizedBox(
                 width: 570.0,
                 child: HighlightView(
-                  '$code \n\n',
+                  code,
                   language: 'python',
                   theme: googlecodeTheme,
                   padding: const EdgeInsets.all(12.0),
@@ -53,7 +58,17 @@ class CodeDisplayWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text('Python'),
+                      apiType == 1 ? const Row(
+                        children: [
+                          Icon(CustomIcons.python, color: iconGrey),
+                          Text('Python API'),
+                        ],
+                      ) : const Row(
+                        children: [
+                          Icon(CustomIcons.python),
+                          Text('JavaScript API'),
+                        ],
+                      ),
                       CopyButton(code: code),
                     ],
                   ),

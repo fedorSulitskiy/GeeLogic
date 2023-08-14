@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 
 import 'package:frontend/models/algo_data.dart';
-import 'package:frontend/providers/algo_box_selection_provider.dart';
+import 'package:frontend/providers/algo_selection_provider.dart';
 
 class AlgoCard extends ConsumerStatefulWidget {
   const AlgoCard({
@@ -110,7 +111,7 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                 ),
               ],
             ),
-
+            // Information at the bottom
             SizedBox(
               width: cardWidth,
               child: Row(
@@ -169,6 +170,19 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                   ),
                 ],
               ),
+            ),
+            Positioned(
+              right: 10.0,
+              top: 10.0,
+              child: widget.data.api == 1
+                  ? const Icon(
+                      CustomIcons.python,
+                      color: Color.fromARGB(255, 48, 105, 152),
+                    )
+                  : const Icon(
+                      CustomIcons.jsSquare,
+                      color: Color.fromARGB(255, 240, 219, 79),
+                    ),
             ),
           ],
         ),

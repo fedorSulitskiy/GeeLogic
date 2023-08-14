@@ -31,9 +31,10 @@ class DetailsScreen extends StatelessWidget {
                 children: [
                   const SearchGeeLogicBar(),
                   Expanded(
-                      child: DetailsContent(
-                    data: data,
-                  )),
+                    child: DetailsContent(
+                      data: data,
+                    ),
+                  ),
                 ],
               ),
             ),

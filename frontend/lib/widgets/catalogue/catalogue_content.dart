@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend/models/algo_data.dart';
-import 'package:frontend/providers/algo_box_selection_provider.dart';
+import 'package:frontend/providers/algo_selection_provider.dart';
 import 'package:frontend/widgets/catalogue/algo_card.dart';
 import 'package:frontend/widgets/catalogue/details_card.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
@@ -87,7 +87,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
         );
       },
       error: (err, stack) => Text('Error: $err'),
-      loading: () => const LoadingStar(),
+      loading: () => const Center(child: LoadingStar()),
     );
   }
 }
