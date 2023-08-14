@@ -31,7 +31,7 @@ class CodeDisplayWidget extends StatelessWidget {
                 width: 570.0,
                 child: HighlightView(
                   code,
-                  language: 'python',
+                  language: apiType == 1 ? 'python' : 'javascript',
                   theme: googlecodeTheme,
                   padding: const EdgeInsets.all(12.0),
                   textStyle: GoogleFonts.sourceCodePro(),
