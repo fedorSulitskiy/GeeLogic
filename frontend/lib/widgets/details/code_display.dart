@@ -65,7 +65,7 @@ class CodeDisplayWidget extends StatelessWidget {
                         ],
                       ) : const Row(
                         children: [
-                          Icon(CustomIcons.python),
+                          Icon(CustomIcons.jsSquare, color: iconGrey),
                           Text('JavaScript API'),
                         ],
                       ),

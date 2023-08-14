@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/tags_provider.dart';
+import 'package:frontend/providers/input_tags_provider.dart';
 
 class TagBubble extends ConsumerStatefulWidget {
   const TagBubble({super.key, required this.title, required this.id, this.isExpandable = true});

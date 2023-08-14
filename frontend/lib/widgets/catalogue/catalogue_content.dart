@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
+import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/widgets/catalogue/algo_card.dart';
 import 'package:frontend/widgets/catalogue/details_card.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
+import 'package:frontend/widgets/catalogue/page_selection.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
 
 class CatalogueContent extends ConsumerStatefulWidget {
@@ -19,8 +21,9 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
 
   @override
   Widget build(BuildContext context) {
+    final offset = ref.watch(selectedPageProvider);
     final selectedIndex = ref.watch(selectedAlgoIndexProvider);
-    final algosFromBackend = ref.watch(allAlgorithmsProvider);
+    final algosFromBackend = ref.watch(allAlgorithmsProvider(offset*5));
     bool isSelected = false;
 
     return algosFromBackend.when(
@@ -39,9 +42,9 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                     const SizedBox(height: 25),
                     // The algo cards
                     ...List<Widget>.generate(
-                      algosFromBackend.length,
+                      algosFromBackend['results'].length,
                       (index) {
-                        AlgoData data = algosFromBackend[index];
+                        AlgoData data = algosFromBackend['results'][index];
 
                         if (selectedIndex == index) {
                           setState(() {
@@ -60,6 +63,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                         );
                       },
                     ),
+                    PageSelection(range: (algosFromBackend['count'] / 5).ceil())
                   ],
                 ),
               ),
@@ -78,7 +82,7 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                       height: 25,
                     ),
                     // Details about each algorithm
-                    DetailsCard(loadedAlgos: algosFromBackend),
+                    DetailsCard(loadedAlgos: algosFromBackend['results']),
                   ],
                 ),
               ),

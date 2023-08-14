@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/title_provider.dart';
+import 'package:frontend/providers/input_title_provider.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 

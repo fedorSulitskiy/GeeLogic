@@ -15,7 +15,7 @@ const {
 const router = require('express').Router();
 
 router.post("/create", create);
-router.get("/show", show);
+router.post("/show", show);
 router.post("/show_by_user", show_by_user);
 router.post("/show_tags", show_tags);
 router.patch("/update", update);

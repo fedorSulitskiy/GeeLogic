@@ -124,7 +124,7 @@ Future uploadLogic({
   // Get image
   try {
     final thumbnailUrl =
-        Uri.parse('http://10.226.21.160:3002/thumbnail_api/get_thumbnail');
+        Uri.parse('http://192.168.8.103:3002/thumbnail_api/get_thumbnail');
     Map<String, String> body = {
       'data': mapCode,
     };

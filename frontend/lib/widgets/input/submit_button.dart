@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/helpers/input/upload_logic.dart';
 
-import 'package:frontend/providers/code_provider.dart';
-import 'package:frontend/providers/description_provider.dart';
-import 'package:frontend/providers/map_html_code_provider.dart';
-import 'package:frontend/providers/tags_provider.dart';
-import 'package:frontend/providers/title_provider.dart';
+import 'package:frontend/providers/input_code_providers.dart';
+import 'package:frontend/providers/input_description_provider.dart';
+import 'package:frontend/providers/input_map_html_code_provider.dart';
+import 'package:frontend/providers/input_tags_provider.dart';
+import 'package:frontend/providers/input_title_provider.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 
 const double borderRadius = 30.0;

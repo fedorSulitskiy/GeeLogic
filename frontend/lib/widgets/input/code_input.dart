@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:code_text_field/code_text_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/code_provider.dart';
+import 'package:frontend/providers/input_code_providers.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 import 'package:google_fonts/google_fonts.dart';

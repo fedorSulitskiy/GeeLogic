@@ -28,7 +28,8 @@ module.exports = {
         });
     },
     show: (req, res) => {
-        show((err, results) => {
+        const body = req.body;
+        show(body, (err, results) => {
             if (err) {
                 logger.error(`"${err}" - 500`);
                 return res.status(500).send('Database connection error');
