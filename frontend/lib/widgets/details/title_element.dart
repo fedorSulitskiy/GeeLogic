@@ -23,10 +23,13 @@ class TitleElement extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
+        Container(
+          width: 550.0,
           padding: const EdgeInsets.only(top: 20.0, left: 50.0),
           child: Text(
             title,
+            softWrap: true,
+            overflow: TextOverflow.fade,
             style: Theme.of(context)
                 .textTheme
                 .titleLarge!

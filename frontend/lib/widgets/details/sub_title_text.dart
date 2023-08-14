@@ -8,10 +8,13 @@ class SubTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      width: 900.0,
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
       child: Text(
         title,
+        softWrap: true,
+        overflow: TextOverflow.fade,
         style: Theme.of(context)
             .textTheme
             .titleLarge!

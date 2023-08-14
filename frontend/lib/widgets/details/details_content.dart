@@ -29,6 +29,7 @@ class DetailsContent extends StatelessWidget {
           UserCreatorDisplay(user: data.userCreator, dateCreated: data.formattedDate),
           MapWidget(
             code: data.code,
+            api: data.api,
             height: 500,
             width: 900.0,
           ),

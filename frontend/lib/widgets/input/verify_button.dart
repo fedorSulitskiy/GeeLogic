@@ -103,6 +103,13 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
   Widget build(BuildContext context) {
     final code = ref.watch(codeProvider);
     final isValid = ref.watch(isValidProvider);
+    final apiBool = ref.watch(apiLanguageProvider);
+    final String apiType;
+    if (apiBool) {
+      apiType = 'python';
+    } else {
+      apiType = 'js';
+    }
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Center(
@@ -173,7 +180,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       Colors.yellow
                     ];
                   });
-                  final url = Uri.parse('http://127.0.0.1:3001/python_api/get_map_widget');
+                  final url = Uri.parse('http://127.0.0.1:3001/python_api/get_map_widget/$apiType');
                   final headers = {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   };

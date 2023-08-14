@@ -14,7 +14,7 @@ import 'package:frontend/widgets/input/verify_button.dart';
 /// Python code set-up to allow the user easier way to input valid geemap code.
 const pythonDefaultCode =
     "# Create a map using GEE API and geemap\nMap = geemap.Map(\n\t**default_options,\n\tcenter=[21.79, 70.87], \n\tzoom=3,\n)\n\n# Input your code here please!\n\n";
-const javaScriptDefaultCode = "console.log('Hello Google Earth Engine!');";
+const javaScriptDefaultCode = "// Input your code here please!\n\n";
 
 class CodeInput extends ConsumerStatefulWidget {
   const CodeInput({super.key});
@@ -103,9 +103,13 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                           TextButton(
                             onPressed: () {
                               setState(() {
-                                ref.read(apiLanguageProvider.notifier).setLanguage(true);
+                                ref
+                                    .read(apiLanguageProvider.notifier)
+                                    .setLanguage(true);
                                 _codeController!.language = python;
-                                _codeController!.text = _codeChanged ? currentCode : pythonDefaultCode;
+                                _codeController!.text = _codeChanged
+                                    ? currentCode
+                                    : pythonDefaultCode;
                               });
                             },
                             child: Text(
@@ -123,21 +127,31 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                           TextButton(
                             onPressed: () {
                               setState(() {
-                                ref.read(apiLanguageProvider.notifier).setLanguage(false);
+                                ref
+                                    .read(apiLanguageProvider.notifier)
+                                    .setLanguage(false);
                                 _codeController!.language = javascript;
-                                _codeController!.text = _codeChanged ? currentCode : javaScriptDefaultCode;
+                                _codeController!.text = _codeChanged
+                                    ? currentCode
+                                    : javaScriptDefaultCode;
                               });
                             },
                             child: Text(
                               'JavaScript >>',
                               style: GoogleFonts.sourceCodePro(
-                                color:
-                                    isPython ? Colors.black87 : googleYellow,
+                                color: isPython ? Colors.black87 : googleYellow,
                               ),
                             ),
                           ),
                         ],
                       ),
+                      if (!isPython)
+                        Text(
+                          "JavaScript API doesn't always work with any code!",
+                          style: GoogleFonts.sourceCodePro(
+                            color: Colors.red[800],
+                          ),
+                        ),
                       // Verify code
                       const VerifyButton(),
                     ],

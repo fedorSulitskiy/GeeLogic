@@ -5,11 +5,12 @@ import 'package:webview_flutter_platform_interface/webview_flutter_platform_inte
 
 class MapWidget extends StatefulWidget {
   const MapWidget(
-      {super.key, required this.code, this.height = 300.0, this.width = 700.0});
+      {super.key, required this.code, required this.api, this.height = 300.0, this.width = 700.0});
 
   final String code;
   final double height;
   final double width;
+  final int api;
 
   @override
   State<MapWidget> createState() => _MapWidgetState();
@@ -35,13 +36,20 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final String apiType;
+
+    if (widget.api == 1) {
+      apiType = 'python';
+    } else {
+      apiType = 'js';
+    }
     return Center(
       child: SizedBox(
         width: widget.width,
         height: widget.height + 20,
         child: FutureBuilder(
           future: loadHTMLString(
-              'http://127.0.0.1:3001/python_api/get_map_widget?height=${widget.height.toString()}',
+              'http://127.0.0.1:3001/python_api/get_map_widget/$apiType?height=${widget.height.toString()}',
               widget.code),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
