@@ -18,12 +18,11 @@ class CatalogueContent extends ConsumerStatefulWidget {
 }
 
 class _CatalogueContentState extends ConsumerState<CatalogueContent> {
-
   @override
   Widget build(BuildContext context) {
     final offset = ref.watch(selectedPageProvider);
     final selectedIndex = ref.watch(selectedAlgoIndexProvider);
-    final algosFromBackend = ref.watch(allAlgorithmsProvider(offset*5));
+    final algosFromBackend = ref.watch(allAlgorithmsProvider(offset * 5));
     bool isSelected = false;
 
     return algosFromBackend.when(
@@ -63,7 +62,9 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                         );
                       },
                     ),
-                    PageSelection(range: (algosFromBackend['count'] / 5).ceil())
+                    PageSelection(
+                        range: (algosFromBackend['count'] / 5).ceil()),
+                    const SizedBox(height: 25),
                   ],
                 ),
               ),
@@ -78,11 +79,10 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
                 child: Column(
                   children: [
                     // Ensures I can scroll beyond the app bar
-                    const SizedBox(
-                      height: 25,
-                    ),
+                    const SizedBox(height: 25),
                     // Details about each algorithm
                     DetailsCard(loadedAlgos: algosFromBackend['results']),
+                    const SizedBox(height: 25),
                   ],
                 ),
               ),
