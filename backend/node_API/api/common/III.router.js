@@ -1,6 +1,8 @@
 const { 
     create,
     show,
+    search,
+    show_by_id,
     show_by_user,
     show_tags,
     update,
@@ -16,6 +18,8 @@ const router = require('express').Router();
 
 router.post("/create", create);
 router.post("/show", show);
+router.post("/search", search);
+router.post("/show_by_id", show_by_id);
 router.post("/show_by_user", show_by_user);
 router.post("/show_tags", show_tags);
 router.patch("/update", update);

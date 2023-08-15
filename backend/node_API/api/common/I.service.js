@@ -67,6 +67,42 @@ module.exports = {
       }
     );
   },
+  search: (data, callBack) => {
+    pool.query(
+      `SELECT DISTINCT algos.title, algos.algo_id
+      FROM algos
+      LEFT JOIN algo_tag ON algos.algo_id = algo_tag.algo_id
+      LEFT JOIN tags ON algo_tag.tag_id = tags.tag_id
+      WHERE algos.title LIKE ?
+        OR tags.tag_name LIKE ?
+      ORDER BY
+        CASE
+            WHEN algos.title LIKE ? THEN 0
+            ELSE 1
+        END,
+        algos.title`,
+      [`%${data.keyword}%`, `%${data.keyword}%`, `%${data.keyword}%`],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  show_by_id: (data, callBack) => {
+    pool.query(
+      `SELECT * FROM algos
+            WHERE algo_id = ?`,
+      [data.algo_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
   show_by_user: (data, callBack) => {
     pool.query(
       `SELECT * FROM algos 
