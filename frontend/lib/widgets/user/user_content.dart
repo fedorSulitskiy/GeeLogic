@@ -140,61 +140,65 @@ class _UserContentState extends State<UserContent> {
         //  - request for title and imageURL(photo)
         //  - request for tags related to algorithm
         // TODO: clean up loading animations
-        FutureBuilder<List<dynamic>>(
-          future: _getContributedAlgorithmsData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              final contributedAlgorithms = snapshot.data!;
-              // FutureBuilder requesting tags
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    if (contributedAlgorithms.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24.0, vertical: 4.0),
-                        child: Text(
-                          "User's Algorithms",
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall!
-                              .copyWith(fontSize: 24.0, color: Colors.black87),
+        Expanded(
+          child: FutureBuilder<List<dynamic>>(
+            future: _getContributedAlgorithmsData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                final contributedAlgorithms = snapshot.data!;
+                // FutureBuilder requesting tags
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (contributedAlgorithms.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 4.0),
+                          child: Text(
+                            "User's Algorithms",
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall!
+                                .copyWith(
+                                    fontSize: 24.0, color: Colors.black87),
+                          ),
                         ),
-                      ),
-                    ...contributedAlgorithms.map((contribution) {
-                      return FutureBuilder(
-                        future:
-                            _getRelatedTags(algoId: contribution['algo_id']),
-                        builder: (context, snapshotTags) {
-                          if (snapshotTags.connectionState ==
-                                  ConnectionState.done &&
-                              contribution['photo'] != null) {
-                            // Widget of the Contributed Algorithm
-                            return ContributedAlgorithm(
-                              title: contribution['title'],
-                              imageURL: contribution['photo'],
-                              tags: snapshotTags.data!,
-                            );
-                          } else if (snapshotTags.hasError) {
-                            return Text('Error: ${snapshotTags.error}');
-                          } else if (!snapshotTags.hasData ||
-                              snapshotTags.data!.isEmpty) {
-                            return const Text('No data available.');
-                          }
-                          return const LoadingStar();
-                        },
-                      );
-                    }).toList(),
-                  ],
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Text('No data available.');
-            }
-            return const LoadingStar();
-          },
+                      ...contributedAlgorithms.map((contribution) {
+                        return FutureBuilder(
+                          future:
+                              _getRelatedTags(algoId: contribution['algo_id']),
+                          builder: (context, snapshotTags) {
+                            if (snapshotTags.connectionState ==
+                                    ConnectionState.done &&
+                                contribution['photo'] != null) {
+                              // Widget of the Contributed Algorithm
+                              return ContributedAlgorithm(
+                                title: contribution['title'],
+                                imageURL: contribution['photo'],
+                                tags: snapshotTags.data!,
+                                algoId: contribution['algo_id'],
+                              );
+                            } else if (snapshotTags.hasError) {
+                              return Text('Error: ${snapshotTags.error}');
+                            } else if (!snapshotTags.hasData ||
+                                snapshotTags.data!.isEmpty) {
+                              return const Text('No data available.');
+                            }
+                            return const LoadingStar();
+                          },
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Text('No data available.');
+              }
+              return const LoadingStar();
+            },
+          ),
         ),
       ],
     );
