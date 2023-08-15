@@ -21,10 +21,21 @@ module.exports = {
   },
   show: (data, callBack) => {
     let totalCount, limitedResults;
+    // Potential order conditions:
+    //  => date_created
+    //  => up_votes
+    //  => down_votes
+    //  => up_votes - down_votes
+    // All need ASC or DESC specified
 
+    // Potential api conditions:
+    //  => '0'    - javascript
+    //  => '1'    - python
+    //  => '0, 1' - javascript and python
     pool.query(
       `SELECT * FROM algos
-            ORDER BY up_votes - down_votes DESC
+            WHERE api IN (${data.apiCondition})
+            ORDER BY ${data.orderCondition} 
             LIMIT 5
             OFFSET ?`,
       [data.offset],
@@ -37,7 +48,8 @@ module.exports = {
 
         // Second query to get total count
         pool.query(
-          `SELECT COUNT(*) AS total FROM algos`,
+          `SELECT COUNT(*) AS total FROM algos 
+                WHERE api IN (${data.apiCondition})`,
           (countError, countResult, countFields) => {
             if (countError) {
               return callBack(countError);

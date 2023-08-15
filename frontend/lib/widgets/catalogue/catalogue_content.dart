@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
+import 'package:frontend/providers/catalogue_api_provider.dart';
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/widgets/catalogue/algo_card.dart';
 import 'package:frontend/widgets/catalogue/details_card.dart';
@@ -21,8 +24,16 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
   @override
   Widget build(BuildContext context) {
     final offset = ref.watch(selectedPageProvider);
+    final selectedApi = ref.watch(catalogueSelectedApiProvider);
     final selectedIndex = ref.watch(selectedAlgoIndexProvider);
-    final algosFromBackend = ref.watch(allAlgorithmsProvider(offset * 5));
+    final params = json.encode({
+      "offset": offset * 5,
+      "orderCondition": 'date_created',
+      "apiCondition": selectedApi
+    });
+    final algosFromBackend = ref.watch(
+      allAlgorithmsProvider(params),
+    );
     bool isSelected = false;
 
     return algosFromBackend.when(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
+import 'package:frontend/providers/catalogue_api_provider.dart';
+import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/screens/about_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,14 +15,14 @@ const iconGrey = Color.fromARGB(255, 110, 110, 110);
 const backgroundColor = Color.fromARGB(255, 254, 251, 255);
 
 /// Displays the menu of options visible on the left side of the screen.
-class SideMenu extends StatefulWidget {
+class SideMenu extends ConsumerStatefulWidget {
   const SideMenu({super.key});
 
   @override
-  State<SideMenu> createState() => _SideMenuState();
+  ConsumerState<SideMenu> createState() => _SideMenuState();
 }
 
-class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
+class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMixin {
   /// Indicates if the menu is "opened" (is the text visible or are just icons shown)
   bool _isOpened = true;
 
@@ -88,6 +91,8 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
             title: 'all algorithms',
             icon: Icons.language,
             onPressed: () {
+              ref.read(catalogueSelectedApiProvider.notifier).selectApi("0,1");
+              ref.read(selectedPageProvider.notifier).setPage(0);
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const CatalogueScreen(),
               ));
@@ -99,7 +104,13 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           _MenuOption(
             title: 'python api',
             icon: CustomIcons.python,
-            onPressed: () {},
+            onPressed: () {
+              ref.read(catalogueSelectedApiProvider.notifier).selectApi("1");
+              ref.read(selectedPageProvider.notifier).setPage(0);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CatalogueScreen(),
+              ));
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,
@@ -107,7 +118,13 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
           _MenuOption(
             title: 'javaScript api',
             icon: CustomIcons.jsSquare,
-            onPressed: () {},
+            onPressed: () {
+              ref.read(catalogueSelectedApiProvider.notifier).selectApi("0");
+              ref.read(selectedPageProvider.notifier).setPage(0);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CatalogueScreen(),
+              ));
+            },
             iconSize: 30.0,
             isOpened: _isOpened,
             renderTitle: _renderTitle,

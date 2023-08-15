@@ -5,20 +5,16 @@ import 'package:http/http.dart' as http;
 
 import 'package:frontend/models/algo_data.dart';
 
-/// The function [fetchData] fetches data from a node API and returns a map containing the fetched data
-/// and the count of total data.
-/// 
-/// Args:
-///   offset (int): The [offset] parameter is used to specify the starting index of the data to be
-/// fetched. It is used to implement pagination, where each page of data is fetched by specifying the
-/// offset value. For example, if [offset] is 0, it will fetch the first page of data.
-/// 
-/// Returns:
-///   The function [fetchData] returns a [Future] that resolves to a [Map<String, dynamic>] where the
-/// key [results] contains a [List<dynamic>] object of all data regarding algorithms on current page 
-/// and [count] contains an [int] that represents the total count of items in the database matching
-/// the intial query.
-Future<Map<String, dynamic>> fetchData(int offset) async {
+/// The [fetchData] function sends a POST request to a specified endpoint with
+/// the following parameters: [offset], [orderCondition], and [apiCondition].
+/// It then returns a [Map] of [AlgoData] objects under key [results] and total
+/// length of all results satisfying the criteria of the backend request under
+/// key [count]. 
+Future<Map<String, dynamic>> fetchData({
+  required int offset,
+  required String orderCondition,
+  required String apiCondition,
+}) async {
   /// Returns parsed Uri of node API with end point specified
   /// TODO: implement for all apis once deployed
   Uri nodeUri(String endpoint) {
@@ -45,7 +41,11 @@ Future<Map<String, dynamic>> fetchData(int offset) async {
   }
 
   final generalHeaders = {'Content-Type': 'application/json'};
-  final generalBody = json.encode({"offset": offset});
+  final generalBody = json.encode({
+    "offset": offset,
+    "orderCondition": orderCondition,
+    "apiCondition": apiCondition,
+  });
   final generalData = await http.post(
     nodeUri('show'),
     headers: generalHeaders,
@@ -81,6 +81,44 @@ Future<Map<String, dynamic>> fetchData(int offset) async {
 /// The [allAlgorithmsProvider] is a [FutureProvider.family] that provides a
 /// [Map] of [AlgoData] objects under key [results] and total length of all
 /// results satisfying the criteria of the backend request under key [count].
-final allAlgorithmsProvider = FutureProvider.family<Map<String, dynamic>,int>((ref, offset) async {
-  return await fetchData(offset);
+///
+/// Args:
+/// 
+///  params (String): The [params] parameter is a string that is an encoded JSON file
+/// that contains the following keys: [offset], [orderCondition], and [apiCondition].
+/// 
+/// Keys:
+/// 
+///   offset (int): used to implement pagination
+/// 
+///   orderCondition (String):
+///     Potential order conditions:
+///
+///       * 'date_created'
+///       * 'up_votes'
+///       * 'down_votes'
+///       * 'up_votes - down_votes'
+///     All need 'ASC' or 'DESC' specified after the condition
+/// 
+///  apiCondition (String):
+///     Potential api conditions:
+/// 
+///       * '0'    - javascript
+///       * '1'    - python
+///       * '0, 1' - javascript and python
+final allAlgorithmsProvider =
+    FutureProvider.family<Map<String, dynamic>, String>((ref, params) async {
+      // NOTE: params is a string that is an encoded JSON file.
+      // I could not figure out how to pass a custom file as a parameter and 
+      // keep this code working.
+  final decodedParams = json.decode(params);
+  final offset = decodedParams['offset'];
+  final apiCondition = decodedParams['apiCondition'];
+  final orderCondition = decodedParams['orderCondition'];
+  
+  return await fetchData(
+    offset: offset,
+    orderCondition: orderCondition,
+    apiCondition: apiCondition,
+  );
 });

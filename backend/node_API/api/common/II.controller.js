@@ -34,7 +34,7 @@ module.exports = {
                 logger.error(`"${err}" - 500`);
                 return res.status(500).send('Database connection error');
             }
-            logger.info('"GET node_api/show" - 200');
+            logger.info('"POST node_api/show" - 200');
             return res.status(200).send(results);
         });
     },
