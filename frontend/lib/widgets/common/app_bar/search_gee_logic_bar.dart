@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'dart:js_interop';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/screens/details_screen.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
 const backgroundColor = Color.fromARGB(255, 254, 251, 255);
 
+/// The top search bar that allow for searching of algorithms.
 class SearchGeeLogicBar extends ConsumerStatefulWidget {
   const SearchGeeLogicBar({super.key});
 
@@ -98,6 +100,7 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
     );
   }
 
+  /// Removes the overlay of the search results.
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;

@@ -3,6 +3,7 @@ import 'package:frontend/widgets/common/loading_star.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
+/// A widget to display a map widget from the python api.
 class MapWidget extends StatefulWidget {
   const MapWidget(
       {super.key, required this.code, required this.api, this.height = 300.0, this.width = 700.0});

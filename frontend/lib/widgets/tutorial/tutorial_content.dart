@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Organises the content of the [TutorialScreen].
 class TutorialContent extends StatelessWidget {
   const TutorialContent({super.key});
 

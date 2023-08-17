@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/googlecode.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 import 'package:frontend/widgets/common/app_bar/side_menu.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Widget to display source code of each algorithms.
 class CodeDisplayWidget extends StatelessWidget {
@@ -82,6 +83,7 @@ class CodeDisplayWidget extends StatelessWidget {
   }
 }
 
+/// Copy button to copy the code to clipboard.
 class CopyButton extends StatefulWidget {
   const CopyButton({super.key, required this.code});
 

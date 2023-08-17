@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Provides the title of the algorithm user is submitting
+/// This is the [StateNotifier] for the title of the algorithm user is submitting.
 class TitleInput extends StateNotifier<String> {
   TitleInput() : super('');
 
@@ -8,6 +8,8 @@ class TitleInput extends StateNotifier<String> {
     state = title;
   }
 }
+
+/// Provides the title of the algorithm user is submitting in the [InputScreen] widget.
 final titleProvider = StateNotifierProvider<TitleInput, String>((ref) {
   return TitleInput();
 });

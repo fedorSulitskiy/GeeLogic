@@ -7,6 +7,8 @@ const List<String> scopes = <String>[
   'https://www.googleapis.com/auth/devstorage.full_control',
 ];
 
+/// Signs in with Google service and returns the OAuthCredential which is 
+/// then used to sign in with Firebase in the [SignInButton] widget.
 Future<OAuthCredential> signInWithGoogle() async {
   // TODO: consider using silentSingIn or sth
 

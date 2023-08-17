@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/widgets/user/user_content.dart';
 
+/// The widget responsible for page selection in the [CatalogueContent] widget.
 class PageSelection extends ConsumerStatefulWidget {
   const PageSelection({super.key, required this.range});
 
+  /// Range is the number of pages required to show all algorithms loaded 
+  /// from the backend.
   final int range;
 
   @override
@@ -16,9 +20,11 @@ class PageSelection extends ConsumerStatefulWidget {
 class _PageSelectionState extends ConsumerState<PageSelection> {
   @override
   Widget build(BuildContext context) {
+    /// The index of the page selected by the user.
     final selectedPage = ref.watch(selectedPageProvider);
     List<int> numbers = [];
 
+    // Generate a list of numbers from 1 to the range of the page selection.
     for (int i = 1; i <= widget.range; i++) {
       numbers.add(i);
     }
@@ -27,6 +33,8 @@ class _PageSelectionState extends ConsumerState<PageSelection> {
       children: [
         ...numbers.map(
           (e) => _NumberButton(
+            // Adjust the selectedPage by one since it represents the index not the
+            // actual page number.
             isSelected: selectedPage + 1 == e ? true : false,
             number: e.toString(),
           ),
@@ -36,6 +44,7 @@ class _PageSelectionState extends ConsumerState<PageSelection> {
   }
 }
 
+/// The button with the number of the page.
 class _NumberButton extends ConsumerWidget {
   const _NumberButton({
     required this.isSelected,

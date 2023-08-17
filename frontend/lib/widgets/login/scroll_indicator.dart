@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+/// Indicates what carousel slide the user is on.
 class ScrollIndicator extends StatefulWidget {
   const ScrollIndicator({
     super.key,

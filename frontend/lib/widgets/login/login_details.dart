@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:frontend/widgets/login/sign_in_button.dart';
 
+/// Widget to display the [LoginScreen] details.
 class LoginDetails extends StatelessWidget {
   const LoginDetails({super.key});
 

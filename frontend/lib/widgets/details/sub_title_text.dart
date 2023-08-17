@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// A simple widget to display a subtitle text. Key difference between this and [TitleElement]
+/// the fact [TitleElement] has buttons and is used at the top of the [DetailsCard] while this
+/// widget is used in the middle of the [DetailsCard].
 class SubTitleText extends StatelessWidget {
   const SubTitleText({super.key, required this.title, this.fontSize = 30.0});
 

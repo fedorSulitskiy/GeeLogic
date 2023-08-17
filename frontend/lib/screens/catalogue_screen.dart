@@ -6,6 +6,7 @@ import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 
 import 'package:frontend/widgets/catalogue/catalogue_content.dart';
 
+/// The screen that displays the catalogue page.
 class CatalogueScreen extends StatefulWidget {
   const CatalogueScreen({super.key});
 
@@ -36,7 +37,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                 ],
               ),
             ),
-            // Add Button
+            // Add algorithm Button
             Flexible(
               flex: 14,
               child: AddAlgorithmButton(),

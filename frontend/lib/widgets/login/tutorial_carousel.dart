@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/login/carousel_button.dart';
 
+import 'package:frontend/widgets/login/carousel_button.dart';
 import 'package:frontend/widgets/login/scroll_indicator.dart';
 import 'package:frontend/widgets/login/tutorial_card.dart';
 
+/// Displays the tutorial carousel consisting of [TutorialCard] widgets at the [LoginScreen].
 class TutorialCarousel extends StatefulWidget {
   const TutorialCarousel({super.key});
 

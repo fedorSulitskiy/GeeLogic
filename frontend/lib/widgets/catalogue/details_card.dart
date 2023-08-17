@@ -8,10 +8,12 @@ import 'package:frontend/widgets/details/description_text.dart';
 import 'package:frontend/widgets/details/sub_title_text.dart';
 import 'package:frontend/widgets/details/title_element.dart';
 import 'package:frontend/widgets/details/code_display.dart';
-import 'package:frontend/widgets/details/gee_map.dart';
+import 'package:frontend/widgets/details/map.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
 import 'package:frontend/models/algo_data.dart';
 
+/// The card that displays the details of the selected algorithm. Used by the [CatalogueScreen],
+/// bears great resemblance to the [DetailsContent] widget.
 class DetailsCard extends ConsumerWidget {
   const DetailsCard({super.key, required this.loadedAlgos});
 
@@ -61,8 +63,9 @@ class DetailsCard extends ConsumerWidget {
   }
 }
 
-/// USE THEM LATER FOR ADDED FEATURES: ///
+// USE THEM LATER FOR ADDED FEATURES: //
 
+/// Widget for displaing an image from the internet.
 class ImageWidget extends StatelessWidget {
   const ImageWidget({
     super.key,
@@ -90,6 +93,7 @@ class ImageWidget extends StatelessWidget {
   }
 }
 
+/// Widget for displaying a web imbed.
 class WebImbedWidget extends StatefulWidget {
   // THIS DOESN'T PROPERLY WORK WITH ANY LINK.
   // REFUSES TO WORK WITH YOUTUBE

@@ -15,7 +15,6 @@ final codeProvider = StateNotifierProvider<InputCodeNotifier, String>((ref) {
   return InputCodeNotifier();
 });
 
-
 /// The [IsValidNotifier] class is a [ChangeNotifier] that keeps track of a boolean value representing
 /// validity of the code and notifies listeners when the value changes.
 class IsValidNotifier extends ChangeNotifier {
@@ -34,10 +33,9 @@ final isValidProvider = ChangeNotifierProvider<IsValidNotifier>((ref) {
   return IsValidNotifier();
 });
 
-
 /// The [LanguageOfAPINotifier] class is a state notifier that manages the state of a boolean value
-/// representing the language of an API. 
-/// 
+/// representing the language of an API.
+///
 /// - 1 or true represents Python API
 /// - 0 or false represents JavaScript API
 class LanguageOfAPINotifier extends StateNotifier<bool> {
@@ -49,9 +47,10 @@ class LanguageOfAPINotifier extends StateNotifier<bool> {
 }
 
 /// Provides the boolean value representing the language of the API used by the user.
-/// 
+///
 /// - 1 or true represents Python API
 /// - 0 or false represents JavaScript API
-final apiLanguageProvider = StateNotifierProvider<LanguageOfAPINotifier, bool>((ref) {
+final apiLanguageProvider =
+    StateNotifierProvider<LanguageOfAPINotifier, bool>((ref) {
   return LanguageOfAPINotifier();
 });

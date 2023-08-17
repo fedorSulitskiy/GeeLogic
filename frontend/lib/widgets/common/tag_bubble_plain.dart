@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 import 'package:frontend/widgets/user/user_content.dart';
 
+/// Show a simple representation of the tag bubble, that is grey with no
+/// interactiveness.
 class TagBubblePlain extends StatelessWidget {
   const TagBubblePlain({super.key, required this.id, required this.title});
 
@@ -18,7 +21,11 @@ class TagBubblePlain extends StatelessWidget {
           borderRadius: BorderRadius.circular(30.0),
           color: borderColor,
         ),
-        child: Text(title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: iconGrey),),
+        child: Text(
+          title,
+          style:
+              Theme.of(context).textTheme.bodyMedium!.copyWith(color: iconGrey),
+        ),
       ),
     );
   }

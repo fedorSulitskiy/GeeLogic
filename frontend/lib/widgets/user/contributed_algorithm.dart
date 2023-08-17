@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/screens/details_screen.dart';
-
 import 'package:frontend/widgets/common/tag_bubble_plain.dart';
 import 'package:frontend/widgets/user/user_content.dart';
 
+/// Displays the widget seen inside the [UserScreen], holding information
+/// about one of the algorithms contributed by the user.
 class ContributedAlgorithm extends ConsumerWidget {
   const ContributedAlgorithm({
     super.key,

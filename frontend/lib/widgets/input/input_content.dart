@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:languagetool_textfield/languagetool_textfield.dart';
+
 import 'package:frontend/widgets/input/code_input.dart';
 import 'package:frontend/widgets/input/description_input.dart';
 import 'package:frontend/widgets/input/submit_button.dart';
 import 'package:frontend/widgets/input/tags_input.dart';
 import 'package:frontend/widgets/input/title_input.dart';
-import 'package:languagetool_textfield/languagetool_textfield.dart';
 
-var _enteredTitle = '';
-var _enteredDescription = '';
 const _width = 900.0;
 const googleYellow = Color.fromARGB(255, 251, 188, 5);
 const googleRed = Color.fromARGB(255, 234, 67, 53);
 const googleGreen = Color.fromARGB(255, 52, 168, 83);
 
+/// Widget to organise the content of the [InputScreen].
 class InputContent extends StatefulWidget {
   const InputContent({super.key});
 
@@ -23,15 +23,8 @@ class InputContent extends StatefulWidget {
 class _InputContentState extends State<InputContent> {
   final _formKey = GlobalKey<FormState>();
 
-  final List<String> listErrorTexts = [];
-  final List<String> listTexts = [];
   final _controllerTitle = LanguageToolController();
   final _controllerDescr = LanguageToolController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -56,9 +49,7 @@ class _InputContentState extends State<InputContent> {
                   // Giving the appbar some space
                   const SizedBox(height: 25.0),
                   // Title Input
-                  TitleInput(
-                    controller: _controllerTitle,
-                  ),
+                  TitleInput(controller: _controllerTitle),
                   // Code Input
                   const CodeInput(),
                   const SizedBox(height: 15.0),

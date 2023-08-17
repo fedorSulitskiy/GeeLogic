@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/widgets/details/code_display.dart';
 import 'package:frontend/widgets/details/description_text.dart';
-import 'package:frontend/widgets/details/gee_map.dart';
+import 'package:frontend/widgets/details/map.dart';
 import 'package:frontend/widgets/details/sub_title_text.dart';
 import 'package:frontend/widgets/details/tags_display.dart';
 import 'package:frontend/widgets/details/user_creator.dart';
 
+/// Widget to display the content of each algorithm.
 class DetailsContent extends StatelessWidget {
   const DetailsContent({
     super.key,

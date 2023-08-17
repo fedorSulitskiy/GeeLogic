@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:frontend/providers/input_tags_provider.dart';
 
+/// Representation of a tag bubble that can be tapped to be removed.
 class TagBubble extends ConsumerStatefulWidget {
-  const TagBubble({super.key, required this.title, required this.id, this.isExpandable = true});
+  const TagBubble({
+    super.key,
+    required this.title,
+    required this.id,
+    this.isExpandable = true,
+  });
 
+  /// The title of the tag to display.
   final String title;
+
+  /// The id of the tag to be used to remove it from the list.
   final int id;
+
+  /// Setting if it can be tapped to be removed, for greater versatility.
   final bool isExpandable;
 
   @override
@@ -19,6 +31,9 @@ class _TagBubbleState extends ConsumerState<TagBubble> {
   @override
   Widget build(BuildContext context) {
     return IntrinsicWidth(
+      // The container has child Material widget that has child InkWell widget
+      // to allow for the splash effect when tapped, despite the container being
+      // coloured.
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),

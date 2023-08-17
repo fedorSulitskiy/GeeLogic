@@ -1,9 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
 import 'package:frontend/widgets/login/login_details.dart';
 import 'package:frontend/widgets/login/tutorial_carousel.dart';
 
+/// The screen that displays the login page. This is the first screen that the
+/// user sees when they open the app.
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -13,6 +16,7 @@ class LoginScreen extends StatelessWidget {
       body: Stack(
         alignment: Alignment.topRight,
         children: [
+          // Decorative image in the background
           Positioned(
             right: -300,
             top: -50,
@@ -21,6 +25,7 @@ class LoginScreen extends StatelessWidget {
               child: Image.asset('background.png'),
             ),
           ),
+          // Login details, including the login/signin button and tutorial carousel
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

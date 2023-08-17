@@ -7,6 +7,20 @@ import 'package:frontend/widgets/input/input_content.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+/// Uploads the algorithm to the database. This function is called when the user
+/// presses the [SubmitButton] widget in the [InputScreen].
+/// 
+/// The whole process is roughly defined by the following steps:
+///
+///  - UPLOAD DATA --> get id
+///  - GET IMAGE FROM API --> get image bytes
+///  - UPLOAD IMAGE TO FIREBASE <-- use the id and image bytes
+///  - UPLOAD IMAGE LINK TO SQL DB
+///  - UPLOAD TAGS
+///
+/// In case any step is interrupted or error occurs the changes are undone using
+/// the [undoTransactionChanges] internal function and a snackBar is shown to
+/// the user.
 Future uploadLogic({
   required ScaffoldMessengerState scaffoldMessengerContext,
   required BuildContext context,
@@ -17,14 +31,6 @@ Future uploadLogic({
   required String mapCode,
   required bool isPython,
 }) async {
-  //**
-  // UPLOAD DATA --> get id
-  // GET IMAGE FROM API --> get image bytes
-  // UPLOAD IMAGE TO FIREBASE <-- use the id and image bytes
-  // UPLOAD IMAGE LINK TO SQL DB
-  // UPLOAD TAGS
-  // */
-
   final firebase = FirebaseAuth.instance;
   final currentUser = firebase.currentUser;
   final dynamic nodeResponse;
@@ -32,7 +38,7 @@ Future uploadLogic({
   final String imageBytes;
   final String imageURL;
 
-  /// Error message
+  /// Error message snack bar
   SnackBar snackBar({
     required Color color,
     required IconData icon,
@@ -75,7 +81,8 @@ Future uploadLogic({
   }
 
   /// Delete mechanism to undo previous transactions.
-  Future undoTransactionChanges({required int id, required bool fromFirebaseToo}) async {
+  Future undoTransactionChanges(
+      {required int id, required bool fromFirebaseToo}) async {
     // Delete data from SQL database
     final nodeUrl = Uri.parse('http://localhost:3000/node_api/remove');
     final headers = {'Content-Type': 'application/json'};
@@ -89,7 +96,7 @@ Future uploadLogic({
       final storageRef = FirebaseStorage.instance.ref();
       final desertRef = storageRef.child("algo_images/$id.jpg");
 
-    await desertRef.delete();
+      await desertRef.delete();
     }
   }
 
@@ -121,7 +128,7 @@ Future uploadLogic({
   // Get id of uploaded algorithm
   final int algoId = jsonDecode(nodeResponse.body)["insertId"];
 
-  // Get image
+  // Get thumbnail image
   try {
     final thumbnailUrl =
         Uri.parse('http://192.168.8.103:3002/thumbnail_api/get_thumbnail');
@@ -203,8 +210,8 @@ Future uploadLogic({
       final body = json.encode({"algo_id": algoId, "tag_id": tag["tag_id"]});
       final response = await http.post(tagUrl, headers: headers, body: body);
       if (response.statusCode != 200) {
-      throw Exception('There was an error processing the image.');
-    }
+        throw Exception('There was an error processing the image.');
+      }
     }
   } catch (e) {
     scaffoldMessengerContext.clearSnackBars();

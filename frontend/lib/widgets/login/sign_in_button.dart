@@ -8,6 +8,7 @@ final _firebase = FirebaseAuth.instance;
 const double borderRadius = 10.0;
 const List<double> buttonDimensions = [70.0, 150.0];
 
+/// Triggers the Google Authentication procedure.
 class SignInButton extends ConsumerStatefulWidget {
   const SignInButton({super.key});
 

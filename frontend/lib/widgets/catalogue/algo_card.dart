@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 
+import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
 
+/// The card that displays the algorithm's information in brief. Used to
+/// allow for quick navigation of multiple algorithms.
 class AlgoCard extends ConsumerStatefulWidget {
   const AlgoCard({
     super.key,
@@ -25,14 +27,21 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
   static double borderRadius = 16.0;
   static double cardHeight = 216.0;
   static double cardWidth = 360.0;
+  /// Colour of the border around the card
   static Color cardColour = Colors.blue;
+  /// Colour of the absolute value of the net vote if positive (more up votes than down votes)
   static Color positiveNet = const Color.fromARGB(255, 66, 133, 244);
+  /// Colour of the absolute value of the net vote if negative (more down votes than up votes)
   static Color negativeNet = const Color.fromARGB(255, 234, 67, 53);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        // Notifies the [selectedAlgoIndexProvider] that this card has been selected,
+        // by passing its index to the provider's notifier. This index will be used in 
+        // CatalogueScreen to show selection aura around the selected card, and in the 
+        // DetailsCard on the same screen to show the details of the selected algorithm.
         ref.read(selectedAlgoIndexProvider.notifier).selectCard(widget.index);
       },
       splashColor: cardColour,
@@ -171,6 +180,7 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                 ],
               ),
             ),
+            // Icon representation of what API is used by the algorithm (python or JS)
             Positioned(
               right: 10.0,
               top: 10.0,
@@ -191,9 +201,9 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
   }
 }
 
+/// Side buttons for the card, including bookmark, upvote, downvote
 class _SideButton extends StatefulWidget {
   const _SideButton({
-    // super.key,
     required this.icon,
     required this.size,
   });

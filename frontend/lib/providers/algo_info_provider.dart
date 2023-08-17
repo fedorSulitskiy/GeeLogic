@@ -32,14 +32,14 @@ Future<List<dynamic>> getTags(int algoId) async {
 
 /// The [fetchData] function sends a POST request to a specified endpoint with
 /// the following parameters: [offset], [orderCondition], [apiCondition],
-/// [algoId] and required [endpoint], and returns a [Map] with two keys: 
+/// [algoId] and required [endpoint], and returns a [Map] with two keys:
 /// [results] and [count]. This function can be used for getting all algorithms
 /// satisfying set conditions or a single algorithm by ID.
-/// 
+///
 /// The [results] key maps to a [List] of [AlgoData] objects that are parsed from
 /// the [rawData] variable. For each element in [rawData], the function [getTags]
 /// is called to get the tags corresponding to that algorithm.
-/// 
+///
 /// The [count] key maps to an [int] that represents the total number of algorithms
 /// that satisfy the criteria of the backend request.
 Future<Map<String, dynamic>> fetchData({
@@ -78,9 +78,8 @@ Future<Map<String, dynamic>> fetchData({
 
   /// The [countOfTotalData] variable is an [int] that represents the total number
   /// of algorithms that satisfy the criteria of the backend request.
-  final int countOfTotalData = endpoint == 'show' 
-      ? jsonDecode(generalData.body)['totalCount'] 
-      : 1;
+  final int countOfTotalData =
+      endpoint == 'show' ? jsonDecode(generalData.body)['totalCount'] : 1;
 
   /// The [data] variable is a [List] of [AlgoData] objects that are parsed from
   /// the [rawData] variable.
@@ -142,7 +141,6 @@ Future<Map<String, dynamic>> fetchData({
 ///       * '0, 1' - javascript and python
 final allAlgorithmsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, params) async {
-
   // NOTE: params is a string that is an encoded JSON file.
   // I could not figure out how to pass a custom file as a parameter and
   // keep this code working.
@@ -162,14 +160,13 @@ final allAlgorithmsProvider =
 /// The [singleAlgorithmProvider] is a [FutureProvider.family] that provides a
 /// [Map] of [AlgoData] objects under key [results] and total length of 1
 /// under key [count], since only one result is returned.
-/// 
+///
 /// This provider is used by the search widget to get a single algorithm.
-/// 
+///
 /// Args:
 ///   algoId (String): The [algoId] parameter is a string that represents the ID of an algorithm.
 final singleAlgorithmProvider =
     Provider.family<Future<Map<String, dynamic>>, String>((ref, algoId) async {
-
   // NOTE: params is a string that is an encoded JSON file.
   // I could not figure out how to pass a custom file as a parameter and
   // keep this code working.

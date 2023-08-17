@@ -6,6 +6,7 @@ import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 
 import 'package:frontend/widgets/user/user_content.dart';
 
+/// The screen that displays the user's algorithms and user's profile.
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
 
@@ -31,7 +32,7 @@ class UserScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // Add Button
+            // Add algorithm Button
             Flexible(
               flex: 1,
               child: AddAlgorithmButton(),

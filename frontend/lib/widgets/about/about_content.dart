@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// The content of the [AboutScreen] widget.
 class AboutContent extends StatelessWidget {
   const AboutContent({super.key});
 

@@ -7,6 +7,7 @@ import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/widgets/details/details_content.dart';
 
+/// The screen that displays the details of the algorithm page.
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.data});
 
@@ -38,7 +39,7 @@ class DetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // Add Button
+            // Add algorithm Button
             const Flexible(
               flex: 1,
               child: AddAlgorithmButton(),

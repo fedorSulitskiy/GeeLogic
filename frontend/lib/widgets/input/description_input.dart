@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:languagetool_textfield/languagetool_textfield.dart';
+
 import 'package:frontend/providers/input_description_provider.dart';
 import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 import 'package:frontend/widgets/input/input_content.dart';
-import 'package:languagetool_textfield/languagetool_textfield.dart';
 
+/// Widget to display the description input field.
 class DescriptionInput extends ConsumerWidget {
   const DescriptionInput(
       {super.key, required this.controller, this.width = 900.0});

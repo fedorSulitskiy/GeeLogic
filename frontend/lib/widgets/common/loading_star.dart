@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+/// Widget used for loading animation. A pulsating star that also changes colour.
+/// Colour changing code was reused multiple times in other widgets such as
+/// the [SignInButton] or [AddAlgorithmButton].
 class LoadingStar extends StatefulWidget {
   const LoadingStar({super.key, this.size = 30.0});
 
@@ -13,24 +16,41 @@ class LoadingStar extends StatefulWidget {
 
 class _LoadingStarState extends State<LoadingStar>
     with SingleTickerProviderStateMixin {
+  /// The list of colours to be used for the gradient.
   List<Color> colorList = [
     Colors.red,
     Colors.blue,
     Colors.green,
     Colors.yellow
   ];
+
+  /// The list of alignments to be used for the gradient.
   List<Alignment> alignmentList = [
     Alignment.bottomLeft,
     Alignment.bottomRight,
     Alignment.topRight,
     Alignment.topLeft,
   ];
+
+  /// The index of the current colour and alignment.
   int index = 0;
+
+  /// The initial bottom colour of the gradient.
   Color bottomColor = Colors.red;
+
+  /// The initial top colour of the gradient.
   Color topColor = Colors.yellow;
+
+  /// The initial alignment of the gradient.
   Alignment begin = Alignment.bottomLeft;
+
+  /// The initial alignment of the gradient.
   Alignment end = Alignment.topRight;
+
+  /// Boolean that controls the star's expansion and contraction.
   bool isExpanded = true;
+
+  /// The size of the star.
   late double size;
 
   @override
@@ -38,9 +58,12 @@ class _LoadingStarState extends State<LoadingStar>
     super.initState();
 
     setState(() {
+      // set the initial size
       size = widget.size;
     });
 
+    // This code ensures the star is animated on the first build, and keeps it
+    // animating afterwards.
     Future.delayed(const Duration(milliseconds: 2), () {
       if (mounted) {
         setState(() {
@@ -56,8 +79,7 @@ class _LoadingStarState extends State<LoadingStar>
       width: widget.size,
       height: widget.size,
       // Dirty way to keep the animated container from
-      // affecting the neighbouring widgets.
-      // TODO: find better way to constraint it.
+      // affecting the neighbouring widgets by wrapping it in a column.
       child: Column(
         children: [
           ClipPath(
@@ -81,7 +103,7 @@ class _LoadingStarState extends State<LoadingStar>
 
                   // animate the size
                   isExpanded = !isExpanded;
-                  isExpanded ? size = widget.size*0.8 : size = widget.size;
+                  isExpanded ? size = widget.size * 0.8 : size = widget.size;
                 });
               },
               decoration: BoxDecoration(
@@ -99,6 +121,7 @@ class _LoadingStarState extends State<LoadingStar>
   }
 }
 
+/// Custom clipper used to create the star shape.
 class _StarClipper extends CustomClipper<Path> {
   /// The number of points of the star
   final int points = 4;

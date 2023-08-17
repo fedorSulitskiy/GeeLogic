@@ -4,6 +4,7 @@ import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/screens/details_screen.dart';
 
 // Custom page route without distracting phone-like animation
+// TODO: apply this to all page routes
 class CustomPageRoute extends MaterialPageRoute {
   CustomPageRoute({builder}) : super(builder: builder);
 
@@ -11,6 +12,9 @@ class CustomPageRoute extends MaterialPageRoute {
   Duration get transitionDuration => const Duration(milliseconds: 0);
 }
 
+/// The title element of the [DetailsCard] which contains the title of the algorithm
+/// and two buttons: one to bookmark the algorithm and one to view the algorithm in
+/// fullscreen, on [DetailsScreen].
 class TitleElement extends StatelessWidget {
   const TitleElement({super.key, required this.title, required this.data});
 

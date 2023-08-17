@@ -6,6 +6,7 @@ import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 
 import 'package:frontend/widgets/about/about_content.dart';
 
+/// The screen that displays the about page.
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
@@ -31,7 +32,7 @@ class AboutScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // Add Button
+            // Add algorithm Button
             Flexible(
               flex: 1,
               child: AddAlgorithmButton(),

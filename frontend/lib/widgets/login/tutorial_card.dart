@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:frontend/widgets/common/loading_star.dart';
 
+/// List of tutorial cards to display.
 List<TutorialCard> tutorialCards = [
   TutorialCard(content: _WelcomeContent()),
   TutorialCard(content: Placeholder()),
@@ -8,6 +10,7 @@ List<TutorialCard> tutorialCards = [
   TutorialCard(content: Placeholder()),
 ];
 
+/// Card to display the content of the tutorial.
 class TutorialCard extends StatelessWidget {
   const TutorialCard({super.key, required this.content});
 
@@ -35,6 +38,7 @@ class TutorialCard extends StatelessWidget {
   }
 }
 
+/// First tutorial card to display.
 class _WelcomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -86,6 +90,7 @@ class _WelcomeContent extends StatelessWidget {
   }
 }
 
+/// Local bullet point widget, used in the [_WelcomeContent].
 class _BulletPoint extends StatelessWidget {
   const _BulletPoint({required this.text});
 

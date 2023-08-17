@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/common/tag_bubble_plain.dart';
 
+/// A simple widget to display a list of tags.
 class TagsDisplay extends StatelessWidget {
   const TagsDisplay({super.key, required this.tags});
 

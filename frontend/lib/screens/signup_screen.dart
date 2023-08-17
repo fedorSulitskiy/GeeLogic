@@ -12,17 +12,24 @@ import 'package:frontend/widgets/_archive/login_details.dart';
 
 final _firebase = FirebaseAuth.instance;
 
+/// Constant responsible for the width of the default input field, for inputting
+/// the name and surname. The width of the bio input field is calculated by
+/// doubling it and adding the space between the two input fields for name and
+/// surname.
 const double inputWidth = 300.0;
 var _enteredName = '';
 var _enteredSurname = '';
 var _enteredBio = '';
 
+/// The input fields options of the signup form. Used by the [_InputField] widget
+/// below, to determine mode of operation.
 enum InputField {
   name,
   surname,
   bio,
 }
 
+/// The screen that displays the signup form.
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
@@ -36,7 +43,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   var _isUploading = false;
   Uint8List? _pickedImageFileInBytes;
 
-  // Submit the signup form
+  /// Submit method for validating all fields in the sign up [Form] and uploading
+  /// it to the Firebase Firestore.
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid || _pickedImageFileInBytes == null) {
@@ -50,18 +58,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     }
 
     _formKey.currentState!.save();
-    // Upload the data about user
+    // Upload the data about user logic begins
     setState(() {
       _isUploading = true;
     });
     final currentUserUID = currentUser!.uid;
-    // get image
+    // get image storage reference
     final imageStorageRef = FirebaseStorage.instance
         .ref()
         .child('user_images')
         .child('$currentUserUID.jpg');
     // upload image to firebase
     await imageStorageRef.putData(_pickedImageFileInBytes!);
+    // get image download url to be stored in the Firebase Firestore
     final imageURL = await imageStorageRef.getDownloadURL();
     // upload the data to firestore
     await FirebaseFirestore.instance
@@ -74,12 +83,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "bio": _enteredBio,
       "imageURL": imageURL
     });
+    // Finish the upload logic
     setState(() {
       _isUploading = false;
     });
   }
 
-  // Pick image method
+  /// Pick image method
   void _pickImage() async {
     FilePickerResult? fileResult = await FilePicker.platform.pickFiles();
 
@@ -94,7 +104,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Check if user still loggen in in development
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -113,6 +122,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // profile picture
                     InkWell(
                       borderRadius: BorderRadius.circular(100),
                       onTap: _pickImage,
@@ -132,6 +142,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       ),
                     ),
                     const SizedBox(height: 25.0),
+                    // form with all input fields
                     Form(
                       key: _formKey,
                       child: Column(
@@ -161,11 +172,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             inputField: InputField.bio,
                             icon: Icon(Icons.info_outlined),
                           ),
+                          // submit button
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: googleBlue),
                             onPressed: () {
                               _submit();
+                              // on submit, navigate to the catalogue screen
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => const CatalogueScreen(),
@@ -202,6 +215,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 }
 
+/// Local input field widget, representing a customisable [TextFormField].
+/// Was designed this way to allow for less code repetition, since all input
+/// fields are very similar.
 class _InputField extends StatelessWidget {
   const _InputField(
       {required this.title, required this.inputField, required this.icon});

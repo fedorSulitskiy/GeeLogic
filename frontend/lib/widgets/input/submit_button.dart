@@ -30,6 +30,8 @@ class SubmitButton extends ConsumerStatefulWidget {
 }
 
 class _SignInButtonState extends ConsumerState<SubmitButton> {
+  /// List of colors to be used for the background of the button when
+  /// submission is not available.
   List<Color> colorList = [
     Colors.grey.shade900,
     Colors.blueGrey.shade900,
@@ -50,6 +52,8 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
 
   bool _isUploading = false;
 
+  /// Custom [SnackBar] to display communication with the user, regarding validity 
+  /// of their inputs.
   SnackBar snackBar({
     required Color color,
     required IconData icon,
@@ -115,6 +119,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
     final isPython = ref.watch(apiLanguageProvider);
 
     if (isValid.isValid == true) {
+      /// Change colour of the button if submission is available.
       setState(() {
         colorList = [
           Colors.red,

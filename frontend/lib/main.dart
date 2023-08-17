@@ -14,6 +14,8 @@ import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
 import 'package:frontend/screens/catalogue_screen.dart';
 
+/// Theme of the application.
+/// TODO: Compile all colours used and then use them from here as Theme.of(context)
 final theme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
@@ -24,7 +26,6 @@ final theme = ThemeData(
   textTheme: GoogleFonts.josefinSansTextTheme(),
 );
 
-// main.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -38,7 +39,6 @@ void main() async {
   );
 }
 
-// TODO: doc strings and comments
 // TODO: more sophisticated error handling and communication
 
 class MyApp extends StatelessWidget {
@@ -54,11 +54,10 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: ((context, snapshot) {
-          // Return loading animtion when waiting
+          // Return loading animation when waiting
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const StarLoadingScreen();
           }
-
           // Determine if user is signed up
           if (snapshot.hasData) {
             return StreamBuilder<QuerySnapshot>(
@@ -68,14 +67,13 @@ class MyApp extends StatelessWidget {
                   .where('email', isEqualTo: snapshot.data!.email)
                   .snapshots(),
               builder: (context, snapshot) {
+                // Return loading animation when waiting
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const StarLoadingScreen();
                 }
-
                 if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                   // User's email exists in the users collection
                   return const CatalogueScreen();
-                  // return const UserScreen();
                 } else {
                   // User does not exist in the collection
                   return const SignUpScreen();
@@ -83,7 +81,6 @@ class MyApp extends StatelessWidget {
               },
             );
           }
-
           // Return login when first signing in
           return const LoginScreen();
         }),

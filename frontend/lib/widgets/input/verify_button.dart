@@ -2,11 +2,11 @@ import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/input_map_html_code_provider.dart';
-import 'package:frontend/widgets/input/input_content.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/providers/input_code_providers.dart';
+import 'package:frontend/providers/input_map_html_code_provider.dart';
+import 'package:frontend/widgets/input/input_content.dart';
 
 const double borderRadius = 15.0;
 const List<double> buttonDimensions = [32.0, 80.0];
@@ -44,6 +44,8 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
   /// Determines if the function is waiting for response from the backend.
   var _isLoading = false;
 
+  /// Custom [SnackBar] to display communication with the user, regarding validity
+  /// of their inputs.
   SnackBar snackBar({
     required Color color,
     required IconData icon,

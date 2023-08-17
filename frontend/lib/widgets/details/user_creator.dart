@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
 
+/// A simple widget to display the user who created the algorithm and the date
+/// it was created.
 class UserCreatorDisplay extends StatelessWidget {
   const UserCreatorDisplay({
     super.key,
@@ -68,6 +70,7 @@ class UserCreatorDisplay extends StatelessWidget {
   }
 }
 
+/// Custom divider widget.
 class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

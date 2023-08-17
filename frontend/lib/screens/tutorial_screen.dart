@@ -6,6 +6,7 @@ import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 
 import 'package:frontend/widgets/tutorial/tutorial_content.dart';
 
+/// The screen that displays the tutorial.
 class TutorialScreen extends StatelessWidget {
   const TutorialScreen({super.key});
 

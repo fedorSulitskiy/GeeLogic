@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A simple widget to display a description text.
 class DescriptionText extends StatelessWidget {
   const DescriptionText({super.key, required this.text});
 

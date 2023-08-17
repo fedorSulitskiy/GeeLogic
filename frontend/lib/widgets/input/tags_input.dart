@@ -2,24 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/input_tags_provider.dart';
-import 'package:frontend/widgets/common/tag_bubble.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/providers/input_tags_provider.dart';
+import 'package:frontend/widgets/common/tag_bubble.dart';
 
-// final List<TagBubble> tagsList = [
-//   const TagBubble(title: 'wrestle'),
-//   const TagBubble(title: 'monk'),
-//   const TagBubble(title: 'survivor'),
-//   const TagBubble(title: 'neck'),
-//   const TagBubble(title: 'shadow'),
-//   const TagBubble(title: 'glide'),
-//   const TagBubble(title: 'state'),
-//   const TagBubble(title: 'efflux'),
-//   const TagBubble(title: 'tax'),
-// ];
-
+/// Widget to display the tags input field.
 class TagsInput extends ConsumerStatefulWidget {
   const TagsInput({super.key, this.width = 900.0});
 
@@ -33,6 +22,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
   List<dynamic> apiResponse = [];
   bool _hover = false;
 
+  /// Function used to fetch the tags that satisfy the immediate input.
   Future<List<dynamic>> fetchDataFromApi({required String query}) async {
     try {
       final url = Uri.parse('http://localhost:3000/node_api/search_tags');
@@ -97,6 +87,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
               cursorColor: googleBlue,
               maxLines: 1,
               onChanged: (value) async {
+                /// Fetch the tags that satisfy the immediate input.
                 List<dynamic> response = await fetchDataFromApi(query: value);
                 List<dynamic> itemsNotInSelectedTags = response.where((item) {
                   final itemId = item['tag_id'];

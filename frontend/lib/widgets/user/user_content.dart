@@ -10,6 +10,7 @@ import 'package:frontend/widgets/common/loading_star.dart';
 
 const borderColor = Color.fromARGB(255, 203, 205, 214);
 
+/// Organises the content of the [UserScreen].
 class UserContent extends StatefulWidget {
   const UserContent({super.key});
 

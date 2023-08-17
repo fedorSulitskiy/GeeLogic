@@ -6,6 +6,8 @@ import 'package:frontend/widgets/common/app_bar/side_menu.dart';
 
 import 'package:frontend/widgets/input/input_content.dart';
 
+/// The screen that displays the input page. This is where users can submit their algorithms,
+/// it is accessible through the [AddAlgorithmButton] widget.
 class InputScreen extends StatelessWidget {
   const InputScreen({super.key});
 

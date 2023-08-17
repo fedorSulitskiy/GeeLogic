@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Displays the arrow buttons used to navigate the carousel.
 class CarouselButton extends StatelessWidget {
   const CarouselButton({super.key, required this.direction, required this.nextSlide});
 

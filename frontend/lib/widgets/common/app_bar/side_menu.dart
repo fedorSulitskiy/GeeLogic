@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
-import 'package:frontend/providers/catalogue_api_provider.dart';
-import 'package:frontend/providers/catalogue_page_selection_provider.dart';
-import 'package:frontend/screens/about_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/screens/tutorial_screen.dart';
 import 'package:frontend/screens/user_screen.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
+import 'package:frontend/providers/catalogue_api_provider.dart';
+import 'package:frontend/providers/catalogue_page_selection_provider.dart';
+import 'package:frontend/screens/about_screen.dart';
 
 const iconGrey = Color.fromARGB(255, 110, 110, 110);
 const backgroundColor = Color.fromARGB(255, 254, 251, 255);
@@ -22,7 +22,8 @@ class SideMenu extends ConsumerStatefulWidget {
   ConsumerState<SideMenu> createState() => _SideMenuState();
 }
 
-class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMixin {
+class _SideMenuState extends ConsumerState<SideMenu>
+    with TickerProviderStateMixin {
   /// Indicates if the menu is "opened" (is the text visible or are just icons shown)
   bool _isOpened = true;
 
@@ -33,7 +34,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
   final Uri geemapURL = Uri.parse('https://geemap.org/');
   final Uri googleEarthEngineURL = Uri.parse('https://earthengine.google.com/');
 
-  _launchURL(url) async {
+  /// Method required redirect the user to another url
+  void _launchURL(url) async {
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
@@ -51,6 +53,7 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // MENU
           _MenuOption(
             title: '',
             icon: Icons.menu,
@@ -75,6 +78,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             renderTitle: _renderTitle,
             isMenu: true,
           ),
+
+          // PROFILE
           _MenuOption(
             title: 'profile',
             icon: Icons.person_outline_rounded,
@@ -87,6 +92,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // ALL ALGORITHMS CATALOGUE
           _MenuOption(
             title: 'all algorithms',
             icon: Icons.language,
@@ -101,6 +108,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // PYTHON API CATALOGUE
           _MenuOption(
             title: 'python api',
             icon: CustomIcons.python,
@@ -115,6 +124,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // JAVASCRIPT API CATALOGUE
           _MenuOption(
             title: 'javaScript api',
             icon: CustomIcons.jsSquare,
@@ -129,6 +140,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // GOOGLE EARTH ENGINE REDIRECT
           _MenuOption(
             title: 'earth engine',
             icon: CustomIcons.google,
@@ -139,6 +152,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // GEEMAP REDIRECT
           _MenuOption(
             title: 'geemap',
             icon: CustomIcons.geemap,
@@ -149,6 +164,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // TUTORIALS PAGE
           _MenuOption(
             title: 'tutorials',
             icon: Icons.lightbulb_outline_rounded,
@@ -161,6 +178,8 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // ABOUT PAGE
           _MenuOption(
             title: 'about',
             icon: Icons.info_outline_rounded,
@@ -173,6 +192,9 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
             isOpened: _isOpened,
             renderTitle: _renderTitle,
           ),
+
+          // Since Screen widgets rely on flexibles, we need to add an expanded
+          // widget to fill the remaining space when the menu has contracted.
           Expanded(child: Container())
         ],
       ),
@@ -180,6 +202,7 @@ class _SideMenuState extends ConsumerState<SideMenu> with TickerProviderStateMix
   }
 }
 
+/// A widget that represents a single option in the menu.
 class _MenuOption extends StatefulWidget {
   const _MenuOption({
     required this.title,
@@ -189,7 +212,6 @@ class _MenuOption extends StatefulWidget {
     required this.iconSize,
     required this.renderTitle,
     this.isMenu = false,
-    this.iconContainerSize,
   });
 
   final String title;
@@ -199,7 +221,6 @@ class _MenuOption extends StatefulWidget {
   final double iconSize;
   final bool renderTitle;
   final bool isMenu;
-  final double? iconContainerSize;
 
   @override
   State<_MenuOption> createState() => __MenuOptionState();
