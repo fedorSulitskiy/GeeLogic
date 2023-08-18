@@ -167,12 +167,14 @@ final allAlgorithmsProvider =
   final apiCondition = decodedParams['apiCondition'];
   final orderCondition = decodedParams['orderCondition'];
 
-  return await fetchData(
+  final algosFromBackend = await fetchData(
     offset: offset,
     orderCondition: orderCondition,
     apiCondition: apiCondition,
     endpoint: 'show',
   );
+
+  return algosFromBackend;
 });
 
 /// The [singleAlgorithmProvider] is a [FutureProvider.family] that provides a

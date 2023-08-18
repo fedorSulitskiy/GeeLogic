@@ -61,7 +61,11 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
 
     return algosFromBackend.when(
       data: (algosFromBackend) {
-        dataManager.updateDataList(algosFromBackend['results']);
+        
+        Future.delayed(Duration.zero, () async {
+          dataManager.updateDataList(algosFromBackend['results']);
+        });
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
