@@ -7,9 +7,9 @@ import 'package:frontend/widgets/common/tag_bubble_plain.dart';
 import 'package:frontend/widgets/user/user_content.dart';
 
 /// Displays the widget seen inside the [UserScreen], holding information
-/// about one of the algorithms contributed by the user.
-class ContributedAlgorithm extends ConsumerWidget {
-  const ContributedAlgorithm({
+/// about one of the algorithms either contributed or bookmarked by the user.
+class UsersAlgorithm extends ConsumerWidget {
+  const UsersAlgorithm({
     super.key,
     required this.title,
     required this.imageURL,

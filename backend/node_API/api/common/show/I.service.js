@@ -161,4 +161,30 @@ module.exports = {
       }
     );
   },
+  /**
+   * Retrieve a list of algorithms bookmarked by a specific user.
+   *
+   * @param {Object} data - The data object containing user ID.
+   * @param {number} data.user_id - The ID of the user for whom to retrieve bookmarked algorithms.
+   * @param {function} callBack - The callback function to handle the result.
+   * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
+   * @param {Array} callBack.results - An array containing the algorithms bookmarked by the user.
+   * @returns {void}
+   */
+  find_bookmarked_algos: (data, callBack) => {
+    pool.query(
+      `SELECT a.*
+          FROM algos a
+          JOIN bookmarked b ON a.algo_id = b.algo_id
+      WHERE b.user_id = ?
+      `,
+      [data.user_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };
