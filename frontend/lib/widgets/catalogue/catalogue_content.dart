@@ -27,15 +27,18 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
     /// The offset to be sent to the backend to retrieve the next 5 algorithms,
     /// for pagination.
     final offset = ref.watch(selectedPageProvider);
+
     /// The API selected by the user to filter the algorithms by. If the user
     /// chose 'all algorithms' page, then this will be '0,1' if 'python api' page
     /// is selected then it will be '1' and if 'javascript api' page is selected then
     /// it will be '0'.
     final selectedApi = ref.watch(catalogueSelectedApiProvider);
+
     /// The index of the algorithm card that is currently selected. This is used
     /// to show the selection aura around the selected card, and to show the details
     /// of the selected algorithm in the [DetailsCard] widget.
     final selectedIndex = ref.watch(selectedAlgoIndexProvider);
+
     /// The parameters to be sent to the backend to retrieve the algorithms according
     /// to custom ordering and filtering.
     /// TODO: Currently it's hardcoded but it leaves potential for more comprehensive filtering
@@ -44,16 +47,21 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
       "orderCondition": 'date_created',
       "apiCondition": selectedApi
     });
+
     /// The algorithms retrieved from the backend according to the parameters
     final algosFromBackend = ref.watch(
       allAlgorithmsProvider(params),
     );
+
+    final dataManager = ref.watch(dataManagerProvider);
+
     /// Whether the user has selected an algorithm or not. This is used to show
     /// the selection aura around the selected card.
     bool isSelected = false;
 
     return algosFromBackend.when(
       data: (algosFromBackend) {
+        dataManager.updateDataList(algosFromBackend['results']);
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

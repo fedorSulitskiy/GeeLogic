@@ -1,15 +1,14 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/models/algo_data.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 
-/// Returns parsed Uri of node API with end point specified
-/// TODO: implement for all apis once deployed
-Uri nodeUri(String endpoint) {
-  return Uri.parse('http://localhost:3000/node_api/$endpoint');
-}
+final _firebase = FirebaseAuth.instance;
 
 /// The function [getTags] sends a POST request to a specified endpoint with an algorithm ID and
 /// returns a list of tags corresponding to that algorithm.
@@ -28,6 +27,22 @@ Future<List<dynamic>> getTags(int algoId) async {
     body: body,
   );
   return jsonDecode(tagsData.body);
+}
+
+/// The function [isBookmarked] sends a POST request to a specified endpoint with an algorithm ID and
+/// returns a boolean value that represents whether the algorithm is bookmarked by the user.
+Future<bool> isBookmarked(int algoId) async {
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({
+    "algo_id": algoId,
+    "user_id": _firebase.currentUser!.uid,
+  });
+  final isAlgorithmBookmarked = await http.post(
+    nodeUri('find_bookmark'),
+    headers: headers,
+    body: body,
+  );
+  return jsonDecode(isAlgorithmBookmarked.body);
 }
 
 /// The [fetchData] function sends a POST request to a specified endpoint with
@@ -88,7 +103,10 @@ Future<Map<String, dynamic>> fetchData({
   /// tags corresponding to that algorithm.
   final data = await Future.wait(
     rawData.map((e) async {
+      // Get the tags corresponding to the algorithm
       final tags = await getTags(e['algo_id']);
+      // Check if the algorithm is bookmarked by the current user
+      final isAlgoBookmarked = await isBookmarked(e['algo_id']);
 
       return AlgoData(
         id: e['algo_id'],
@@ -98,7 +116,7 @@ Future<Map<String, dynamic>> fetchData({
         datePosted: e['date_created'],
         image: e['photo'],
         description: e['description'],
-        isBookmarked: false,
+        isBookmarked: isAlgoBookmarked,
         api: e['api'],
         code: e['code'],
         userCreator: e['user_creator'],
@@ -175,3 +193,42 @@ final singleAlgorithmProvider =
     endpoint: 'show_by_id',
   );
 });
+
+/// [DataManager] is a [ChangeNotifier] class that allows one to manipulate data
+/// loaded by the [allAlgorithmsProvider] as if it was a [StateNotifier]. This is used
+/// in the project to update the isBookmarked field of an algorithm, allowing for 
+/// synchronous update of the bookmark icon in the [AlgoCard] widget and [TitleElement].
+class DataManager extends ChangeNotifier {
+  List<AlgoData> _dataList = [];
+
+  List<AlgoData> get dataList => _dataList;
+
+  /// The function updates the data list with new data and notifies listeners.
+  /// 
+  /// Args:
+  ///   newDataList (List<AlgoData>): The parameter [newDataList] is a List of objects of type
+  /// [AlgoData].
+  void updateDataList(List<AlgoData> newDataList) {
+    _dataList = newDataList;
+    notifyListeners();
+  }
+
+  /// The function updates a single data item in a list based on its ID.
+  /// 
+  /// Args:
+  ///   id (int): The id parameter is an integer that represents the unique identifier of the data that
+  /// needs to be updated.
+  ///   newData (AlgoData): The [newData] parameter is an object of type [AlgoData] that contains the
+  /// updated data that needs to be assigned to the element with the specified [id] in the [_dataList].
+  void updateSingleData(int id, AlgoData newData) {
+    final index = _dataList.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      _dataList[index] = newData;
+      notifyListeners();
+    }
+  }
+}
+
+/// Provides a [DataManager] object that can be used to manipulate data loaded by the
+/// [allAlgorithmsProvider] as if it was managed by a [StateNotifier].
+final dataManagerProvider = ChangeNotifierProvider((ref) => DataManager());

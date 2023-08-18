@@ -4,6 +4,7 @@ const {
   up_vote,
   down_vote,
   remove,
+  remove_bookmark,
 } = require("./I.service");
 
 const logger = require("../../../logger/logger");
@@ -61,6 +62,17 @@ module.exports = {
         return res.status(500).send("Database connection error");
       }
       logger.info('"PATCH node_api/remove" - 200');
+      return res.status(200).send(results);
+    });
+  },
+  remove_bookmark: (req, res) => {
+    const body = req.body;
+    remove_bookmark(body, (err, results) => {
+      if (err) {
+        logger.error(`"${err}" - 500`);
+        return res.status(500).send("Database connection error");
+      }
+      logger.info('"DELETE node_api/remove_bookmark" - 200');
       return res.status(200).send(results);
     });
   },

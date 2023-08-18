@@ -137,4 +137,28 @@ module.exports = {
       }
     );
   },
+  /**
+   * Remove a bookmark for a specific user and algorithm.
+   *
+   * @param {Object} data - The data object containing user and algorithm IDs.
+   * @param {number} data.algo_id - The ID of the algorithm to remove the bookmark from.
+   * @param {number} data.user_id - The ID of the user who bookmarked the algorithm.
+   * @param {function} callBack - The callback function to handle the result.
+   * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
+   * @param {any} callBack.results - The results of the database deletion operation.
+   * @returns {void}
+   */
+  remove_bookmark: (data, callBack) => {
+    pool.query(
+      `DELETE FROM bookmarked
+      WHERE algo_id = ? AND user_id = ?`,
+      [data.algo_id, data.user_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
 };

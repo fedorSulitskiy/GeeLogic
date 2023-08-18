@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/algo_selection_provider.dart';
 
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
@@ -71,6 +72,9 @@ class _NumberButton extends ConsumerWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
+            // Set the index of selected algorithm to 0 to show the first algorithm by default.
+            ref.read(selectedAlgoIndexProvider.notifier).selectCard(0);
+            // Set the selected page to the page selected by the user.
             ref.read(selectedPageProvider.notifier).setPage(int.parse(number) - 1);
           },
           child: SizedBox(

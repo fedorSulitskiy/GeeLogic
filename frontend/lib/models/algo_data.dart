@@ -4,7 +4,7 @@ final formatter = DateFormat("dd MMM yyyy");
 
 /// A class that represents the data of an algorithm. 
 class AlgoData {
-  const AlgoData({
+  AlgoData({
     required this.id,
     required this.title,
     required this.upVotes,
@@ -26,7 +26,7 @@ class AlgoData {
   final String datePosted;
   final String image;
   final String description;
-  final bool isBookmarked;
+  bool isBookmarked;
   final int api;
   final String code;
   final String userCreator;
@@ -44,4 +44,6 @@ class AlgoData {
     DateTime dateTime = DateTime.parse(datePosted);
     return formatter.format(dateTime);
   }
+
+  
 }

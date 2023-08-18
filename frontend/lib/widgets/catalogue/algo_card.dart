@@ -1,9 +1,17 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/models/algo_data.dart';
+import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
+
+final _firebase = FirebaseAuth.instance;
 
 /// The card that displays the algorithm's information in brief. Used to
 /// allow for quick navigation of multiple algorithms.
@@ -27,20 +35,27 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
   static double borderRadius = 16.0;
   static double cardHeight = 216.0;
   static double cardWidth = 360.0;
+
   /// Colour of the border around the card
   static Color cardColour = Colors.blue;
+
   /// Colour of the absolute value of the net vote if positive (more up votes than down votes)
   static Color positiveNet = const Color.fromARGB(255, 66, 133, 244);
+
   /// Colour of the absolute value of the net vote if negative (more down votes than up votes)
   static Color negativeNet = const Color.fromARGB(255, 234, 67, 53);
 
   @override
   Widget build(BuildContext context) {
+    // Use [dataManager] [ChangeNotifierProvider] to instantly update the status of
+    // the isBookmarked attribute of any algorithm, without having to wait for the
+    // [FutureBuilder] to rebuild the widget.
+    final dataManager = ref.watch(dataManagerProvider);
     return InkWell(
       onTap: () {
         // Notifies the [selectedAlgoIndexProvider] that this card has been selected,
-        // by passing its index to the provider's notifier. This index will be used in 
-        // CatalogueScreen to show selection aura around the selected card, and in the 
+        // by passing its index to the provider's notifier. This index will be used in
+        // CatalogueScreen to show selection aura around the selected card, and in the
         // DetailsCard on the same screen to show the details of the selected algorithm.
         ref.read(selectedAlgoIndexProvider.notifier).selectCard(widget.index);
       },
@@ -158,10 +173,71 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const _SideButton(
-                            icon: Icons.bookmark_border, size: 24.0),
-                        const _SideButton(
-                            icon: Icons.arrow_drop_up, size: 35.0),
+                        _SideButton(
+                          icon: widget.data.isBookmarked
+                              ? Icons.bookmark
+                              : Icons.bookmark_border,
+                          size: 24.0,
+                          onPressed: () async {
+                            // Update data in the database
+                            if (widget.data.isBookmarked) {
+                              // Delete bookmark if it exists
+                              final headers = {
+                                'Content-Type': 'application/json'
+                              };
+                              final body = json.encode({
+                                "algo_id": widget.data.id,
+                                "user_id": _firebase.currentUser!.uid,
+                              });
+                              await http.delete(
+                                nodeUri('remove_bookmark'),
+                                headers: headers,
+                                body: body,
+                              );
+                            } else {
+                              // Add bookmark if it doesn't exist
+                              final headers = {
+                                'Content-Type': 'application/json'
+                              };
+                              final body = json.encode({
+                                "algo_id": widget.data.id,
+                                "user_id": _firebase.currentUser!.uid,
+                              });
+                              await http.post(
+                                nodeUri('bookmark_algo'),
+                                headers: headers,
+                                body: body,
+                              );
+                            }
+
+                            // Update data locally
+                            final updatedAlgo = AlgoData(
+                              id: widget.data.id,
+                              title: widget.data.title,
+                              upVotes: widget.data.upVotes,
+                              downVotes: widget.data.downVotes,
+                              datePosted: widget.data.datePosted,
+                              image: widget.data.image,
+                              description: widget.data.description,
+                              isBookmarked: !widget.data.isBookmarked,
+                              api: widget.data.api,
+                              code: widget.data.code,
+                              userCreator: widget.data.userCreator,
+                              tags: widget.data.tags,
+                            );
+                            // Notifies the [dataManagerProvider] that this algorithm has been bookmarked,
+                            // by passing its index to the provider's notifier. This index will be used in
+                            // CatalogueScreen to show bookmarked icon on the card, and in the
+                            // DetailsCard on the same screen to show the details of the bookmarked algorithm.
+                            dataManager.updateSingleData(
+                                widget.data.id, updatedAlgo);
+                          },
+                        ),
+                        _SideButton(
+                          icon: Icons.arrow_drop_up,
+                          size: 35.0,
+                          onPressed: () {},
+                        ),
                         Text(
                           widget.data.netVotes.abs().toString(),
                           style: Theme.of(context)
@@ -172,8 +248,11 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                                       ? negativeNet
                                       : positiveNet),
                         ),
-                        const _SideButton(
-                            icon: Icons.arrow_drop_down, size: 35.0),
+                        _SideButton(
+                          icon: Icons.arrow_drop_down,
+                          size: 35.0,
+                          onPressed: () {},
+                        ),
                       ],
                     ),
                   ),
@@ -206,10 +285,12 @@ class _SideButton extends StatefulWidget {
   const _SideButton({
     required this.icon,
     required this.size,
+    required this.onPressed,
   });
 
   final double size;
   final IconData icon;
+  final void Function() onPressed;
 
   @override
   State<_SideButton> createState() => _SideButtonState();
@@ -224,7 +305,7 @@ class _SideButtonState extends State<_SideButton> {
       child: IconButton(
         padding: const EdgeInsets.all(0.0),
         icon: Icon(widget.icon, size: widget.size),
-        onPressed: () {},
+        onPressed: widget.onPressed,
       ),
     );
   }

@@ -1,4 +1,10 @@
-const { show, show_by_id, show_by_user, show_tags } = require("./I.service");
+const {
+  show,
+  show_by_id,
+  show_by_user,
+  show_tags,
+  find_bookmark,
+} = require("./I.service");
 const logger = require("../../../logger/logger");
 
 module.exports = {
@@ -43,6 +49,17 @@ module.exports = {
         return res.status(500).send("Database connection error");
       }
       logger.info('"POST node_api/show_tags" - 200');
+      return res.status(200).send(results);
+    });
+  },
+  find_bookmark: (req, res) => {
+    const body = req.body;
+    find_bookmark(body, (err, results) => {
+      if (err) {
+        logger.error(`"${err}" - 500`);
+        return res.status(500).send("Database connection error");
+      }
+      logger.info('"POST node_api/find_bookmark" - 200');
       return res.status(200).send(results);
     });
   },
