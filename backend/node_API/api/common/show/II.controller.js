@@ -5,6 +5,7 @@ const {
   show_tags,
   find_bookmark,
   find_bookmarked_algos,
+  find_vote,
 } = require("./I.service");
 const logger = require("../../../logger/logger");
 
@@ -72,6 +73,17 @@ module.exports = {
         return res.status(500).send("Database connection error");
       }
       logger.info('"POST node_api/find_bookmarked_algos" - 200');
+      return res.status(200).send(results);
+    });
+  },
+  find_vote: (req, res) => {
+    const body = req.body;
+    find_vote(body, (err, results) => {
+      if (err) {
+        logger.error(`"${err}" - 500`);
+        return res.status(500).send("Database connection error");
+      }
+      logger.info('"POST node_api/find_votes" - 200');
       return res.status(200).send(results);
     });
   },

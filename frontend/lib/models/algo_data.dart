@@ -17,12 +17,13 @@ class AlgoData {
     required this.code,
     required this.userCreator,
     required this.tags,
+    required this.userVote,
   });
 
   final int id;
   final String title;
-  final int upVotes;
-  final int downVotes;
+  int upVotes;
+  int downVotes;
   final String datePosted;
   final String image;
   final String description;
@@ -31,6 +32,7 @@ class AlgoData {
   final String code;
   final String userCreator;
   final List<dynamic> tags;
+  int? userVote;
 
   /// Getter returning the net votes of the algorithm, subtracting negative from
   /// the negative votes.

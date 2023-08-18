@@ -100,6 +100,7 @@ class TitleElement extends ConsumerWidget {
                     code: data.code,
                     userCreator: data.userCreator,
                     tags: data.tags,
+                    userVote: data.userVote,
                   );
                   // Notifies the [dataManagerProvider] that this algorithm has been bookmarked,
                   // by passing its index to the provider's notifier. This index will be used in

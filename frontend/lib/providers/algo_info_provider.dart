@@ -45,6 +45,23 @@ Future<bool> isBookmarked(int algoId) async {
   return jsonDecode(isAlgorithmBookmarked.body);
 }
 
+Future<int?> getUserVote(int algoId) async {
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({
+    "algo_id": algoId,
+    "user_id": _firebase.currentUser!.uid,
+  });
+  final userVote = await http.post(
+    nodeUri('find_vote'),
+    headers: headers,
+    body: body,
+  );
+  if (userVote.body.isEmpty) {
+    return null;
+  }
+  return jsonDecode(userVote.body)['vote'];
+}
+
 /// The [fetchData] function sends a POST request to a specified endpoint with
 /// the following parameters: [offset], [orderCondition], [apiCondition],
 /// [algoId] and required [endpoint], and returns a [Map] with two keys:
@@ -107,6 +124,8 @@ Future<Map<String, dynamic>> fetchData({
       final tags = await getTags(e['algo_id']);
       // Check if the algorithm is bookmarked by the current user
       final isAlgoBookmarked = await isBookmarked(e['algo_id']);
+      // Check if the user has voted on the algorithm and if so, what was the vote
+      final userVote = await getUserVote(e['algo_id']);
 
       return AlgoData(
         id: e['algo_id'],
@@ -121,6 +140,7 @@ Future<Map<String, dynamic>> fetchData({
         code: e['code'],
         userCreator: e['user_creator'],
         tags: tags,
+        userVote: userVote,
       );
     }).toList(),
   );

@@ -138,7 +138,7 @@ module.exports = {
    * Check if a bookmark exists for a specific user and algorithm.
    *
    * @param {Object} data - The data object containing user and algorithm IDs.
-   * @param {number} data.user_id - The ID of the user.
+   * @param {string} data.user_id - The ID of the user.
    * @param {number} data.algo_id - The ID of the algorithm to check for a bookmark.
    * @param {function} callBack - The callback function to handle the result.
    * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
@@ -165,7 +165,7 @@ module.exports = {
    * Retrieve a list of algorithms bookmarked by a specific user.
    *
    * @param {Object} data - The data object containing user ID.
-   * @param {number} data.user_id - The ID of the user for whom to retrieve bookmarked algorithms.
+   * @param {string} data.user_id - The ID of the user for whom to retrieve bookmarked algorithms.
    * @param {function} callBack - The callback function to handle the result.
    * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
    * @param {Array} callBack.results - An array containing the algorithms bookmarked by the user.
@@ -184,6 +184,29 @@ module.exports = {
           return callBack(error);
         }
         return callBack(null, results);
+      }
+    );
+  },
+  /**
+   * Check if any votes (up or down) exist for a specific user and algorithm.
+   *
+   * @param {Object} data - The data object containing user and algorithm IDs.
+   * @param {string} data.user_id - The ID of the user for whom to check for existing votes.
+   * @param {number} data.algo_id - The ID of the algorithm for which to check for existing votes.
+   * @param {function} callBack - The callback function to handle the result.
+   * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
+   * @param {any} callBack.results - The results of the database query operation.
+   * @returns {void}
+   */
+  find_vote: (data, callBack) => {
+    pool.query(
+      `SELECT * FROM votes WHERE user_id = ? AND algo_id = ?`,
+      [data.user_id, data.algo_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results[0]);
       }
     );
   },

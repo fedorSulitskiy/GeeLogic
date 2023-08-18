@@ -10,7 +10,7 @@ module.exports = {
    * @param {string} data.code - The updated code of the algorithm.
    * @param {string} data.description - The updated description of the algorithm.
    * @param {string} data.photo - The updated photo of the algorithm.
-   * @param {string} data.api - The updated API associated with the algorithm.
+   * @param {int} data.api - The updated API associated with the algorithm.
    * @param {function} callBack - The callback function to handle the result.
    * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
    * @param {any} callBack.results - The results of the database update operation.
@@ -67,10 +67,11 @@ module.exports = {
     );
   },
   /**
-   * Increment the up-vote count for an algorithm in the database.
+   * Increment the up-vote count for a specific algorithm by 1 or -1.
    *
-   * @param {Object} data - The data object containing the algorithm's ID.
-   * @param {number} data.algo_id - The ID of the algorithm to up-vote.
+   * @param {Object} data - The data object containing algorithm ID and vote change value.
+   * @param {number} data.algo_id - The ID of the algorithm for which to increment the up-vote count.
+   * @param {number} data.change - The value by which to increment the up-vote count, either 1 or -1.
    * @param {function} callBack - The callback function to handle the result.
    * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
    * @param {any} callBack.results - The results of the database update operation.
@@ -79,9 +80,9 @@ module.exports = {
   up_vote: (data, callBack) => {
     pool.query(
       `UPDATE algos
-          SET up_votes = up_votes + 1
+          SET up_votes = up_votes + ?
       WHERE algo_id = ?`,
-      [data.algo_id],
+      [data.change, data.algo_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -91,10 +92,11 @@ module.exports = {
     );
   },
   /**
-   * Increment the down-vote count for an algorithm in the database.
+   * Increment the down-vote count for a specific algorithm by 1 or -1.
    *
-   * @param {Object} data - The data object containing the algorithm's ID.
-   * @param {number} data.algo_id - The ID of the algorithm to down-vote.
+   * @param {Object} data - The data object containing algorithm ID and vote change value.
+   * @param {number} data.algo_id - The ID of the algorithm for which to increment the down-vote count.
+   * @param {number} data.change - The value by which to increment the down-vote count, either 1 or -1.
    * @param {function} callBack - The callback function to handle the result.
    * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
    * @param {any} callBack.results - The results of the database update operation.
@@ -103,9 +105,9 @@ module.exports = {
   down_vote: (data, callBack) => {
     pool.query(
       `UPDATE algos
-          SET down_votes = down_votes + 1
+          SET down_votes = down_votes + ?
       WHERE algo_id = ?`,
-      [data.algo_id],
+      [data.change, data.algo_id],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -142,7 +144,7 @@ module.exports = {
    *
    * @param {Object} data - The data object containing user and algorithm IDs.
    * @param {number} data.algo_id - The ID of the algorithm to remove the bookmark from.
-   * @param {number} data.user_id - The ID of the user who bookmarked the algorithm.
+   * @param {string} data.user_id - The ID of the user who bookmarked the algorithm.
    * @param {function} callBack - The callback function to handle the result.
    * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
    * @param {any} callBack.results - The results of the database deletion operation.
@@ -151,6 +153,30 @@ module.exports = {
   remove_bookmark: (data, callBack) => {
     pool.query(
       `DELETE FROM bookmarked
+      WHERE algo_id = ? AND user_id = ?`,
+      [data.algo_id, data.user_id],
+      (error, results, fields) => {
+        if (error) {
+          return callBack(error);
+        }
+        return callBack(null, results);
+      }
+    );
+  },
+  /**
+   * Remove a user's vote (up or down) for a specific algorithm.
+   *
+   * @param {Object} data - The data object containing algorithm and user IDs.
+   * @param {number} data.algo_id - The ID of the algorithm for which to remove the vote.
+   * @param {string} data.user_id - The ID of the user whose vote is to be removed.
+   * @param {function} callBack - The callback function to handle the result.
+   * @param {Error|null} callBack.error - An error object if an error occurred during the database operation.
+   * @param {any} callBack.results - The results of the database deletion operation.
+   * @returns {void}
+   */
+  remove_vote: (data, callBack) => {
+    pool.query(
+      `DELETE FROM votes 
       WHERE algo_id = ? AND user_id = ?`,
       [data.algo_id, data.user_id],
       (error, results, fields) => {
