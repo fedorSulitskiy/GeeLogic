@@ -2,6 +2,7 @@ import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/providers/input_code_providers.dart';
@@ -182,7 +183,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       Colors.yellow
                     ];
                   });
-                  final url = Uri.parse('http://127.0.0.1:3001/python_api/get_map_widget/$apiType');
+                  final url = pythonUri('get_map_widget/$apiType');
                   final headers = {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   };

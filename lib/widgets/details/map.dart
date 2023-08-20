@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
@@ -6,7 +7,11 @@ import 'package:webview_flutter_platform_interface/webview_flutter_platform_inte
 /// A widget to display a map widget from the python api.
 class MapWidget extends StatefulWidget {
   const MapWidget(
-      {super.key, required this.code, required this.api, this.height = 300.0, this.width = 700.0});
+      {super.key,
+      required this.code,
+      required this.api,
+      this.height = 300.0,
+      this.width = 700.0});
 
   final String code;
   final double height;
@@ -24,13 +29,13 @@ class _MapWidgetState extends State<MapWidget> {
   );
 
   /// Function to load the HTML code of the map widget from python api.
-  Future<void> loadHTMLString(String uri, String codeString) async {
+  Future<void> loadHTMLString(Uri uri, String codeString) async {
     Map<String, String> body = {
       'code': codeString,
     };
 
     String htmlString;
-    http.Response response = await http.post(Uri.parse(uri), body: body);
+    http.Response response = await http.post(uri, body: body);
     htmlString = response.body;
     return _controller.loadHtmlString(htmlString);
   }
@@ -50,8 +55,10 @@ class _MapWidgetState extends State<MapWidget> {
         height: widget.height + 20,
         child: FutureBuilder(
           future: loadHTMLString(
-              'http://127.0.0.1:3001/python_api/get_map_widget/$apiType?height=${widget.height.toString()}',
-              widget.code),
+            pythonUri(
+                'get_map_widget/$apiType?height=${widget.height.toString()}'),
+            widget.code,
+          ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return PlatformWebViewWidget(

@@ -3,6 +3,7 @@ import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/providers/algo_info_provider.dart';
@@ -25,7 +26,7 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
   /// Fetches data from the API, calling `search` endpoint of the Node API
   Future<List<dynamic>> fetchDataFromApi({required String query}) async {
     try {
-      final url = Uri.parse('http://localhost:3000/node_api/search');
+      final url = nodeUri('search');
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode({'keyword': query});
       final response = await http.post(url, headers: headers, body: body);

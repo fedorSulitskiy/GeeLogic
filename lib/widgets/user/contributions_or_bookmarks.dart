@@ -56,7 +56,7 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
   ///   The function [_getContributedAlgorithmsData] returns a [Future] that resolves to a
   /// [List<dynamic>].
   Future<List<dynamic>> _getContributedAlgorithmsData() async {
-    final nodeUrl = Uri.parse('http://localhost:3000/node_api/show_by_user');
+    final nodeUrl = nodeUri('show_by_user');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       "user_creator": _firebase.currentUser!.uid,
@@ -80,7 +80,7 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
   /// Returns:
   ///   The function [_getRelatedTags] returns a [Future] that resolves to a [List<dynamic>].
   Future<List<dynamic>> _getRelatedTags({required int algoId}) async {
-    final nodeUrl = Uri.parse('http://localhost:3000/node_api/show_tags');
+    final nodeUrl = nodeUri('show_tags');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       "algo_id": algoId,

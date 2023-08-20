@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ Future uploadLogic({
   Future undoTransactionChanges(
       {required int id, required bool fromFirebaseToo}) async {
     // Delete data from SQL database
-    final nodeUrl = Uri.parse('http://localhost:3000/node_api/remove');
+    final nodeUrl = nodeUri('remove');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       "algo_id": id,
@@ -102,7 +103,7 @@ Future uploadLogic({
 
   // Upload data to SQL db
   try {
-    final nodeUrl = Uri.parse('http://localhost:3000/node_api/create');
+    final nodeUrl = nodeUri('create');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       'title': title,
@@ -131,7 +132,7 @@ Future uploadLogic({
   // Get thumbnail image
   try {
     final thumbnailUrl =
-        Uri.parse('http://192.168.8.103:3002/thumbnail_api/get_thumbnail');
+        thumbnailUri('get_thumbnail');
     Map<String, String> body = {
       'data': mapCode,
     };
@@ -181,7 +182,7 @@ Future uploadLogic({
 
   // Upload image data to SQL db
   try {
-    final imageUrl = Uri.parse('http://localhost:3000/node_api/add_image');
+    final imageUrl = nodeUri('add_image');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({"algo_id": algoId, "photo": imageURL});
     final response = await http.patch(imageUrl, headers: headers, body: body);
@@ -205,7 +206,7 @@ Future uploadLogic({
   // Upload tags data to SQL db
   try {
     for (var tag in tags) {
-      final tagUrl = Uri.parse('http://localhost:3000/node_api/add_tag');
+      final tagUrl = nodeUri('add_tag');
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode({"algo_id": algoId, "tag_id": tag["tag_id"]});
       final response = await http.post(tagUrl, headers: headers, body: body);

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/widgets/_archive/login_details.dart';
@@ -25,7 +26,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
   /// Function used to fetch the tags that satisfy the immediate input.
   Future<List<dynamic>> fetchDataFromApi({required String query}) async {
     try {
-      final url = Uri.parse('http://localhost:3000/node_api/search_tags');
+      final url = nodeUri('search_tags');
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode({'keyword': query});
       final response = await http.post(url, headers: headers, body: body);
