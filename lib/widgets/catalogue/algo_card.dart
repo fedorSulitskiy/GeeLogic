@@ -225,6 +225,9 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                               api: widget.data.api,
                               code: widget.data.code,
                               userCreator: widget.data.userCreator,
+                              creatorName: widget.data.creatorName,
+                              creatorSurname: widget.data.creatorSurname,
+                              creatorImageURL: widget.data.creatorImageURL,
                               tags: widget.data.tags,
                               userVote: widget.data.userVote,
                             );
