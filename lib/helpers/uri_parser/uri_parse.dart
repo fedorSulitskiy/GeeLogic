@@ -8,7 +8,7 @@ Uri nodeUri(String endpoint) {
 
 /// Returns parsed Uri of python API with end point specified
 Uri pythonUri(String endpoint) {
-  // const String deployed = "https://geelogic-node-api.onrender.com/node_api/";
+  // const String deployed = "https://geelogic-python-api.onrender.com/python_api/";
   const String local = "http://127.0.0.1:3001/python_api/";
   return Uri.parse('$local$endpoint');
 }

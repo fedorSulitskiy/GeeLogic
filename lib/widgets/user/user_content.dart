@@ -29,63 +29,79 @@ class _UserContentState extends State<UserContent> {
         // - biography
         // - image avatar
         // TODO: clean up loading animations
-        FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('users')
-              .doc(_firebase.currentUser!.uid)
-              .get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Text("Something went wrong");
-            }
-            if (snapshot.connectionState == ConnectionState.done) {
-              /// [Map] of [String] with relecant content from Firebase Firestore
-              Map<String, dynamic> data =
-                  snapshot.data!.data() as Map<String, dynamic>;
-              return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        Stack(
+          children: [
+            Positioned(
+              top: 0,
+              right: 10,
+              child: IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  _firebase.signOut();
+                },
+              ),
+            ),
+            FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(_firebase.currentUser!.uid)
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text("Something went wrong");
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  /// [Map] of [String] with relecant content from Firebase Firestore
+                  Map<String, dynamic> data =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
                     children: [
-                      CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage: NetworkImage(data['imageURL']),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            data['name'],
-                            style: Theme.of(context).textTheme.displayMedium,
+                          CircleAvatar(
+                            radius: 50.0,
+                            backgroundImage: NetworkImage(data['imageURL']),
                           ),
-                          Text(
-                            data['surname'],
-                            style: Theme.of(context).textTheme.displayMedium,
+                          const SizedBox(
+                            width: 10,
                           ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data['name'],
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                              Text(
+                                data['surname'],
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ],
+                          )
                         ],
-                      )
+                      ),
+                      const Divider(),
+                      Text(
+                        data['bio'],
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .copyWith(fontSize: 20.0),
+                      ),
+                      const SizedBox(height: 25.0),
+                      const Divider(),
                     ],
-                  ),
-                  const Divider(),
-                  Text(
-                    data['bio'],
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .copyWith(fontSize: 20.0),
-                  ),
-                  const SizedBox(height: 25.0),
-                  const Divider(),
-                ],
-              );
-            }
-            return const Center(
-              child: LoadingStar(),
-            );
-          },
+                  );
+                }
+                return const Center(
+                  child: LoadingStar(),
+                );
+              },
+            ),
+          ],
         ),
         // FutureBuilder responsible for showing algorithms contributed by the user
         // There are two layers here since two requests must be made:

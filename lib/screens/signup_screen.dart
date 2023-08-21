@@ -46,7 +46,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   /// Submit method for validating all fields in the sign up [Form] and uploading
   /// it to the Firebase Firestore.
   void _submit() async {
+    // Validate the form
     final isValid = _formKey.currentState!.validate();
+
+    // If the form is not valid, show a snackbar and return
     if (!isValid || _pickedImageFileInBytes == null) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,12 +60,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       return;
     }
 
+    // Save the form since its valid
     _formKey.currentState!.save();
     // Upload the data about user logic begins
     setState(() {
       _isUploading = true;
     });
     final currentUserUID = currentUser!.uid;
+    
     // get image storage reference
     final imageStorageRef = FirebaseStorage.instance
         .ref()
@@ -72,7 +77,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     await imageStorageRef.putData(_pickedImageFileInBytes!);
     // get image download url to be stored in the Firebase Firestore
     final imageURL = await imageStorageRef.getDownloadURL();
-    // upload the data to firestore
+    // create user on FirebaseStorage
     await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUserUID)
@@ -81,11 +86,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "name": _enteredName,
       "surname": _enteredSurname,
       "bio": _enteredBio,
-      "imageURL": imageURL
-    });
-    // Finish the upload logic
-    setState(() {
-      _isUploading = false;
+      "imageURL":imageURL,
     });
   }
 
@@ -178,12 +179,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 backgroundColor: googleBlue),
                             onPressed: () {
                               _submit();
-                              // on submit, navigate to the catalogue screen
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) => const CatalogueScreen(),
-                                ),
-                              );
                             },
                             child: _isUploading
                                 ? const SizedBox(
