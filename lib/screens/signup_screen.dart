@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 
 final _firebase = FirebaseAuth.instance;
