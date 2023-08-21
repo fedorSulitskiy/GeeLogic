@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:frontend/helpers/uri_parser/uri_parse.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/widget_map_provider.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
-import 'package:http/http.dart' as http;
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
 /// A widget to display a map widget from the python api.
-class MapWidget extends StatefulWidget {
+class MapWidget extends ConsumerStatefulWidget {
   const MapWidget(
       {super.key,
       required this.code,
@@ -19,26 +21,14 @@ class MapWidget extends StatefulWidget {
   final int api;
 
   @override
-  State<MapWidget> createState() => _MapWidgetState();
+  ConsumerState<MapWidget> createState() => _MapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _MapWidgetState extends ConsumerState<MapWidget> {
   // Initialise the controller for the WebView widget
   final PlatformWebViewController _controller = PlatformWebViewController(
     const PlatformWebViewControllerCreationParams(),
   );
-
-  /// Function to load the HTML code of the map widget from python api.
-  Future<void> loadHTMLString(Uri uri, String codeString) async {
-    Map<String, String> body = {
-      'code': codeString,
-    };
-
-    String htmlString;
-    http.Response response = await http.post(uri, body: body);
-    htmlString = response.body;
-    return _controller.loadHtmlString(htmlString);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,26 +39,49 @@ class _MapWidgetState extends State<MapWidget> {
     } else {
       apiType = 'js';
     }
-    return Center(
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height + 20,
-        child: FutureBuilder(
-          future: loadHTMLString(
-            pythonUri(
-                'get_map_widget/$apiType?height=${widget.height.toString()}'),
-            widget.code,
+
+    final params = json.encode({
+      "uri": 'get_map_widget/$apiType?height=${widget.height.toString()}',
+      "code": widget.code,
+    });
+
+    final mapWidgetHTMLCode = ref.watch(mapWidgetCodeProvider(params));
+
+    return mapWidgetHTMLCode.when(
+      data: (data) {
+        _controller.loadHtmlString(data);
+        return Center(
+          child: SizedBox(
+            width: widget.width,
+            height: widget.height + 20,
+            child: PlatformWebViewWidget(
+              PlatformWebViewWidgetCreationParams(controller: _controller),
+            ).build(context),
           ),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return PlatformWebViewWidget(
-                PlatformWebViewWidgetCreationParams(controller: _controller),
-              ).build(context);
-            }
-            return const Center(child: LoadingStar(size: 50.0));
-          },
-        ),
-      ),
+        );
+      },
+      error: (error, stackTrace) {
+        return Center(
+          child: Center(
+            child: SizedBox(
+              width: widget.width,
+              height: widget.height + 20,
+              child: Text(error.toString()),
+            ),
+          ),
+        );
+      },
+      loading: () {
+        return Center(
+          child: SizedBox(
+            width: widget.width,
+            height: widget.height + 20,
+            child: const Center(
+              child: LoadingStar(size: 50.0),
+            ),
+          ),
+        );
+      },
     );
   }
 }
