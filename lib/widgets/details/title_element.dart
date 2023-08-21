@@ -99,6 +99,9 @@ class TitleElement extends ConsumerWidget {
                     api: data.api,
                     code: data.code,
                     userCreator: data.userCreator,
+                    creatorName: data.creatorName,
+                    creatorSurname: data.creatorSurname,
+                    creatorImageURL: data.creatorImageURL,
                     tags: data.tags,
                     userVote: data.userVote,
                   );

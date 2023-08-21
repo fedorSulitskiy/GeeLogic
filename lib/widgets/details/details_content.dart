@@ -27,7 +27,12 @@ class DetailsContent extends StatelessWidget {
             height: 25,
           ),
           SubTitleText(title: data.title, fontSize: 50.0),
-          UserCreatorDisplay(user: data.userCreator, dateCreated: data.formattedDate),
+          UserCreatorDisplay(
+            name: data.creatorName,
+            surname: data.creatorSurname,
+            imageURL: data.creatorImageURL,
+            dateCreated: data.formattedDate,
+          ),
           MapWidget(
             code: data.code,
             api: data.api,

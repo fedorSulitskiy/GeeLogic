@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,6 +46,15 @@ Future<bool> isBookmarked(int algoId) async {
   return jsonDecode(isAlgorithmBookmarked.body);
 }
 
+/// The function [getUserVote] retrieves the user's vote for a specific algorithm from a server.
+/// 
+/// Args:
+///   algoId (int): The algoId parameter is an integer that represents the ID of an algorithm.
+/// 
+/// Returns:
+///   a Future<int?>, which means it is returning a Future that may contain an integer value or null.
+///   Where null indicates that current user has not voted for this algorithm, positive one (1) indicates they
+///   have upvoted for this algorithm and negative one (-1) indicates they have downvoted.
 Future<int?> getUserVote(int algoId) async {
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
@@ -60,6 +70,18 @@ Future<int?> getUserVote(int algoId) async {
     return null;
   }
   return jsonDecode(userVote.body)['vote'];
+}
+
+/// The function retrieves a user document from the Firestore database based on the provided user ID.
+/// 
+/// Args:
+///   userId (String): The [userId] parameter is a string that represents the unique identifier of a
+/// user.
+/// 
+/// Returns:
+///   a `Future<dynamic>`, with keys `name`, `surname`, `bio`, `email` and `imageURL`
+Future<dynamic> getUserCreator(String userId) async {
+  return await FirebaseFirestore.instance.collection('users').doc(userId).get();
 }
 
 /// The [fetchData] function sends a POST request to a specified endpoint with
@@ -122,6 +144,8 @@ Future<Map<String, dynamic>> fetchData({
     rawData.map((e) async {
       // Get the tags corresponding to the algorithm
       final tags = await getTags(e['algo_id']);
+      // Get the details of the creator of the algorithm
+      final userDetails = await getUserCreator(e['user_creator']);
       // Check if the algorithm is bookmarked by the current user
       final isAlgoBookmarked = await isBookmarked(e['algo_id']);
       // Check if the user has voted on the algorithm and if so, what was the vote
@@ -139,6 +163,9 @@ Future<Map<String, dynamic>> fetchData({
         api: e['api'],
         code: e['code'],
         userCreator: e['user_creator'],
+        creatorName: userDetails['name'],
+        creatorSurname: userDetails['surname'],
+        creatorImageURL: userDetails['imageURL'],
         tags: tags,
         userVote: userVote,
       );

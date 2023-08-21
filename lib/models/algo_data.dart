@@ -16,6 +16,9 @@ class AlgoData {
     required this.api,
     required this.code,
     required this.userCreator,
+    required this.creatorName,
+    required this.creatorSurname,
+    required this.creatorImageURL,
     required this.tags,
     required this.userVote,
   });
@@ -31,6 +34,9 @@ class AlgoData {
   final int api;
   final String code;
   final String userCreator;
+  final String creatorName;
+  final String creatorSurname;
+  final String creatorImageURL;
   final List<dynamic> tags;
   int? userVote;
 

@@ -46,7 +46,12 @@ class DetailsCard extends ConsumerWidget {
                   title: data.title,
                   data: data,
                 ),
-                UserCreatorDisplay(user: data.userCreator, dateCreated: data.formattedDate),
+                UserCreatorDisplay(
+                  name: data.creatorName,
+                  surname: data.creatorSurname,
+                  imageURL: data.creatorImageURL,
+                  dateCreated: data.formattedDate,
+                ),
                 MapWidget(code: data.code, api: data.api),
                 CodeDisplayWidget(code: data.code, apiType: data.api),
                 const SubTitleText(title: 'Description'),
