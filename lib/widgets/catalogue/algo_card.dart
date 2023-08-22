@@ -176,13 +176,21 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         _SideButton(
-                          icon: widget.data.isBookmarked
-                              ? Icon(Icons.bookmark, size: 24.0)
-                              : Icon(Icons.bookmark_border, size: 24.0),
+                          // Notice my use of provider for the bookmark status,
+                          // and only for bookmark status. This allows for quick
+                          // updates of the bookmark status without having to
+                          // wait for the FutureBuilder to rebuild the widget.
+                          icon: dataManager
+                                  .getDataItem(widget.data.id)
+                                  .isBookmarked
+                              ? const Icon(Icons.bookmark, size: 24.0)
+                              : const Icon(Icons.bookmark_border, size: 24.0),
                           size: 24.0,
                           onPressed: () async {
                             // Update data in the database
-                            if (widget.data.isBookmarked) {
+                            if (dataManager
+                                .getDataItem(widget.data.id)
+                                .isBookmarked) {
                               // Delete bookmark if it exists
                               final headers = {
                                 'Content-Type': 'application/json'
@@ -221,7 +229,9 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                               datePosted: widget.data.datePosted,
                               image: widget.data.image,
                               description: widget.data.description,
-                              isBookmarked: !widget.data.isBookmarked,
+                              isBookmarked: !dataManager
+                                  .getDataItem(widget.data.id)
+                                  .isBookmarked,
                               api: widget.data.api,
                               code: widget.data.code,
                               userCreator: widget.data.userCreator,

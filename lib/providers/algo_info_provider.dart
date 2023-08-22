@@ -214,12 +214,18 @@ final allAlgorithmsProvider =
   final apiCondition = decodedParams['apiCondition'];
   final orderCondition = decodedParams['orderCondition'];
 
+  // Fetch data from the backend
   final algosFromBackend = await fetchData(
     offset: offset,
     orderCondition: orderCondition,
     apiCondition: apiCondition,
     endpoint: 'show',
   );
+
+  // Store said data in the data manager provider which assists with updating
+  // the data in the catalogue screen instantly, namely bookmark status.
+  final dataManager = ref.read(dataManagerProvider);
+  dataManager.updateDataList(algosFromBackend['results']);
 
   return algosFromBackend;
 });
@@ -250,7 +256,11 @@ final singleAlgorithmProvider =
 class DataManager extends ChangeNotifier {
   List<AlgoData> _dataList = [];
 
+  /// The getter returns the data list.
   List<AlgoData> get dataList => _dataList;
+
+  /// The function returns a single data item from the data list based on its ID.
+  AlgoData getDataItem(id) => _dataList.singleWhere((element) => element.id == id);
 
   /// The function updates the data list with new data and notifies listeners.
   /// 

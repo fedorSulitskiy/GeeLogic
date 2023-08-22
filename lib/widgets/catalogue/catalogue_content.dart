@@ -22,57 +22,6 @@ class CatalogueContent extends ConsumerStatefulWidget {
 }
 
 class _CatalogueContentState extends ConsumerState<CatalogueContent> {
-
-  // This initState is used to execute the _executeAfterBuild function after
-  // the build function is executed. This is because algorithms from the backend
-  // need to be stored in the provider, and the provider can only be accessed
-  // after the build function is executed.
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _executeAfterBuild();
-    });
-  }
-
-  
-  /// The [_executeAfterBuild] function retrieves data from the backend and stores
-  /// it in the provider after the widget tree is built.
-  void _executeAfterBuild() {
-    // Get required data to generate another list of algorithms
-    // NOTE: these variables' roles and significance are explained in the
-    // [build] function.
-    final offset = ref.watch(selectedPageProvider);
-    final selectedApi = ref.watch(catalogueSelectedApiProvider);
-    final params = json.encode({
-      "offset": offset * 5,
-      "orderCondition": 'date_created',
-      "apiCondition": selectedApi
-    });
-    
-    // Get the algorithms from the backend
-    final algosFromBackend = ref.read(
-      allAlgorithmsProvider(params),
-    );
-    // Initialise the data manager to manage the algorithms from backend via providers
-    final dataManager = ref.read(dataManagerProvider);
-
-    // Get the algorithms from the backend and load them into the provider
-    algosFromBackend.when(
-      data: (algosFromBackend) {
-        dataManager.updateDataList(algosFromBackend['results']);
-      },
-      error: (err, stack) {
-        /// TODO: Handle error if needed
-        // Handle error if needed
-      },
-      loading: () {
-        /// TODO: Handle loading if needed
-        // Handle loading if needed
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     /// The offset to be sent to the backend to retrieve the next 5 algorithms,

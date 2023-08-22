@@ -60,7 +60,12 @@ class TitleElement extends ConsumerWidget {
               IconButton(
                 onPressed: () async {
                   // Update data in the database
-                  if (data.isBookmarked) {
+
+                  // Notice my use of provider for the bookmark status,
+                  // and only for bookmark status. This allows for quick
+                  // updates of the bookmark status without having to
+                  // wait for the FutureBuilder to rebuild the widget.
+                  if (dataManager.getDataItem(data.id).isBookmarked) {
                     // Delete bookmark if it exists
                     final headers = {'Content-Type': 'application/json'};
                     final body = json.encode({
@@ -95,7 +100,8 @@ class TitleElement extends ConsumerWidget {
                     datePosted: data.datePosted,
                     image: data.image,
                     description: data.description,
-                    isBookmarked: !data.isBookmarked,
+                    isBookmarked:
+                        !dataManager.getDataItem(data.id).isBookmarked,
                     api: data.api,
                     code: data.code,
                     userCreator: data.userCreator,
@@ -112,7 +118,9 @@ class TitleElement extends ConsumerWidget {
                   dataManager.updateSingleData(data.id, updatedAlgo);
                 },
                 icon: Icon(
-                  data.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                  dataManager.getDataItem(data.id).isBookmarked
+                      ? Icons.bookmark
+                      : Icons.bookmark_border,
                 ),
               ),
               IconButton(

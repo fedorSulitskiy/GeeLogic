@@ -24,19 +24,7 @@ Future<String> loadHTMLString(Uri uri, String codeString) async {
   return response.body;
 }
 
-// class MapWidgetHTMLCodeNotifier extends StateNotifier<String> {
-//   MapWidgetHTMLCodeNotifier() : super('');
-
-//   Future loadData(Uri uri, String codeString) async {
-//     state = await loadHTMLString(uri, codeString);
-//   }
-// }
-
-// final mapWidgetHTMLCodeProvider =
-//     StateNotifierProvider<MapWidgetHTMLCodeNotifier, String>((ref) {
-//   return MapWidgetHTMLCodeNotifier();
-// });
-
+/// Provides the [String] of HTML code for rendering map widget.
 final mapWidgetCodeProvider =
     FutureProvider.family<String, String>((ref, params) async {
   final decodedParams = json.decode(params);
