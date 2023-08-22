@@ -51,39 +51,41 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Explore',
       theme: theme,
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: ((context, snapshot) {
-          // Return loading animation when waiting
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const StarLoadingScreen();
-          }
-          // Determine if user is signed up
-          if (snapshot.hasData) {
-            return StreamBuilder<QuerySnapshot>(
-              // Check if user's email is already in the database
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .where('email', isEqualTo: snapshot.data!.email)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                // Return loading animation when waiting
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const StarLoadingScreen();
-                }
-                if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                  // User's email exists in the users collection
-                  return const CatalogueScreen();
-                } else {
-                  // User does not exist in the collection
-                  return const SignUpScreen();
-                }
-              },
-            );
-          }
-          // Return login when first signing in
-          return const LoginScreen();
-        }),
+      home: SelectionArea(
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: ((context, snapshot) {
+            // Return loading animation when waiting
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const StarLoadingScreen();
+            }
+            // Determine if user is signed up
+            if (snapshot.hasData) {
+              return StreamBuilder<QuerySnapshot>(
+                // Check if user's email is already in the database
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .where('email', isEqualTo: snapshot.data!.email)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // Return loading animation when waiting
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const StarLoadingScreen();
+                  }
+                  if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                    // User's email exists in the users collection
+                    return const CatalogueScreen();
+                  } else {
+                    // User does not exist in the collection
+                    return const SignUpScreen();
+                  }
+                },
+              );
+            }
+            // Return login when first signing in
+            return const LoginScreen();
+          }),
+        ),
       ),
     );
   }

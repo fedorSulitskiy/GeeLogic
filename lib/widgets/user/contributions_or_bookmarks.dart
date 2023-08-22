@@ -143,42 +143,43 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                       if (snapshot.connectionState == ConnectionState.done) {
                         final contributedAlgorithms = snapshot.data!;
                         // FutureBuilder requesting tags
-                        return SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ...contributedAlgorithms.map((contribution) {
-                                return FutureBuilder(
-                                  future: _getRelatedTags(
-                                      algoId: contribution['algo_id']),
-                                  builder: (context, snapshotTags) {
-                                    if (snapshotTags.connectionState ==
-                                            ConnectionState.done &&
-                                        contribution['photo'] != null) {
-                                      // Widget of the Contributed Algorithm
-                                      return UsersAlgorithm(
-                                        title: contribution['title'],
-                                        imageURL: contribution['photo'],
-                                        tags: snapshotTags.data!,
-                                        algoId: contribution['algo_id'],
+                        return contributedAlgorithms.isEmpty
+                            ? const Text('No contributions yet')
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ...contributedAlgorithms
+                                        .map((contribution) {
+                                      return FutureBuilder(
+                                        future: _getRelatedTags(
+                                            algoId: contribution['algo_id']),
+                                        builder: (context, snapshotTags) {
+                                          if (snapshotTags.connectionState ==
+                                                  ConnectionState.done &&
+                                              contribution['photo'] != null) {
+                                            // Widget of the Contributed Algorithm
+                                            return UsersAlgorithm(
+                                              title: contribution['title'],
+                                              imageURL: contribution['photo'],
+                                              tags: snapshotTags.data!,
+                                              algoId: contribution['algo_id'],
+                                            );
+                                          } else if (snapshotTags.hasError) {
+                                            return Text(
+                                                'Error: ${snapshotTags.error}');
+                                          } else if (!snapshotTags.hasData ||
+                                              snapshotTags.data!.isEmpty) {
+                                            return const Text('');
+                                          }
+                                          return const LoadingStar();
+                                        },
                                       );
-                                    } else if (snapshotTags.hasError) {
-                                      return Text(
-                                          'Error: ${snapshotTags.error}');
-                                    } else if (!snapshotTags.hasData ||
-                                        snapshotTags.data!.isEmpty) {
-                                      return const Text('');
-                                    }
-                                    return const LoadingStar();
-                                  },
-                                );
-                              }).toList(),
-                            ],
-                          ),
-                        );
+                                    }).toList(),
+                                  ],
+                                ),
+                              );
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text('No contributions yet');
                       }
                       return const LoadingStar();
                     },
@@ -191,42 +192,43 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                       if (snapshot.connectionState == ConnectionState.done) {
                         final contributedAlgorithms = snapshot.data!;
                         // FutureBuilder requesting tags
-                        return SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ...contributedAlgorithms.map((bookmarkedAlgo) {
-                                return FutureBuilder(
-                                  future: _getRelatedTags(
-                                      algoId: bookmarkedAlgo['algo_id']),
-                                  builder: (context, snapshotTags) {
-                                    if (snapshotTags.connectionState ==
-                                            ConnectionState.done &&
-                                        bookmarkedAlgo['photo'] != null) {
-                                      // Widget of the Contributed Algorithm
-                                      return UsersAlgorithm(
-                                        title: bookmarkedAlgo['title'],
-                                        imageURL: bookmarkedAlgo['photo'],
-                                        tags: snapshotTags.data!,
-                                        algoId: bookmarkedAlgo['algo_id'],
+                        return contributedAlgorithms.isEmpty
+                            ? const Text('No bookmarks yet')
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ...contributedAlgorithms
+                                        .map((bookmarkedAlgo) {
+                                      return FutureBuilder(
+                                        future: _getRelatedTags(
+                                            algoId: bookmarkedAlgo['algo_id']),
+                                        builder: (context, snapshotTags) {
+                                          if (snapshotTags.connectionState ==
+                                                  ConnectionState.done &&
+                                              bookmarkedAlgo['photo'] != null) {
+                                            // Widget of the Contributed Algorithm
+                                            return UsersAlgorithm(
+                                              title: bookmarkedAlgo['title'],
+                                              imageURL: bookmarkedAlgo['photo'],
+                                              tags: snapshotTags.data!,
+                                              algoId: bookmarkedAlgo['algo_id'],
+                                            );
+                                          } else if (snapshotTags.hasError) {
+                                            return Text(
+                                                'Error: ${snapshotTags.error}');
+                                          } else if (!snapshotTags.hasData ||
+                                              snapshotTags.data!.isEmpty) {
+                                            return const Text('');
+                                          }
+                                          return const LoadingStar();
+                                        },
                                       );
-                                    } else if (snapshotTags.hasError) {
-                                      return Text(
-                                          'Error: ${snapshotTags.error}');
-                                    } else if (!snapshotTags.hasData ||
-                                        snapshotTags.data!.isEmpty) {
-                                      return const Text('');
-                                    }
-                                    return const LoadingStar();
-                                  },
-                                );
-                              }).toList(),
-                            ],
-                          ),
-                        );
+                                    }).toList(),
+                                  ],
+                                ),
+                              );
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text('No bookmarks yet');
                       }
                       return const LoadingStar();
                     },
