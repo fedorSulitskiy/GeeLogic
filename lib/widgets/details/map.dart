@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:frontend/providers/widget_map_provider.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
-import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
 /// A widget to display a map widget from the python api.
 class MapWidget extends ConsumerStatefulWidget {
@@ -32,6 +33,7 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    /// Determine if the api is python or js
     final String apiType;
 
     if (widget.api == 1) {
@@ -40,15 +42,19 @@ class _MapWidgetState extends ConsumerState<MapWidget> {
       apiType = 'js';
     }
 
+    /// Parameters to be passed to the [FutureProvider] [mapWidgetCodeProvider]
     final params = json.encode({
       "uri": 'get_map_widget/$apiType?height=${widget.height.toString()}',
       "code": widget.code,
     });
 
+    /// The [mapWidgetHTMLCode] is a [FutureProvider] that returns the HTML code
+    /// of the map widget from the backend.
     final mapWidgetHTMLCode = ref.watch(mapWidgetCodeProvider(params));
 
     return mapWidgetHTMLCode.when(
       data: (data) {
+        // Load the HTML string into the WebView widget
         _controller.loadHtmlString(data);
         return Center(
           child: SizedBox(

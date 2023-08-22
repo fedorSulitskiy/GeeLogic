@@ -91,7 +91,6 @@ Future uploadLogic({
       "algo_id": id,
     });
     await http.delete(nodeUrl, headers: headers, body: body);
-
     // Delete image from firebase storage
     if (fromFirebaseToo) {
       final storageRef = FirebaseStorage.instance.ref();
@@ -176,7 +175,7 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
-    await undoTransactionChanges(id: algoId, fromFirebaseToo: true);
+    await undoTransactionChanges(id: algoId, fromFirebaseToo: false);
     return;
   }
 

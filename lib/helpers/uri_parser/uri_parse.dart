@@ -15,7 +15,7 @@ Uri pythonUri(String endpoint) {
 
 /// Returns parsed Uri of thumbnail API with end point specified
 Uri thumbnailUri(String endpoint) {
-  // const String deployed = "https://geelogic-node-api.onrender.com/node_api/";
-  const String local = "http://192.168.8.103:3002/thumbnail_api/";
-  return Uri.parse('$local$endpoint');
+  const String deployed = "https://geelogic-thumbnail-api.onrender.com/thumbnail_api/";
+  // const String local = "http://192.168.8.103:3002/thumbnail_api/";
+  return Uri.parse('$deployed$endpoint');
 }
