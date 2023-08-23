@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:frontend/widgets/_archive/login_details.dart';
 
+// TODO: image doesn't show up in the background
+
 final _firebase = FirebaseAuth.instance;
 
 /// Constant responsible for the width of the default input field, for inputting

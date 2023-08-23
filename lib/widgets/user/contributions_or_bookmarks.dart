@@ -136,6 +136,7 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
             ),
           ),
           isContributions
+              // Contributed algorithms
               ? Expanded(
                   child: FutureBuilder<List<dynamic>>(
                     future: _getContributedAlgorithmsData(),
@@ -163,6 +164,7 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                                               imageURL: contribution['photo'],
                                               tags: snapshotTags.data!,
                                               algoId: contribution['algo_id'],
+                                              isContribution: true,
                                             );
                                           } else if (snapshotTags.hasError) {
                                             return Text(
@@ -185,19 +187,20 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                     },
                   ),
                 )
+              // Bookmarked algorithms
               : Expanded(
                   child: FutureBuilder<List<dynamic>>(
                     future: _getBookmarkedAlgorithmData(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
-                        final contributedAlgorithms = snapshot.data!;
+                        final bookmarkedAlgorithms = snapshot.data!;
                         // FutureBuilder requesting tags
-                        return contributedAlgorithms.isEmpty
+                        return bookmarkedAlgorithms.isEmpty
                             ? const Text('No bookmarks yet')
                             : SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    ...contributedAlgorithms
+                                    ...bookmarkedAlgorithms
                                         .map((bookmarkedAlgo) {
                                       return FutureBuilder(
                                         future: _getRelatedTags(
@@ -206,12 +209,13 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                                           if (snapshotTags.connectionState ==
                                                   ConnectionState.done &&
                                               bookmarkedAlgo['photo'] != null) {
-                                            // Widget of the Contributed Algorithm
+                                            // Widget of the Bookmarked Algorithms
                                             return UsersAlgorithm(
                                               title: bookmarkedAlgo['title'],
                                               imageURL: bookmarkedAlgo['photo'],
                                               tags: snapshotTags.data!,
                                               algoId: bookmarkedAlgo['algo_id'],
+                                              isContribution: false,
                                             );
                                           } else if (snapshotTags.hasError) {
                                             return Text(

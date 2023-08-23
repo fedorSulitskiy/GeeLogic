@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/screens/details_screen.dart';
 import 'package:frontend/widgets/common/tag_bubble_plain.dart';
+import 'package:frontend/widgets/user/bookmark_button.dart';
+import 'package:frontend/widgets/user/edit_and_delete_buttons.dart';
 import 'package:frontend/widgets/user/user_content.dart';
 
 /// Displays the widget seen inside the [UserScreen], holding information
@@ -15,12 +17,14 @@ class UsersAlgorithm extends ConsumerWidget {
     required this.imageURL,
     required this.tags,
     required this.algoId,
+    required this.isContribution,
   });
 
   final String title;
   final String imageURL;
   final List<dynamic> tags;
   final int algoId;
+  final bool isContribution;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,11 +100,22 @@ class UsersAlgorithm extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.displaySmall,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: Theme.of(context).textTheme.displaySmall,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                            ),
+                          ),
+                          isContribution
+                              ? EditAndDeleteButtons(algoId: algoId)
+                              : BookmarkButton(algoId: algoId),
+                        ],
                       ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,

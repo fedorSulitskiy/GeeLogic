@@ -40,6 +40,14 @@ void main() async {
 }
 
 // TODO: more sophisticated error handling and communication
+// TODO: polish selectable text to actually be selectable
+// TODO: feedback screen
+// TODO: edit algo
+// TODO: delete algo
+// TODO: better submission sequence
+// TODO: tutorial and about screens
+// TODO: potentiall ditch the layout and flexible widgets, return to stack to allow
+//  single child scroll view to occupy screen until its borders AFTER RESPONSIVENESS
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
