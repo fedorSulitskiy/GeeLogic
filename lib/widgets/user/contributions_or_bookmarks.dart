@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:frontend/helpers/get_user_details/get_user_details.dart';
+import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
@@ -24,6 +26,9 @@ class ContributionsOrBookmarks extends StatefulWidget {
 
 class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
   bool isContributions = true;
+  // Late initiated variable that helps in transforming the json object from
+  // the backend into a [AlgoData] object, via the [AlgoData.fromJson] constructor.
+  late Map<String, dynamic> userDetails;
 
   /// The function [_getBookmarkedAlgorithmData] sends a POST request to a server to retrieve bookmarked
   /// algorithms list for a specific user.
@@ -43,6 +48,11 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
     );
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
+      // Loop over each algorithm to get its creator details.
+      for (dynamic algo in result) {
+        final creatorDetails = await getUserDetails(algo['user_creator']);
+        algo['creatorDetails'] = creatorDetails;
+      }
       return result;
     } else {
       throw Exception(response.reasonPhrase);
@@ -56,39 +66,21 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
   ///   The function [_getContributedAlgorithmsData] returns a [Future] that resolves to a
   /// [List<dynamic>].
   Future<List<dynamic>> _getContributedAlgorithmsData() async {
-    final nodeUrl = nodeUri('show_by_user');
+    final nodeUrl = nodeUri('find_contributed_algos');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       "user_creator": _firebase.currentUser!.uid,
+      "user_id": _firebase.currentUser!.uid,
     });
     http.Response response =
         await http.post(nodeUrl, headers: headers, body: body);
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
-      return result;
-    } else {
-      throw Exception(response.reasonPhrase);
-    }
-  }
-
-  /// The function [_getRelatedTags] sends a POST request to a specified URL with a JSON body containing
-  /// an algorithm ID, and returns a list of dynamic objects parsed from the response body.
-  ///
-  /// Args:
-  ///   [algoId] (int): The [algoId] parameter is an integer that represents the ID of an algorithm.
-  ///
-  /// Returns:
-  ///   The function [_getRelatedTags] returns a [Future] that resolves to a [List<dynamic>].
-  Future<List<dynamic>> _getRelatedTags({required int algoId}) async {
-    final nodeUrl = nodeUri('show_tags');
-    final headers = {'Content-Type': 'application/json'};
-    final body = json.encode({
-      "algo_id": algoId,
-    });
-    http.Response response =
-        await http.post(nodeUrl, headers: headers, body: body);
-    if (response.statusCode == 200) {
-      final List result = jsonDecode(response.body);
+      // Loop over each algorithm to get its creator details.
+      for (dynamic algo in result) {
+        final creatorDetails = await getUserDetails(algo['user_creator']);
+        algo['creatorDetails'] = creatorDetails;
+      }
       return result;
     } else {
       throw Exception(response.reasonPhrase);
@@ -143,7 +135,6 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         final contributedAlgorithms = snapshot.data!;
-                        // FutureBuilder requesting tags
                         return contributedAlgorithms.isEmpty
                             ? const Text('No contributions yet')
                             : SingleChildScrollView(
@@ -151,30 +142,12 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                                   children: [
                                     ...contributedAlgorithms
                                         .map((contribution) {
-                                      return FutureBuilder(
-                                        future: _getRelatedTags(
-                                            algoId: contribution['algo_id']),
-                                        builder: (context, snapshotTags) {
-                                          if (snapshotTags.connectionState ==
-                                                  ConnectionState.done &&
-                                              contribution['photo'] != null) {
-                                            // Widget of the Contributed Algorithm
-                                            return UsersAlgorithm(
-                                              title: contribution['title'],
-                                              imageURL: contribution['photo'],
-                                              tags: snapshotTags.data!,
-                                              algoId: contribution['algo_id'],
-                                              isContribution: true,
-                                            );
-                                          } else if (snapshotTags.hasError) {
-                                            return Text(
-                                                'Error: ${snapshotTags.error}');
-                                          } else if (!snapshotTags.hasData ||
-                                              snapshotTags.data!.isEmpty) {
-                                            return const Text('');
-                                          }
-                                          return const LoadingStar();
-                                        },
+                                      return UsersAlgorithm(
+                                        data: AlgoData.fromJson(
+                                          contribution,
+                                          contribution['creatorDetails'],
+                                        ),
+                                        isContribution: true,
                                       );
                                     }).toList(),
                                   ],
@@ -202,30 +175,12 @@ class _ContributionsOrBookmarksState extends State<ContributionsOrBookmarks> {
                                   children: [
                                     ...bookmarkedAlgorithms
                                         .map((bookmarkedAlgo) {
-                                      return FutureBuilder(
-                                        future: _getRelatedTags(
-                                            algoId: bookmarkedAlgo['algo_id']),
-                                        builder: (context, snapshotTags) {
-                                          if (snapshotTags.connectionState ==
-                                                  ConnectionState.done &&
-                                              bookmarkedAlgo['photo'] != null) {
-                                            // Widget of the Bookmarked Algorithms
-                                            return UsersAlgorithm(
-                                              title: bookmarkedAlgo['title'],
-                                              imageURL: bookmarkedAlgo['photo'],
-                                              tags: snapshotTags.data!,
-                                              algoId: bookmarkedAlgo['algo_id'],
-                                              isContribution: false,
-                                            );
-                                          } else if (snapshotTags.hasError) {
-                                            return Text(
-                                                'Error: ${snapshotTags.error}');
-                                          } else if (!snapshotTags.hasData ||
-                                              snapshotTags.data!.isEmpty) {
-                                            return const Text('');
-                                          }
-                                          return const LoadingStar();
-                                        },
+                                      return UsersAlgorithm(
+                                        data: AlgoData.fromJson(
+                                          bookmarkedAlgo,
+                                          bookmarkedAlgo['creatorDetails'],
+                                        ),
+                                        isContribution: false,
                                       );
                                     }).toList(),
                                   ],

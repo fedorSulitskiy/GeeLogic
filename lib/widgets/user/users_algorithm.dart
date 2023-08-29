@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:frontend/providers/algo_info_provider.dart';
+import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/screens/details_screen.dart';
 import 'package:frontend/widgets/common/tag_bubble_plain.dart';
 import 'package:frontend/widgets/user/bookmark_button.dart';
@@ -13,17 +13,11 @@ import 'package:frontend/widgets/user/user_content.dart';
 class UsersAlgorithm extends ConsumerWidget {
   const UsersAlgorithm({
     super.key,
-    required this.title,
-    required this.imageURL,
-    required this.tags,
-    required this.algoId,
+    required this.data,
     required this.isContribution,
   });
 
-  final String title;
-  final String imageURL;
-  final List<dynamic> tags;
-  final int algoId;
+  final AlgoData data;
   final bool isContribution;
 
   @override
@@ -32,16 +26,11 @@ class UsersAlgorithm extends ConsumerWidget {
       onTap: () async {
         // Establish a context before async gap
         final navContext = Navigator.of(context);
-        // Load data for the selected algorithm
-        final data = await ref.watch(
-          singleAlgorithmProvider(
-            algoId.toString(),
-          ),
-        );
+        
         // Navigate to the details screen of selected algorithm
         navContext.push(
           MaterialPageRoute(
-            builder: (ctx) => DetailsScreen(data: data['results'][0]),
+            builder: (ctx) => DetailsScreen(data: data),
           ),
         );
       },
@@ -89,7 +78,7 @@ class UsersAlgorithm extends ConsumerWidget {
                     },
                     blendMode: BlendMode.dstIn,
                     child: Image.network(
-                      imageURL,
+                      data.image,
                       fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -106,24 +95,24 @@ class UsersAlgorithm extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              title,
+                              data.title,
                               style: Theme.of(context).textTheme.displaySmall,
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
                             ),
                           ),
                           isContribution
-                              ? EditAndDeleteButtons(algoId: algoId)
-                              : BookmarkButton(algoId: algoId),
+                              ? EditAndDeleteButtons(algoId: data.id)
+                              : BookmarkButton(algoId: data.id),
                         ],
                       ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: tags
+                          children: data.tags
                               .map((e) => TagBubblePlain(
-                                    id: e['tag_id'],
-                                    title: e['tag_name'],
+                                    id: e.tagId,
+                                    title: e.tagName,
                                   ))
                               .toList(),
                         ),

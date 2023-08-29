@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/screens/details_screen.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';

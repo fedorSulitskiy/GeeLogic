@@ -5,11 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
+import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/providers/catalogue_api_provider.dart';
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/widgets/catalogue/algo_card.dart';
 import 'package:frontend/widgets/catalogue/details_card.dart';
-import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/widgets/catalogue/page_selection.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
 
