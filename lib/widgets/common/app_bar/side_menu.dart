@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:frontend/screens/catalogue_screen.dart';
-import 'package:frontend/screens/tutorial_screen.dart';
-import 'package:frontend/screens/user_screen.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 import 'package:frontend/providers/catalogue_api_provider.dart';
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
-import 'package:frontend/screens/about_screen.dart';
+import 'package:frontend/widgets/_archive/login_details.dart';
 
 const iconGrey = Color.fromARGB(255, 110, 110, 110);
 const backgroundColor = Color.fromARGB(255, 254, 251, 255);
@@ -84,9 +80,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'profile',
             icon: Icons.person_outline_rounded,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const UserScreen(),
-              ));
+              Navigator.of(context).pushNamed('/profile');
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -100,9 +94,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             onPressed: () {
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("0,1");
               ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CatalogueScreen(),
-              ));
+              Navigator.of(context).pushNamed('/catalogue');
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -116,9 +108,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             onPressed: () {
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("1");
               ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CatalogueScreen(),
-              ));
+              Navigator.of(context).pushNamed('/catalogue');
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -132,9 +122,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             onPressed: () {
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("0");
               ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CatalogueScreen(),
-              ));
+              Navigator.of(context).pushNamed('/catalogue');
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -170,9 +158,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'tutorials',
             icon: Icons.lightbulb_outline_rounded,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const TutorialScreen(),
-              ));
+              Navigator.of(context).pushNamed('/tutorial');
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -184,9 +170,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'about',
             icon: Icons.info_outline_rounded,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AboutScreen(),
-              ));
+              Navigator.of(context).pushNamed('/about');
             },
             iconSize: 30.0,
             isOpened: _isOpened,

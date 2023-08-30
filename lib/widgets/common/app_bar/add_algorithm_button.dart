@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/input_is_loading_provider.dart';
 
-import 'package:frontend/screens/input_screen.dart';
+// import 'package:frontend/screens/input_screen.dart';
 
 const double borderRadius = 18.0;
 const List<double> buttonDimensions = [45.0, 80.0];
 
 /// Button at the top right corner that directs user to the input screen.
-class AddAlgorithmButton extends StatefulWidget {
+class AddAlgorithmButton extends ConsumerStatefulWidget {
   const AddAlgorithmButton({super.key});
 
   @override
-  State<AddAlgorithmButton> createState() => _AddAlgorithmButtonState();
+  ConsumerState<AddAlgorithmButton> createState() => _AddAlgorithmButtonState();
 }
 
-class _AddAlgorithmButtonState extends State<AddAlgorithmButton> {
+class _AddAlgorithmButtonState extends ConsumerState<AddAlgorithmButton> {
   List<Color> colorList = [
     Colors.red,
     Colors.blue,
@@ -100,11 +102,20 @@ class _AddAlgorithmButtonState extends State<AddAlgorithmButton> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) => const InputScreen(),
-                      ),
-                    );
+                    // Check if the '/inputAlgoDetails' route is in the stack
+                    bool isInputScreenInStack = false;
+                    Navigator.popUntil(context, (route) {
+                      if (route.settings.name == '/inputAlgoDetails') {
+                        isInputScreenInStack = true;
+                        return true;
+                      }
+                      return false;
+                    });
+
+                    if (!isInputScreenInStack) {
+                      // If '/inputAlgoDetails' is not in the stack, push it
+                      Navigator.pushNamed(context, '/inputAlgoDetails');
+                    }
                   },
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
@@ -114,11 +125,20 @@ class _AddAlgorithmButtonState extends State<AddAlgorithmButton> {
                         child: child,
                       );
                     },
-                    child: const Icon(
-                      Icons.add,
-                      size: 40,
-                      color: Colors.white,
-                    ),
+                    child: ref.watch(inputIsLoadingProvider).isLoading
+                        ? const SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 7.0,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.add,
+                            size: 40,
+                            color: Colors.white,
+                          ),
                   ),
                 ),
               ),

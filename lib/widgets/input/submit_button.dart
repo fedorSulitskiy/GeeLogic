@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/helpers/input/upload_logic.dart';
 
+import 'package:frontend/helpers/input/upload_logic.dart';
 import 'package:frontend/providers/input_code_providers.dart';
 import 'package:frontend/providers/input_description_provider.dart';
+import 'package:frontend/providers/input_is_loading_provider.dart';
 import 'package:frontend/providers/input_map_html_code_provider.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/providers/input_title_provider.dart';
@@ -12,11 +13,11 @@ import 'package:frontend/widgets/input/input_content.dart';
 const double borderRadius = 30.0;
 const List<double> buttonDimensions = [30.0, 100.0];
 
-/// Button found at the bottom of the input screen which on press launches the 
+/// Button found at the bottom of the input screen which on press launches the
 /// [uploadLogic] conditional on if the [VerifyButton] has been pressed and
 /// confirmed validy of code, as well as if all fields have some data.
-/// 
-/// If successful it will result in the algorithm being added to database, if 
+///
+/// If successful it will result in the algorithm being added to database, if
 /// not user will be informed via [SnackBar]
 class SubmitButton extends ConsumerStatefulWidget {
   // TODO: implment a better vision of user being released to CatalogueScreen
@@ -52,7 +53,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
 
   bool _isUploading = false;
 
-  /// Custom [SnackBar] to display communication with the user, regarding validity 
+  /// Custom [SnackBar] to display communication with the user, regarding validity
   /// of their inputs.
   SnackBar snackBar({
     required Color color,
@@ -206,6 +207,27 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   _isUploading = true;
                 });
 
+                // Set loading status to true, for the [AddAlgorithmButton] to
+                // animate.
+                ref
+                    .read(inputIsLoadingProvider.notifier)
+                    .setLoadingStatus(true);
+
+                // Navigate to CatalogueScreen by default so user has something
+                // to do while loading occurs
+                Navigator.of(context).pushNamed('/catalogue');
+
+                // Inform the user that their algorithm is being uploaded
+                scaffoldMessengerContext.clearSnackBars();
+                scaffoldMessengerContext.showSnackBar(
+                  snackBar(
+                    color: googleYellow,
+                    icon: Icons.cloud_upload_outlined,
+                    subtitle: "Your algorithm is being uploaded",
+                    title: "Uploading!",
+                  ),
+                );
+
                 // Get current user id
                 await uploadLogic(
                   scaffoldMessengerContext: scaffoldMessengerContext,
@@ -222,6 +244,12 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 // decides to input a new algorithm the isValid parameter will
                 // be null by default.
                 ref.read(isValidProvider.notifier).setValid(null);
+
+                // Finish loading to allow the animation of the [AddAlgorithmButton]
+                // to complete.
+                ref
+                    .read(inputIsLoadingProvider.notifier)
+                    .setLoadingStatus(false);
 
                 // Complete the task
                 setState(() {

@@ -9,11 +9,14 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
 
+import 'package:frontend/screens/about_screen.dart';
+import 'package:frontend/screens/tutorial_screen.dart';
+import 'package:frontend/screens/user_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
-// import 'package:frontend/screens/catalogue_screen.dart';
-import 'package:frontend/screens/user_screen.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/input_screen.dart';
 
 /// Theme of the application.
 /// TODO: Compile all colours used and then use them from here as Theme.of(context)
@@ -43,8 +46,6 @@ void main() async {
 // TODO: more sophisticated error handling and communication
 // TODO: polish selectable text to actually be selectable
 // TODO: feedback screen
-// TODO: edit algo
-// TODO: delete algo
 // TODO: better submission sequence
 // TODO: tutorial and about screens
 // TODO: potentiall ditch the layout and flexible widgets, return to stack to allow
@@ -60,6 +61,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Explore',
       theme: theme,
+      routes: {
+        '/catalogue': (context) => const CatalogueScreen(),
+        '/input_algorithm_details': (context) => const InputScreen(),
+        '/profile': (context) => const UserScreen(),
+        '/tutorial': (context) => const TutorialScreen(),
+        '/about': (context) => const AboutScreen(),
+      },
       home: SelectionArea(
         child: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
@@ -82,9 +90,7 @@ class MyApp extends StatelessWidget {
                     return const StarLoadingScreen();
                   }
                   if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                    // User's email exists in the users collection
-                    // return const CatalogueScreen();
-                    return const UserScreen();
+                    return const CatalogueScreen();
                   } else {
                     // User does not exist in the collection
                     return const SignUpScreen();

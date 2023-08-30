@@ -101,6 +101,12 @@ Future uploadLogic({
     }
   }
 
+  /// The function navigates back to the input screen by popping all routes until the route with the
+  /// name '/inputAlgoDetails' is reached.
+  void navigateToInputScreen() {
+    Navigator.popUntil(context, ModalRoute.withName('/inputAlgoDetails'));   
+  }
+
   // Upload data to SQL db
   try {
     final nodeUrl = nodeUri('create');
@@ -114,6 +120,7 @@ Future uploadLogic({
     });
     nodeResponse = await http.post(nodeUrl, headers: headers, body: body);
   } catch (e) {
+    // Inform the user
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
@@ -123,6 +130,9 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+
+    // Navigate to the original input screen
+    navigateToInputScreen();
     return;
   }
 
@@ -141,6 +151,7 @@ Future uploadLogic({
       throw Exception('There was an error processing the image.');
     }
   } catch (e) {
+    // Inform the user
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
@@ -150,7 +161,12 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+
+    // Undo transaction changes
     await undoTransactionChanges(id: algoId, fromFirebaseToo: false);
+
+    // Navigate to the original input screen
+    navigateToInputScreen();
     return;
   }
 
@@ -166,6 +182,7 @@ Future uploadLogic({
     await imageStorageRef.putData(uint8List);
     imageURL = await imageStorageRef.getDownloadURL();
   } catch (e) {
+    // Inform the user
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
@@ -175,7 +192,12 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+
+    // Undo transaction changes
     await undoTransactionChanges(id: algoId, fromFirebaseToo: false);
+
+    // Navigate to the original input screen
+    navigateToInputScreen();
     return;
   }
 
@@ -189,6 +211,7 @@ Future uploadLogic({
       throw Exception('There was an error processing the image.');
     }
   } catch (e) {
+    // Inform the user
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
@@ -198,7 +221,12 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+
+    // Undo transaction changes
     await undoTransactionChanges(id: algoId, fromFirebaseToo: true);
+
+    // Navigate to the original input screen
+    navigateToInputScreen();
     return;
   }
 
@@ -221,6 +249,7 @@ Future uploadLogic({
       }
     }
   } catch (e) {
+    // Inform the user
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
@@ -230,7 +259,12 @@ Future uploadLogic({
         title: "Something went wrong!",
       ),
     );
+
+    // Undo transaction changes
     await undoTransactionChanges(id: algoId, fromFirebaseToo: true);
+
+    // Navigate to the original input screen
+    navigateToInputScreen();
     return;
   }
 
