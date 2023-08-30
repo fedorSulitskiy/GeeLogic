@@ -246,7 +246,9 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                             // CatalogueScreen to show bookmarked icon on the card, and in the
                             // DetailsCard on the same screen to show the details of the bookmarked algorithm.
                             dataManager.updateSingleData(
-                                widget.data.id, updatedAlgo);
+                              id: widget.data.id,
+                              newData: updatedAlgo,
+                            );
                           },
                         ),
                         _SideButton(

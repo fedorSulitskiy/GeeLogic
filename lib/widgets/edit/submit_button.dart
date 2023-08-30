@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/helpers/input/upload_logic.dart';
 
+import 'package:frontend/helpers/edit/edit_logic.dart';
+import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/input_code_providers.dart';
 import 'package:frontend/providers/input_description_provider.dart';
 import 'package:frontend/providers/input_map_html_code_provider.dart';
@@ -12,18 +13,10 @@ import 'package:frontend/widgets/input/input_content.dart';
 const double borderRadius = 30.0;
 const List<double> buttonDimensions = [30.0, 100.0];
 
-/// Button found at the bottom of the input screen which on press launches the 
-/// [uploadLogic] conditional on if the [VerifyButton] has been pressed and
-/// confirmed validy of code, as well as if all fields have some data.
-/// 
-/// If successful it will result in the algorithm being added to database, if 
-/// not user will be informed via [SnackBar]
 class SubmitButton extends ConsumerStatefulWidget {
-  // TODO: implment a better vision of user being released to CatalogueScreen
-  //  during loading and all subsequent errors being sent to the screen wherever
-  //  they are, with ability to return to this screen by clicking on it with all
-  //  data saved.
-  const SubmitButton({super.key});
+  const SubmitButton({super.key, required this.initialAlgoData});
+
+  final AlgoData initialAlgoData;
 
   @override
   ConsumerState<SubmitButton> createState() => _SignInButtonState();
@@ -52,7 +45,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
 
   bool _isUploading = false;
 
-  /// Custom [SnackBar] to display communication with the user, regarding validity 
+  /// Custom [SnackBar] to display communication with the user, regarding validity
   /// of their inputs.
   SnackBar snackBar({
     required Color color,
@@ -110,10 +103,11 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
 
   @override
   Widget build(BuildContext context) {
+    /// Verifies if the code is valid.
     final isValid = ref.watch(isValidProvider);
-    final title = ref.watch(titleProvider);
-    final description = ref.watch(descriptionProvider);
-    final code = ref.watch(codeProvider);
+    String title = ref.watch(titleProvider);
+    String description = ref.watch(descriptionProvider);
+    String code = ref.watch(codeProvider);
     final tags = ref.watch(selectedTagsProvider);
     final mapCode = ref.watch(mapWidgetHTMLCodeProvider);
     final isPython = ref.watch(apiLanguageProvider);
@@ -176,26 +170,31 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 ),
               ),
               onPressed: () async {
+                // Establish context before async gap
                 final scaffoldMessengerContext = ScaffoldMessenger.of(context);
 
-                if (isValid.isValid != true ||
-                    title.isEmpty ||
-                    description.isEmpty) {
+                // Update the data providers with data from the input fields.
+                // This allows the user to not touch a certain input field
+                // when editing their algorithm.
+                if (title.isEmpty) {
+                  title = widget.initialAlgoData.title;
+                }
+                if (description.isEmpty) {
+                  description = widget.initialAlgoData.description;
+                }
+                if (code.isEmpty) {
+                  code = widget.initialAlgoData.code;
+                }
+
+                // Ensure that the code provided is still valid
+                if (isValid.isValid != true) {
                   scaffoldMessengerContext.clearSnackBars();
                   scaffoldMessengerContext.showSnackBar(
                     snackBar(
                       color: googleRed,
                       icon: Icons.error_outline_outlined,
-                      subtitle: isValid.isValid != true
-                          ? "Please ensure that your code is verified!"
-                          : title.isEmpty
-                              ? "Please ensure that your algorithm has a title"
-                              : "Please describe your algorithm for us",
-                      title: isValid.isValid != true
-                          ? "Verify your code"
-                          : title.isEmpty
-                              ? "Submit a title"
-                              : "Submit description",
+                      subtitle: "Please ensure that your code is verified!",
+                      title: "Verify your code",
                     ),
                   );
                   return;
@@ -206,8 +205,9 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   _isUploading = true;
                 });
 
-                // Get current user id
-                await uploadLogic(
+                // Launch edit logic
+                final bool isSuccess = await editLogic(
+                  initialAlgoData: widget.initialAlgoData,
                   scaffoldMessengerContext: scaffoldMessengerContext,
                   context: context,
                   title: title,
@@ -216,17 +216,27 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   code: code,
                   mapCode: mapCode,
                   isPython: isPython,
+                  ref: ref,
                 );
-
-                // Upon completion make algorithm code invalid, so when user
-                // decides to input a new algorithm the isValid parameter will
-                // be null by default.
-                ref.read(isValidProvider.notifier).setValid(null);
 
                 // Complete the task
                 setState(() {
                   _isUploading = false;
                 });
+
+                if (isSuccess) {
+                  // Inform user that all is well
+                  scaffoldMessengerContext.clearSnackBars();
+                  scaffoldMessengerContext.showSnackBar(
+                    snackBar(
+                      color: googleGreen,
+                      icon: Icons.check_circle_outline_rounded,
+                      subtitle:
+                          "Algorithm successfully updated, check it out on the catalogue page!",
+                      title: "Your algorithm has been updated!",
+                    ),
+                  );
+                }
               },
               child: _isUploading
                   ? const SizedBox(

@@ -115,7 +115,10 @@ class TitleElement extends ConsumerWidget {
                   // by passing its index to the provider's notifier. This index will be used in
                   // CatalogueScreen to show bookmarked icon on the card, and in the
                   // DetailsCard on the same screen to show the details of the bookmarked algorithm.
-                  dataManager.updateSingleData(data.id, updatedAlgo);
+                  dataManager.updateSingleData(
+                    id: data.id,
+                    newData: updatedAlgo,
+                  );
                 },
                 icon: Icon(
                   dataManager.getDataItem(data.id).isBookmarked

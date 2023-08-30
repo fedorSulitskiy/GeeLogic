@@ -4,13 +4,14 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
+import 'package:frontend/models/tag.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 /// Uploads the algorithm to the database. This function is called when the user
 /// presses the [SubmitButton] widget in the [InputScreen].
-/// 
+///
 /// The whole process is roughly defined by the following steps:
 ///
 ///  - UPLOAD DATA --> get id
@@ -27,7 +28,7 @@ Future uploadLogic({
   required BuildContext context,
   required String title,
   required String description,
-  required List<dynamic> tags,
+  required List<Tag> tags,
   required String code,
   required String mapCode,
   required bool isPython,
@@ -130,8 +131,7 @@ Future uploadLogic({
 
   // Get thumbnail image
   try {
-    final thumbnailUrl =
-        thumbnailUri('get_thumbnail');
+    final thumbnailUrl = thumbnailUri('get_thumbnail');
     Map<String, String> body = {
       'data': mapCode,
     };
@@ -204,11 +204,18 @@ Future uploadLogic({
 
   // Upload tags data to SQL db
   try {
-    for (var tag in tags) {
+    for (Tag tag in tags) {
       final tagUrl = nodeUri('add_tag');
       final headers = {'Content-Type': 'application/json'};
-      final body = json.encode({"algo_id": algoId, "tag_id": tag["tag_id"]});
-      final response = await http.post(tagUrl, headers: headers, body: body);
+      final body = json.encode({
+        "algo_id": algoId,
+        "tag_id": tag.tagId,
+      });
+      final response = await http.post(
+        tagUrl,
+        headers: headers,
+        body: body,
+      );
       if (response.statusCode != 200) {
         throw Exception('There was an error processing the image.');
       }

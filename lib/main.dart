@@ -12,7 +12,8 @@ import 'firebase_options.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
-import 'package:frontend/screens/catalogue_screen.dart';
+// import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/user_screen.dart';
 
 /// Theme of the application.
 /// TODO: Compile all colours used and then use them from here as Theme.of(context)
@@ -82,7 +83,8 @@ class MyApp extends StatelessWidget {
                   }
                   if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                     // User's email exists in the users collection
-                    return const CatalogueScreen();
+                    // return const CatalogueScreen();
+                    return const UserScreen();
                   } else {
                     // User does not exist in the collection
                     return const SignUpScreen();

@@ -18,36 +18,17 @@ const javaScriptDefaultCode = "// Input your code here please!\n\n";
 
 /// Widget to display the code input field.
 class CodeInput extends ConsumerStatefulWidget {
-  const CodeInput({super.key});
+  const CodeInput({super.key, required this.controller});
+
+  final CodeController controller;
 
   @override
   ConsumerState<CodeInput> createState() => _CodeInputState();
 }
 
 class _CodeInputState extends ConsumerState<CodeInput> {
-  /// Controller for the code input field.
-  CodeController? _codeController;
-  /// Instantiate the language to be used in the code input field to be python.
-  final _language = python;
   /// Boolean to check if the code has been changed.
   var _codeChanged = false;
-
-  @override
-  void initState() {
-    super.initState();
-    const source = pythonDefaultCode;
-    // Instantiate the CodeController
-    _codeController = CodeController(
-      text: source,
-      language: _language,
-    );
-  }
-
-  @override
-  void dispose() {
-    _codeController?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +47,7 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                 child: CodeTheme(
                   data: const CodeThemeData(styles: googlecodeTheme),
                   child: CodeField(
-                    controller: _codeController!,
+                    controller: widget.controller,
                     textStyle: GoogleFonts.sourceCodePro(),
                     onChanged: (code) {
                       // Every time code changes send update to the provider.
@@ -112,8 +93,8 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                                 ref
                                     .read(apiLanguageProvider.notifier)
                                     .setLanguage(true);
-                                _codeController!.language = python;
-                                _codeController!.text = _codeChanged
+                                widget.controller.language = python;
+                                widget.controller.text = _codeChanged
                                     ? currentCode
                                     : pythonDefaultCode;
                               });
@@ -136,8 +117,8 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                                 ref
                                     .read(apiLanguageProvider.notifier)
                                     .setLanguage(false);
-                                _codeController!.language = javascript;
-                                _codeController!.text = _codeChanged
+                                widget.controller.language = javascript;
+                                widget.controller.text = _codeChanged
                                     ? currentCode
                                     : javaScriptDefaultCode;
                               });

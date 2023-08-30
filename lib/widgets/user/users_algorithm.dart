@@ -15,10 +15,12 @@ class UsersAlgorithm extends ConsumerWidget {
     super.key,
     required this.data,
     required this.isContribution,
+    this.removeFunction,
   });
 
   final AlgoData data;
   final bool isContribution;
+  final Function(int)? removeFunction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +28,7 @@ class UsersAlgorithm extends ConsumerWidget {
       onTap: () async {
         // Establish a context before async gap
         final navContext = Navigator.of(context);
-        
+
         // Navigate to the details screen of selected algorithm
         navContext.push(
           MaterialPageRoute(
@@ -102,7 +104,10 @@ class UsersAlgorithm extends ConsumerWidget {
                             ),
                           ),
                           isContribution
-                              ? EditAndDeleteButtons(algoId: data.id)
+                              ? EditAndDeleteButtons(
+                                  data: data,
+                                  removeFunction: removeFunction!,
+                                )
                               : BookmarkButton(algoId: data.id),
                         ],
                       ),

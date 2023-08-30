@@ -41,6 +41,13 @@ final isValidProvider = ChangeNotifierProvider<IsValidNotifier>((ref) {
 class LanguageOfAPINotifier extends StateNotifier<bool> {
   LanguageOfAPINotifier() : super(true);
 
+
+  /// The function sets the value of a boolean state variable of the [StateNotifier].
+  /// 
+  /// Args:
+  ///   value (bool): The value parameter is a boolean value that determines the state of the language.
+  /// If value is `true`, it means the language is set to `python`. If value is `false`, it means
+  /// the language is `javaScript`.
   void setLanguage(bool value) {
     state = value;
   }

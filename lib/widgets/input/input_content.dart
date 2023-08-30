@@ -1,3 +1,4 @@
+import 'package:code_text_field/code_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 
@@ -6,6 +7,7 @@ import 'package:frontend/widgets/input/description_input.dart';
 import 'package:frontend/widgets/input/submit_button.dart';
 import 'package:frontend/widgets/input/tags_input.dart';
 import 'package:frontend/widgets/input/title_input.dart';
+import 'package:highlight/languages/python.dart';
 
 const _width = 900.0;
 const googleYellow = Color.fromARGB(255, 251, 188, 5);
@@ -25,11 +27,23 @@ class _InputContentState extends State<InputContent> {
 
   final _controllerTitle = LanguageToolController();
   final _controllerDescr = LanguageToolController();
+  late CodeController _controllerCode;
+
+   @override
+  void initState() {
+    super.initState();
+    // Instantiate the CodeController
+    _controllerCode = CodeController(
+      text: pythonDefaultCode,
+      language: python,
+    );
+  }
 
   @override
   void dispose() {
     _controllerTitle.dispose();
     _controllerDescr.dispose();
+    _controllerCode.dispose();
     super.dispose();
   }
 
@@ -51,7 +65,7 @@ class _InputContentState extends State<InputContent> {
                   // Title Input
                   TitleInput(controller: _controllerTitle),
                   // Code Input
-                  const CodeInput(),
+                  CodeInput(controller: _controllerCode),
                   const SizedBox(height: 15.0),
                   // Description Input
                   DescriptionInput(controller: _controllerDescr),

@@ -162,17 +162,14 @@ final singleAlgorithmProvider =
 /// in the project to update the isBookmarked field of an algorithm, allowing for
 /// synchronous update of the bookmark icon in the [AlgoCard] widget and [TitleElement].
 class DataManager extends ChangeNotifier {
-  List<AlgoData> _dataList = [];
+  final List<AlgoData> _dataList = [];
 
   /// The getter returns the data list.
   List<AlgoData> get dataList => _dataList;
 
   /// The function returns a single data item from the data list based on its ID.
-  AlgoData getDataItem(id) {
-    // print(id);
-    // print(_dataList.map((e) => e.id).toList());
-    return _dataList.singleWhere((element) => element.id == id);
-  }
+  AlgoData getDataItem(id) =>
+      _dataList.singleWhere((element) => element.id == id);
 
   /// The function updates the data list with new data and notifies listeners.
   ///
@@ -180,18 +177,27 @@ class DataManager extends ChangeNotifier {
   ///   newDataList (List<AlgoData>): The parameter [newDataList] is a List of objects of type
   /// [AlgoData].
   void updateDataList(List<AlgoData> newDataList) {
-    _dataList = _dataList + newDataList;
+    // Create a map of existing ids
+    var existingIds = Map.fromEntries(_dataList.map((d) => MapEntry(d.id, d)));
+
+    // Add new data, skipping any that have duplicate ids
+    for (var newData in newDataList) {
+      if (!existingIds.containsKey(newData.id)) {
+        _dataList.add(newData);
+        existingIds[newData.id] = newData;
+      }
+    }
     notifyListeners();
   }
 
   /// The function updates a single data item in a list based on its ID.
   ///
   /// Args:
-  ///   id (int): The id parameter is an integer that represents the unique identifier of the data that
+  ///   - `id` (int): The id parameter is an integer that represents the unique identifier of the data that
   /// needs to be updated.
-  ///   newData (AlgoData): The [newData] parameter is an object of type [AlgoData] that contains the
+  ///   - `newData` (AlgoData): The [newData] parameter is an object of type [AlgoData] that contains the
   /// updated data that needs to be assigned to the element with the specified [id] in the [_dataList].
-  void updateSingleData(int id, AlgoData newData) {
+  void updateSingleData({required int id, required AlgoData newData}) {
     final index = _dataList.indexWhere((element) => element.id == id);
     if (index != -1) {
       _dataList[index] = newData;

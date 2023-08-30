@@ -93,7 +93,6 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2), () {
-      ref.read(isValidProvider.notifier).setValid(null);
       if (mounted) {
         setState(() {
           bottomColor = Colors.blue;
@@ -159,6 +158,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                   ),
                 ),
                 onPressed: () async {
+                  // If code is empty or no new code has been added, tell user.
                   if (code.isEmpty) {
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -166,14 +166,16 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                         color: googleYellow,
                         icon: Icons.warning_rounded,
                         subtitle: "Please submit new code!",
-                        title: "Empty code",
+                        title: "Old code",
                       ),
                     );
                     return;
                   }
 
+                  // Establish context before async gap.
                   final messenger = ScaffoldMessenger.of(context);
 
+                  // Initialise loading animation.
                   setState(() {
                     _isLoading = true;
                     colorList = [
@@ -183,6 +185,11 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       Colors.yellow
                     ];
                   });
+
+                  // Send request to the backend, to verify the code. If valid,
+                  // set the [isValid] provider to true, else false. Furthermore
+                  // the [mapWidgetHTMLCodeProvider] is set to the response body,
+                  // which is the HTML code for the map widget.
                   final url = pythonUri('get_map_widget/$apiType');
                   final headers = {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -195,10 +202,12 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                       .read(mapWidgetHTMLCodeProvider.notifier)
                       .getCode(response.body);
 
+                  // Stop loading animation.
                   setState(() {
                     _isLoading = false;
                   });
 
+                  // Success
                   if (response.statusCode == 200) {
                     // Request was successful, handle the response here
                     ref.read(isValidProvider.notifier).setValid(true);
@@ -217,11 +226,9 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                         title: "Code Verified",
                       ),
                     );
-                  } else {
+                  } else { // Failure
                     // TODO: Request failed, handle the error here
-                    // print('Error: ${response.statusCode}');
                     setState(() {
-                      // _isValid = false;
                       ref.read(isValidProvider.notifier).setValid(false);
                       colorList = const [
                         Color.fromARGB(255, 217, 131, 36),

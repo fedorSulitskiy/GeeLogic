@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
+import 'package:frontend/models/tag.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/widgets/common/tag_bubble.dart';
@@ -38,7 +39,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
 
   @override
   Widget build(BuildContext context) {
-    final List<dynamic> selectedTags = ref.watch(selectedTagsProvider);
+    final List<Tag> selectedTags = ref.watch(selectedTagsProvider);
     return MouseRegion(
       onEnter: (event) {
         setState(() {
@@ -92,7 +93,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
                 List<dynamic> response = await fetchDataFromApi(query: value);
                 List<dynamic> itemsNotInSelectedTags = response.where((item) {
                   final itemId = item['tag_id'];
-                  return !selectedTags.any((tag) => tag['tag_id'] == itemId);
+                  return !selectedTags.any((tag) => tag.tagId == itemId);
                 }).toList();
                 setState(() {
                   apiResponse = itemsNotInSelectedTags;
@@ -113,9 +114,12 @@ class _TagsInputState extends ConsumerState<TagsInput> {
                         child: Text(tagName),
                         onPressed: () {
                           setState(() {
+                            // Add the tag to the selected tags list.
                             selectedTags.add(
-                              apiResponse[index],
+                              Tag.fromJson(apiResponse[index]),
                             );
+
+                            // Remvoe the tag from the api response list.
                             apiResponse.removeAt(index);
                           });
                         },
@@ -133,8 +137,8 @@ class _TagsInputState extends ConsumerState<TagsInput> {
                 runSpacing: 8.0,
                 children: selectedTags.map((tag) {
                   return TagBubble(
-                    title: tag['tag_name'],
-                    id: tag['tag_id'],
+                    title: tag.tagName,
+                    id: tag.tagId,
                   );
                 }).toList(),
               ),
