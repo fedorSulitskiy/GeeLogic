@@ -4,6 +4,19 @@ import 'package:frontend/widgets/login/carousel_button.dart';
 import 'package:frontend/widgets/login/scroll_indicator.dart';
 import 'package:frontend/widgets/login/tutorial_card.dart';
 
+import 'package:frontend/widgets/login/tutorial_cards/browse_card.dart';
+import 'package:frontend/widgets/login/tutorial_cards/feedback_card.dart';
+import 'package:frontend/widgets/login/tutorial_cards/submit_card.dart';
+import 'package:frontend/widgets/login/tutorial_cards/welcome_card.dart';
+
+/// List of tutorial cards to display.
+List<TutorialCard> tutorialCards = [
+  const TutorialCard(content: WelcomeCard()),
+  const TutorialCard(content: BrowseCard()),
+  const TutorialCard(content: SubmissionCard()),
+  const TutorialCard(content: FeedbackCard()),
+];
+
 /// Displays the tutorial carousel consisting of [TutorialCard] widgets at the [LoginScreen].
 class TutorialCarousel extends StatefulWidget {
   const TutorialCarousel({super.key});

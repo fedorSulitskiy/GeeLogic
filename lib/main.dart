@@ -16,7 +16,7 @@ import 'package:frontend/screens/user_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
-// import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/screens/input_screen.dart';
 
 /// Theme of the application.
@@ -46,8 +46,6 @@ void main() async {
 
 // TODO: more sophisticated error handling and communication
 // TODO: polish selectable text to actually be selectable
-// TODO: feedback screen
-// TODO: better submission sequence
 // TODO: tutorial and about screens
 // TODO: potentiall ditch the layout and flexible widgets, return to stack to allow
 //  single child scroll view to occupy screen until its borders AFTER RESPONSIVENESS
@@ -91,8 +89,7 @@ class MyApp extends StatelessWidget {
                     return const StarLoadingScreen();
                   }
                   if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                    return const FeedbackScreen();
-                    // return const CatalogueScreen();
+                    return const CatalogueScreen();
                   } else {
                     // User does not exist in the collection
                     return const SignUpScreen();
