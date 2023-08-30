@@ -166,10 +166,6 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
             _removeOverlay();
           }
         },
-        // onTapOutside: (event) {
-        //   print('hhehe');
-        //   return _removeOverlay();
-        // },
       ),
     );
   }

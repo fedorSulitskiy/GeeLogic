@@ -179,7 +179,7 @@ Future<bool> editLogic({
       "algo_id": initialAlgoData.id,
     });
     await http.delete(
-      nodeUri('delete_all_tags'),
+      nodeUri('remove_all_tags'),
       headers: headers,
       body: body,
     );

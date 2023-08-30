@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/widgets/details/tags_display.dart';
-import 'package:frontend/widgets/details/user_creator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:frontend/widgets/details/user_creator.dart';
+import 'package:frontend/widgets/details/comment_section/comment_section.dart';
+import 'package:frontend/widgets/details/tags_display.dart';
 import 'package:frontend/widgets/details/description_text.dart';
 import 'package:frontend/widgets/details/sub_title_text.dart';
 import 'package:frontend/widgets/details/title_element.dart';
@@ -59,6 +60,8 @@ class DetailsCard extends ConsumerWidget {
                 const SubTitleText(title: 'Tags'),
                 TagsDisplay(tags: data.tags),
                 const SubTitleText(title: 'Comments'),
+                CommentSection(algoId: data.id),
+                const SizedBox(height: 50),
               ],
             ),
           ),

@@ -47,6 +47,7 @@ void main() async {
 // TODO: more sophisticated error handling and communication
 // TODO: polish selectable text to actually be selectable
 // TODO: tutorial and about screens
+// TODO: sort out catalogue screen to actually have a named route
 // TODO: potentiall ditch the layout and flexible widgets, return to stack to allow
 //  single child scroll view to occupy screen until its borders AFTER RESPONSIVENESS
 
