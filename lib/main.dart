@@ -62,7 +62,6 @@ class MyApp extends StatelessWidget {
       title: 'Explore',
       theme: theme,
       routes: {
-        '/catalogue': (context) => const CatalogueScreen(),
         '/input_algorithm_details': (context) => const InputScreen(),
         '/profile': (context) => const UserScreen(),
         '/tutorial': (context) => const TutorialScreen(),

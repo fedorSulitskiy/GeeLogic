@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
@@ -94,7 +95,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             onPressed: () {
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("0,1");
               ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).pushNamed('/catalogue');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const CatalogueScreen(),
+                ),
+              );
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -108,7 +113,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             onPressed: () {
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("1");
               ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).pushNamed('/catalogue');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const CatalogueScreen(),
+                ),
+              );
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -122,7 +131,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             onPressed: () {
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("0");
               ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).pushNamed('/catalogue');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const CatalogueScreen(),
+                ),
+              );
             },
             iconSize: 30.0,
             isOpened: _isOpened,
