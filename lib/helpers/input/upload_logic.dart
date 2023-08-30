@@ -104,7 +104,7 @@ Future uploadLogic({
   /// The function navigates back to the input screen by popping all routes until the route with the
   /// name '/inputAlgoDetails' is reached.
   void navigateToInputScreen() {
-    Navigator.popUntil(context, ModalRoute.withName('/inputAlgoDetails'));   
+    Navigator.popUntil(context, ModalRoute.withName('/input_algorithm_details'));   
   }
 
   // Upload data to SQL db

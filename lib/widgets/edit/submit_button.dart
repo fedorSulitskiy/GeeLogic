@@ -187,14 +187,18 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 }
 
                 // Ensure that the code provided is still valid
-                if (isValid.isValid != true) {
+                if (isValid.isValid != true || tags.isEmpty) {
                   scaffoldMessengerContext.clearSnackBars();
                   scaffoldMessengerContext.showSnackBar(
                     snackBar(
                       color: googleRed,
                       icon: Icons.error_outline_outlined,
-                      subtitle: "Please ensure that your code is verified!",
-                      title: "Verify your code",
+                      subtitle: isValid.isValid != true
+                          ? "Please ensure that your code is verified!"
+                          : "Please ensure that you have selected at least one tag!",
+                      title: isValid.isValid != true
+                          ? "Verify your code"
+                          : "Select at least one tag",
                     ),
                   );
                   return;

@@ -8,6 +8,7 @@ import 'package:frontend/providers/input_is_loading_provider.dart';
 import 'package:frontend/providers/input_map_html_code_provider.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/providers/input_title_provider.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/widgets/input/input_content.dart';
 
 const double borderRadius = 30.0;
@@ -181,22 +182,30 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
 
                 if (isValid.isValid != true ||
                     title.isEmpty ||
-                    description.isEmpty) {
+                    description.isEmpty ||
+                    tags.isEmpty) {
+                  String warningTitle = '';
+                  String warningSubtitle = '';
+                  if (isValid.isValid != true) {
+                    warningTitle = "Verify your code";
+                    warningSubtitle = "Please ensure that your code is verified!";
+                  } else if (title.isEmpty) {
+                    warningTitle = "Submit a title";
+                    warningSubtitle = "Please ensure that your algorithm has a title";
+                  } else if (description.isEmpty) {
+                    warningTitle = "Submit description";
+                    warningSubtitle = "Please describe your algorithm for us";
+                  } else if (tags.isEmpty) {
+                    warningTitle = "Submit tags";
+                    warningSubtitle = "Please select at least one tag";
+                  }
                   scaffoldMessengerContext.clearSnackBars();
                   scaffoldMessengerContext.showSnackBar(
                     snackBar(
                       color: googleRed,
                       icon: Icons.error_outline_outlined,
-                      subtitle: isValid.isValid != true
-                          ? "Please ensure that your code is verified!"
-                          : title.isEmpty
-                              ? "Please ensure that your algorithm has a title"
-                              : "Please describe your algorithm for us",
-                      title: isValid.isValid != true
-                          ? "Verify your code"
-                          : title.isEmpty
-                              ? "Submit a title"
-                              : "Submit description",
+                      subtitle: warningSubtitle,
+                      title: warningTitle,
                     ),
                   );
                   return;
@@ -215,7 +224,11 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
 
                 // Navigate to CatalogueScreen by default so user has something
                 // to do while loading occurs
-                Navigator.of(context).pushNamed('/catalogue');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const CatalogueScreen(),
+                  ),
+                );
 
                 // Inform the user that their algorithm is being uploaded
                 scaffoldMessengerContext.clearSnackBars();

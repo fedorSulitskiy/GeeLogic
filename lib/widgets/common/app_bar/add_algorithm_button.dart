@@ -102,10 +102,18 @@ class _AddAlgorithmButtonState extends ConsumerState<AddAlgorithmButton> {
                     ),
                   ),
                   onPressed: () {
-                    // Check if the '/inputAlgoDetails' route is in the stack
+                    // Check if there is any algorithm is being loaded into the database
+                    final isLoading =
+                        ref.watch(inputIsLoadingProvider).isLoading;
+
+                    // Check if the '/input_algorithm_details' route is in the stack
+                    // and the algorithm is being loaded into the database.
+                    // Otherwise the user should not be able to access the input screen
+                    // that has old information/busy loading.
                     bool isInputScreenInStack = false;
                     Navigator.popUntil(context, (route) {
-                      if (route.settings.name == '/inputAlgoDetails') {
+                      if (route.settings.name == '/input_algorithm_details' &&
+                          isLoading) {
                         isInputScreenInStack = true;
                         return true;
                       }
@@ -113,8 +121,8 @@ class _AddAlgorithmButtonState extends ConsumerState<AddAlgorithmButton> {
                     });
 
                     if (!isInputScreenInStack) {
-                      // If '/inputAlgoDetails' is not in the stack, push it
-                      Navigator.pushNamed(context, '/inputAlgoDetails');
+                      // If '/input_algorithm_details' is not in the stack, push it
+                      Navigator.pushNamed(context, '/input_algorithm_details');
                     }
                   },
                   child: AnimatedSwitcher(
