@@ -190,6 +190,18 @@ class _SideMenuState extends ConsumerState<SideMenu>
             renderTitle: _renderTitle,
           ),
 
+          // FEEDBACK
+          _MenuOption(
+            title: 'feedback',
+            icon: Icons.feedback_outlined,
+            onPressed: () {
+              Navigator.of(context).pushNamed('/feedback');
+            },
+            isOpened: _isOpened,
+            iconSize: 30.0,
+            renderTitle: _renderTitle,
+          ),
+
           // Since Screen widgets rely on flexibles, we need to add an expanded
           // widget to fill the remaining space when the menu has contracted.
           Expanded(child: Container())

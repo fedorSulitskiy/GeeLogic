@@ -9,13 +9,14 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
 
+import 'package:frontend/screens/feedback_screen.dart';
 import 'package:frontend/screens/about_screen.dart';
 import 'package:frontend/screens/tutorial_screen.dart';
 import 'package:frontend/screens/user_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
-import 'package:frontend/screens/catalogue_screen.dart';
+// import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/screens/input_screen.dart';
 
 /// Theme of the application.
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const UserScreen(),
         '/tutorial': (context) => const TutorialScreen(),
         '/about': (context) => const AboutScreen(),
+        '/feedback': (context) => const FeedbackScreen(),
       },
       home: SelectionArea(
         child: StreamBuilder(
@@ -89,7 +91,8 @@ class MyApp extends StatelessWidget {
                     return const StarLoadingScreen();
                   }
                   if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                    return const CatalogueScreen();
+                    return const FeedbackScreen();
+                    // return const CatalogueScreen();
                   } else {
                     // User does not exist in the collection
                     return const SignUpScreen();
