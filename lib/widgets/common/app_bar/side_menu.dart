@@ -168,7 +168,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
 
           // TUTORIALS PAGE
           _MenuOption(
-            title: 'tutorials',
+            title: 'tutorial',
             icon: Icons.lightbulb_outline_rounded,
             onPressed: () {
               Navigator.of(context).pushNamed('/tutorial');
