@@ -41,6 +41,7 @@ class SubmissionCard extends StatelessWidget {
 const double borderRadius = 18.0;
 const List<double> buttonDimensions = [45, 80.0];
 
+/// Replica of [AddAlgorithmButton] with corresponding bullet-point.
 class _AddAlgorithmButton extends StatefulWidget {
   @override
   State<_AddAlgorithmButton> createState() => __AddAlgorithmButtonState();
@@ -168,6 +169,7 @@ class __AddAlgorithmButtonState extends State<_AddAlgorithmButton> {
   }
 }
 
+/// Replica of [VerifyButton] from [InputScreen] with corresponding bullet-point.
 class _VerifyButton extends StatefulWidget {
   const _VerifyButton({this.isValid, required this.comment});
 
@@ -341,6 +343,7 @@ class __VerifyButtonState extends State<_VerifyButton> {
   }
 }
 
+/// /// Replica of [SubmitButton] from [InputScreen] with corresponding bullet-point.
 class _SubmitButton extends StatefulWidget {
   const _SubmitButton({required this.comment});
 

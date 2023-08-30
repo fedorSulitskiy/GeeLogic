@@ -30,17 +30,7 @@ class BrowseCard extends StatelessWidget {
         ),
         const BulletPoint(text: 'Look into algorithms written in JavaScript and Python APIs'),
         const BulletPoint(text: 'View the rendering of each algorithm in Google Earth Engine instantly'),
-        // const BulletPoint(text: "Comment and discuss other people's research"),
       ],
     );
-  }
-}
-
-class _MiniCatalogueScreen extends StatelessWidget {
-  const _MiniCatalogueScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

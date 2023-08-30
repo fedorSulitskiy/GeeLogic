@@ -147,6 +147,7 @@ class _InputField extends StatelessWidget {
 const double borderRadius = 15.0;
 const List<double> buttonDimensions = [32.0, 90.0];
 
+/// Mock submit button that validates the fields inside the [_InputField]
 class _SubmitButton extends StatefulWidget {
   const _SubmitButton({required this.onPressed});
 
