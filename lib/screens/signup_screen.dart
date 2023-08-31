@@ -51,7 +51,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final isValid = _formKey.currentState!.validate();
 
     // If the form is not valid, show a snackbar and return
-    if (!isValid || _pickedImageFileInBytes == null) {
+    if (!isValid) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -68,16 +68,35 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       _isUploading = true;
     });
     final currentUserUID = currentUser!.uid;
-    
-    // get image storage reference
-    final imageStorageRef = FirebaseStorage.instance
-        .ref()
-        .child('user_images')
-        .child('$currentUserUID.jpg');
-    // upload image to firebase
-    await imageStorageRef.putData(_pickedImageFileInBytes!);
-    // get image download url to be stored in the Firebase Firestore
-    final imageURL = await imageStorageRef.getDownloadURL();
+
+    String imageURL = '';
+
+    // If the user has selected an image, upload it to Firebase Storage.
+    if (_pickedImageFileInBytes != null) {
+      // get image storage reference
+      final imageStorageRef = FirebaseStorage.instance
+          .ref()
+          .child('user_images')
+          .child('$currentUserUID.jpg');
+
+      // upload image to firebase
+      await imageStorageRef.putData(_pickedImageFileInBytes!);
+
+      // get image download url to be stored in the Firebase Firestore
+      imageURL = await imageStorageRef.getDownloadURL();
+    } else {
+      // Else use the default image.
+
+      // get image storage reference
+      final imageStorageRef = FirebaseStorage.instance
+          .ref()
+          .child('user_images')
+          .child('placeholder_profile.png');
+
+      // get image download url to be stored in the Firebase Firestore
+      imageURL = await imageStorageRef.getDownloadURL();
+    }
+
     // create user on FirebaseStorage
     await FirebaseFirestore.instance
         .collection('users')
@@ -87,7 +106,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "name": _enteredName,
       "surname": _enteredSurname,
       "bio": _enteredBio,
-      "imageURL":imageURL,
+      "imageURL": imageURL,
     });
   }
 
@@ -106,6 +125,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider<Object>? memoryImage;
+
+    if (_pickedImageFileInBytes != null) {
+      memoryImage = MemoryImage(_pickedImageFileInBytes!);
+    }
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -130,17 +155,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       onTap: _pickImage,
                       child: CircleAvatar(
                         radius: 100,
-                        backgroundColor:
-                            const Color.fromARGB(155, 66, 133, 244),
                         backgroundImage: _pickedImageFileInBytes != null
-                            ? MemoryImage(_pickedImageFileInBytes!)
-                            : null,
-                        child: _pickedImageFileInBytes != null
-                            ? null
-                            : const Icon(
-                                Icons.person_outline_rounded,
-                                size: 50.0,
-                              ),
+                            ? memoryImage
+                            : const NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/gee-gis-project-393016.appspot.com/o/user_images%2Fplaceholder_profile.png?alt=media&token=a02ac9db-a963-451a-96a2-f00188f4c3cf"),
                       ),
                     ),
                     const SizedBox(height: 25.0),
