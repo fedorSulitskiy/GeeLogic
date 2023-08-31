@@ -67,6 +67,8 @@ class MyApp extends StatelessWidget {
         '/tutorial': (context) => const TutorialScreen(),
         '/about': (context) => const AboutScreen(),
         '/feedback': (context) => const FeedbackScreen(),
+        '/welcome': (context) => const LoginScreen(),
+        '/signup': (context) => const SignUpScreen(),
       },
       home: SelectionArea(
         child: StreamBuilder(

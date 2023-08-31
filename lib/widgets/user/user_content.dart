@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/screens/login_screen.dart';
 
 import 'package:frontend/widgets/user/contributions_or_bookmarks.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
@@ -41,9 +40,10 @@ class _UserContentState extends State<UserContent> {
                   // Sign out of Firebase instance
                   _firebase.signOut();
                   // Navigate to LoginScreen with no option to go back
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ));
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/welcome',
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
             ),
