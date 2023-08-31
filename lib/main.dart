@@ -9,10 +9,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
 
-import 'package:frontend/screens/feedback_screen.dart';
-import 'package:frontend/screens/about_screen.dart';
-import 'package:frontend/screens/tutorial_screen.dart';
-import 'package:frontend/screens/user_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
@@ -63,12 +59,6 @@ class MyApp extends StatelessWidget {
       theme: theme,
       routes: {
         '/input_algorithm_details': (context) => const InputScreen(),
-        '/profile': (context) => const UserScreen(),
-        '/tutorial': (context) => const TutorialScreen(),
-        '/about': (context) => const AboutScreen(),
-        '/feedback': (context) => const FeedbackScreen(),
-        '/welcome': (context) => const LoginScreen(),
-        '/signup': (context) => const SignUpScreen(),
       },
       home: SelectionArea(
         child: StreamBuilder(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/screens/about_screen.dart';
 import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/feedback_screen.dart';
+import 'package:frontend/screens/tutorial_screen.dart';
+import 'package:frontend/screens/user_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
@@ -81,7 +85,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'profile',
             icon: Icons.person_outline_rounded,
             onPressed: () {
-              Navigator.of(context).pushNamed('/profile');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const UserScreen(),
+                ),
+              );
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -171,7 +179,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'tutorial',
             icon: Icons.lightbulb_outline_rounded,
             onPressed: () {
-              Navigator.of(context).pushNamed('/tutorial');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const TutorialScreen(),
+                ),
+              );
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -183,7 +195,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'about',
             icon: Icons.info_outline_rounded,
             onPressed: () {
-              Navigator.of(context).pushNamed('/about');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const AboutScreen(),
+                ),
+              );
             },
             iconSize: 30.0,
             isOpened: _isOpened,
@@ -195,7 +211,11 @@ class _SideMenuState extends ConsumerState<SideMenu>
             title: 'feedback',
             icon: Icons.feedback_outlined,
             onPressed: () {
-              Navigator.of(context).pushNamed('/feedback');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => const FeedbackScreen(),
+                ),
+              );
             },
             isOpened: _isOpened,
             iconSize: 30.0,

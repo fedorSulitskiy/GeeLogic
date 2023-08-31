@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/feedback_screen.dart';
 import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/widgets/tutorial/mock_add_algorithm_button.dart';
 import 'package:frontend/widgets/tutorial/mock_submit_button.dart';
@@ -81,7 +82,11 @@ class TutorialContent extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.bold, color: googleBlue),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/feedback');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const FeedbackScreen(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 8.0),
