@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,7 +34,7 @@ class _ContributionsOrBookmarksState
   // the backend into a [AlgoData] object, via the [AlgoData.fromJson] constructor.
   late Map<String, dynamic> userDetails;
 
-  List<dynamic> bookmarkedAlgorithms = [];
+  List<dynamic>? bookmarkedAlgorithms = [];
 
   /// The function [_getBookmarkedAlgorithmData] sends a POST request to a server to retrieve bookmarked
   /// algorithms list for a specific user.
@@ -113,7 +114,7 @@ class _ContributionsOrBookmarksState
   /// tree upon deletion.
   void removeFromBookmarks(int algoId) {
     setState(() {
-      bookmarkedAlgorithms.removeWhere((element) => element['id'] == algoId);
+      bookmarkedAlgorithms!.removeWhere((element) => element['id'] == algoId);
     });
   }
 
@@ -164,13 +165,13 @@ class _ContributionsOrBookmarksState
                     future: _getContributedAlgorithmsData(ref),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
-                        final contributedAlgorithms = snapshot.data!;
-                        return contributedAlgorithms.isEmpty
+                        final contributedAlgorithms = snapshot.data;
+                        return contributedAlgorithms.isNull
                             ? const Text('No contributions yet')
                             : SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    ...contributedAlgorithms
+                                    ...contributedAlgorithms!
                                         .map((contribution) {
                                       return UsersAlgorithm(
                                         data: contribution,
@@ -194,14 +195,14 @@ class _ContributionsOrBookmarksState
                     future: _getBookmarkedAlgorithmData(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
-                        bookmarkedAlgorithms = snapshot.data!;
+                        bookmarkedAlgorithms = snapshot.data;
                         // FutureBuilder requesting tags
-                        return bookmarkedAlgorithms.isEmpty
+                        return bookmarkedAlgorithms.isNull
                             ? const Text('No bookmarks yet')
                             : SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    ...bookmarkedAlgorithms
+                                    ...bookmarkedAlgorithms!
                                         .map((bookmarkedAlgo) {
                                       return UsersAlgorithm(
                                         data: AlgoData.fromJson(
