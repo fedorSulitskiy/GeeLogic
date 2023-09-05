@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Last tutorial card to display.
 class FeedbackCard extends StatefulWidget {
@@ -96,15 +96,15 @@ class _InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 14.0),
-      cursorColor: googleBlue,
+      cursorColor: GeeLogicColourScheme.blue,
       decoration: InputDecoration(
         labelText: title,
         labelStyle:
             Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 14.0),
         floatingLabelBehavior: floatingLabelBehavior,
-        floatingLabelStyle: const TextStyle(color: googleBlue),
+        floatingLabelStyle: const TextStyle(color: GeeLogicColourScheme.blue),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: googleBlue),
+          borderSide: BorderSide(color: GeeLogicColourScheme.blue),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.only(

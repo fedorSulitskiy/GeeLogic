@@ -7,8 +7,7 @@ import 'package:highlight/languages/javascript.dart';
 import 'package:flutter_highlight/themes/googlecode.dart';
 
 import 'package:frontend/providers/input_code_providers.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 import 'package:frontend/widgets/input/verify_button.dart';
 
 /// Python code set-up to allow the user easier way to input valid geemap code.
@@ -66,7 +65,7 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                 // height: 40.0,
                 width: 900.0,
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 248, 248, 248),
+                  color: GeeLogicColourScheme.backgroundColour,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.zero,
                     topRight: Radius.zero,
@@ -102,7 +101,9 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                             child: Text(
                               '<< Python',
                               style: GoogleFonts.sourceCodePro(
-                                color: isPython ? googleBlue : Colors.black87,
+                                color: isPython
+                                    ? GeeLogicColourScheme.blue
+                                    : Colors.black87,
                               ),
                             ),
                           ),
@@ -126,7 +127,9 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                             child: Text(
                               'JavaScript >>',
                               style: GoogleFonts.sourceCodePro(
-                                color: isPython ? Colors.black87 : googleYellow,
+                                color: isPython
+                                    ? Colors.black87
+                                    : GeeLogicColourScheme.yellow,
                               ),
                             ),
                           ),
@@ -136,7 +139,7 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                         Text(
                           "JavaScript API doesn't always work with any code!",
                           style: GoogleFonts.sourceCodePro(
-                            color: Colors.red[800],
+                            color: GeeLogicColourScheme.red,
                           ),
                         ),
                       // Verify code

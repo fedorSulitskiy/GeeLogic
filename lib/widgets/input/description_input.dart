@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 
 import 'package:frontend/providers/input_description_provider.dart';
-import 'package:frontend/widgets/common/app_bar/side_menu.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Widget to display the description input field.
 class DescriptionInput extends ConsumerWidget {
@@ -21,16 +20,18 @@ class DescriptionInput extends ConsumerWidget {
         LanguageToolTextField(
           padding: 8.0,
           controller: controller,
-          style:
-              Theme.of(context).textTheme.bodyMedium!.copyWith(color: iconGrey),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: GeeLogicColourScheme.iconGrey),
           decoration: InputDecoration(
             hintText: 'What is your research all about?',
             hintStyle: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color: iconGrey),
+                .copyWith(color: GeeLogicColourScheme.iconGrey),
             focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: googleGreen),
+              borderSide: BorderSide(color: GeeLogicColourScheme.green),
             ),
             border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -47,7 +48,7 @@ class DescriptionInput extends ConsumerWidget {
           maxLines: null,
           minLines: 5,
           language: 'en-US',
-          cursorColor: googleGreen,
+          cursorColor: GeeLogicColourScheme.green,
           onChanged: (value) {
             ref.read(descriptionProvider.notifier).getDescription(value);
           },

@@ -6,12 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/providers/algo_info_provider.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
-import 'package:frontend/widgets/input/input_content.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
+import 'package:frontend/app_theme.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -39,13 +38,13 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
   static double cardWidth = 360.0;
 
   /// Colour of the border around the card
-  static Color cardColour = Colors.blue;
+  static Color cardColour = GeeLogicColourScheme.blue;
 
   /// Colour of the absolute value of the net vote if positive (more up votes than down votes)
-  static Color positiveNet = const Color.fromARGB(255, 66, 133, 244);
+  static Color positiveNet = GeeLogicColourScheme.blue;
 
   /// Colour of the absolute value of the net vote if negative (more down votes than up votes)
-  static Color negativeNet = const Color.fromARGB(255, 234, 67, 53);
+  static Color negativeNet = GeeLogicColourScheme.red;
 
   @override
   Widget build(BuildContext context) {
@@ -255,8 +254,9 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                           icon: Icon(
                             Icons.arrow_drop_up,
                             size: 35.0,
-                            color:
-                                widget.data.userVote == 1 ? googleBlue : null,
+                            color: widget.data.userVote == 1
+                                ? GeeLogicColourScheme.blue
+                                : null,
                           ),
                           size: 35.0,
                           onPressed: () async {
@@ -393,7 +393,7 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                           icon: Icon(Icons.arrow_drop_down,
                               size: 35.0,
                               color: widget.data.userVote == -1
-                                  ? googleRed
+                                  ? GeeLogicColourScheme.red
                                   : null),
                           size: 35.0,
                           onPressed: () async {
@@ -525,11 +525,11 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
               child: widget.data.api == 1
                   ? const Icon(
                       CustomIcons.python,
-                      color: Color.fromARGB(255, 48, 105, 152),
+                      color: GeeLogicColourScheme.blue,
                     )
                   : const Icon(
                       CustomIcons.jsSquare,
-                      color: Color.fromARGB(255, 240, 219, 79),
+                      color: GeeLogicColourScheme.yellow,
                     ),
             ),
           ],

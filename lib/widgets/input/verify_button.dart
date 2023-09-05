@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:frontend/providers/input_code_providers.dart';
 import 'package:frontend/providers/input_map_html_code_provider.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 const double borderRadius = 15.0;
 const List<double> buttonDimensions = [32.0, 80.0];
@@ -163,7 +163,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
                       snackBar(
-                        color: googleYellow,
+                        color: GeeLogicColourScheme.yellow,
                         icon: Icons.warning_rounded,
                         subtitle: "Please submit new code!",
                         title: "Old code",
@@ -220,13 +220,14 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                     messenger.clearSnackBars();
                     messenger.showSnackBar(
                       snackBar(
-                        color: googleGreen,
+                        color: GeeLogicColourScheme.green,
                         icon: Icons.check_circle_outline_outlined,
                         subtitle: "Perfect, you can submit the algorithm!",
                         title: "Code Verified",
                       ),
                     );
-                  } else { // Failure
+                  } else {
+                    // Failure
                     // TODO: Request failed, handle the error here
                     setState(() {
                       ref.read(isValidProvider.notifier).setValid(false);
@@ -238,7 +239,7 @@ class _SignInButtonState extends ConsumerState<VerifyButton> {
                     messenger.clearSnackBars();
                     messenger.showSnackBar(
                       snackBar(
-                        color: googleRed,
+                        color: GeeLogicColourScheme.red,
                         icon: Icons.error_outline_rounded,
                         subtitle:
                             "Please try to rewrite your code to specification!",

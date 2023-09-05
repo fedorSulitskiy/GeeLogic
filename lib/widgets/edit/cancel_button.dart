@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Widget that displays cancel button at the bottom of the [EditScreen].
 class CancelButton extends StatelessWidget {
@@ -19,7 +19,7 @@ class CancelButton extends StatelessWidget {
         child: Text(
           'cancel',
           style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                color: googleBlue,
+                color: GeeLogicColourScheme.blue,
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),

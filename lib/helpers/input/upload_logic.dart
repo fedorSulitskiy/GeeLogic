@@ -3,11 +3,12 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:frontend/helpers/uri_parser/uri_parse.dart';
-import 'package:frontend/models/tag.dart';
-import 'package:frontend/widgets/input/input_content.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
+import 'package:frontend/helpers/uri_parser/uri_parse.dart';
+import 'package:frontend/models/tag.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Uploads the algorithm to the database. This function is called when the user
 /// presses the [SubmitButton] widget in the [InputScreen].
@@ -104,7 +105,8 @@ Future uploadLogic({
   /// The function navigates back to the input screen by popping all routes until the route with the
   /// name '/inputAlgoDetails' is reached.
   void navigateToInputScreen() {
-    Navigator.popUntil(context, ModalRoute.withName('/input_algorithm_details'));   
+    Navigator.popUntil(
+        context, ModalRoute.withName('/input_algorithm_details'));
   }
 
   // Upload data to SQL db
@@ -124,7 +126,7 @@ Future uploadLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -155,7 +157,7 @@ Future uploadLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -186,7 +188,7 @@ Future uploadLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -215,7 +217,7 @@ Future uploadLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -253,7 +255,7 @@ Future uploadLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -272,7 +274,7 @@ Future uploadLogic({
   scaffoldMessengerContext.clearSnackBars();
   scaffoldMessengerContext.showSnackBar(
     snackBar(
-      color: googleGreen,
+      color: GeeLogicColourScheme.green,
       icon: Icons.check,
       subtitle: "Your algorithm has been successfully added to our database!",
       title: "Algorithm created",

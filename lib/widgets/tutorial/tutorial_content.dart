@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:frontend/screens/feedback_screen.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 import 'package:frontend/widgets/tutorial/mock_add_algorithm_button.dart';
 import 'package:frontend/widgets/tutorial/mock_submit_button.dart';
 import 'package:frontend/widgets/tutorial/mock_tags_input.dart';
@@ -76,10 +77,9 @@ class TutorialContent extends StatelessWidget {
               TextButton(
                 child: Text(
                   '10. Questions and Feedback',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(fontWeight: FontWeight.bold, color: googleBlue),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: GeeLogicColourScheme.blue),
                 ),
                 onPressed: () {
                   Navigator.of(context).push(

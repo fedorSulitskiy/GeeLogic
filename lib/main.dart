@@ -1,31 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
+import 'package:frontend/app_theme.dart';
 
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/loading_screen.dart';
 import 'package:frontend/screens/signup_screen.dart';
 import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/screens/input_screen.dart';
-
-/// Theme of the application.
-/// TODO: Compile all colours used and then use them from here as Theme.of(context)
-final theme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.light,
-    seedColor: const Color.fromARGB(255, 66, 133, 244),
-  ),
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  textTheme: GoogleFonts.josefinSansTextTheme(),
-);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +30,6 @@ void main() async {
 
 // TODO: more sophisticated error handling and communication
 // TODO: polish selectable text to actually be selectable
-// TODO: tutorial and about screens
 // TODO: sort out catalogue screen to actually have a named route
 // TODO: potentiall ditch the layout and flexible widgets, return to stack to allow
 //  single child scroll view to occupy screen until its borders AFTER RESPONSIVENESS
@@ -56,7 +43,7 @@ class MyApp extends StatelessWidget {
     print(screenSize);
     return MaterialApp(
       title: 'Explore',
-      theme: theme,
+      theme: appTheme,
       routes: {
         '/input_algorithm_details': (context) => const InputScreen(),
       },

@@ -10,9 +10,6 @@ import 'package:frontend/widgets/input/title_input.dart';
 import 'package:highlight/languages/python.dart';
 
 const _width = 900.0;
-const googleYellow = Color.fromARGB(255, 251, 188, 5);
-const googleRed = Color.fromARGB(255, 234, 67, 53);
-const googleGreen = Color.fromARGB(255, 52, 168, 83);
 
 /// Widget to organise the content of the [InputScreen].
 class InputContent extends StatefulWidget {

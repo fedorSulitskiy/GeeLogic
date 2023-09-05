@@ -6,7 +6,7 @@ import 'package:frontend/screens/details_screen.dart';
 import 'package:frontend/widgets/common/tag_bubble_plain.dart';
 import 'package:frontend/widgets/user/bookmark_button.dart';
 import 'package:frontend/widgets/user/edit_and_delete_buttons.dart';
-import 'package:frontend/widgets/user/user_content.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Displays the widget seen inside the [UserScreen], holding information
 /// about one of the algorithms either contributed or bookmarked by the user.
@@ -47,7 +47,7 @@ class UsersAlgorithm extends ConsumerWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: borderColor,
+                  color: GeeLogicColourScheme.borderGrey,
                   width: 1.5,
                 ),
                 borderRadius: BorderRadius.circular(16.0),

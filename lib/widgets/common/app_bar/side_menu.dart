@@ -10,10 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 import 'package:frontend/providers/catalogue_api_provider.dart';
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
-
-const iconGrey = Color.fromARGB(255, 110, 110, 110);
-const backgroundColor = Color.fromARGB(255, 254, 251, 255);
+import 'package:frontend/app_theme.dart';
 
 /// Displays the menu of options visible on the left side of the screen.
 class SideMenu extends ConsumerStatefulWidget {
@@ -256,7 +253,7 @@ class _MenuOption extends StatefulWidget {
 }
 
 class __MenuOptionState extends State<_MenuOption> {
-  Color color = iconGrey;
+  Color color = GeeLogicColourScheme.iconGrey;
   double _approximateWidth = 0.0;
 
   double calculateTextWidth(String text, TextStyle style) {
@@ -291,12 +288,12 @@ class __MenuOptionState extends State<_MenuOption> {
           child: MouseRegion(
             onEnter: (event) {
               setState(() {
-                color = googleBlue;
+                color = GeeLogicColourScheme.blue;
               });
             },
             onExit: (event) {
               setState(() {
-                color = iconGrey;
+                color = GeeLogicColourScheme.iconGrey;
               });
             },
             child: Padding(
@@ -332,7 +329,7 @@ class __MenuOptionState extends State<_MenuOption> {
                               ),
                               AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                color: backgroundColor,
+                                color: GeeLogicColourScheme.backgroundColour,
                                 width:
                                     widget.isOpened ? 0.0 : _approximateWidth,
                                 height: 24,

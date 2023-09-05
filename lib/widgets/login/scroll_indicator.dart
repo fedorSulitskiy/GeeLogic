@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'package:frontend/app_theme.dart';
 
 /// Indicates what carousel slide the user is on.
 class ScrollIndicator extends StatefulWidget {
@@ -37,7 +38,7 @@ class _ScrollIndicatorState extends State<ScrollIndicator> {
               paintStyle: PaintingStyle.stroke,
               strokeWidth: 1.5,
               dotColor: Colors.grey,
-              activeDotColor: googleBlue,
+              activeDotColor: GeeLogicColourScheme.blue,
             ),
           ),
         ),

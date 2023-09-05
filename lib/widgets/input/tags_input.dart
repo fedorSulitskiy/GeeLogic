@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/models/tag.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/widgets/common/tag_bubble.dart';
 
@@ -60,7 +60,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
           border: Border.all(
             color: _hover
                 ? Colors.black
-                : const Color.fromARGB(255, 123, 126, 134),
+                : GeeLogicColourScheme.borderGrey,
             width: 1.0,
           ),
         ),
@@ -86,7 +86,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
                   horizontal: 8.0,
                 ),
               ),
-              cursorColor: googleBlue,
+              cursorColor: GeeLogicColourScheme.blue,
               maxLines: 1,
               onChanged: (value) async {
                 /// Fetch the tags that satisfy the immediate input.

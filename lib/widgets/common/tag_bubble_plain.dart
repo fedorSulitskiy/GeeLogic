@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/widgets/common/app_bar/side_menu.dart';
-import 'package:frontend/widgets/user/user_content.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Show a simple representation of the tag bubble, that is grey with no
 /// interactiveness.
@@ -19,12 +18,14 @@ class TagBubblePlain extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
-          color: borderColor,
+          color: GeeLogicColourScheme.borderGrey,
         ),
         child: Text(
           title,
-          style:
-              Theme.of(context).textTheme.bodyMedium!.copyWith(color: iconGrey),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: GeeLogicColourScheme.iconGrey),
         ),
       ),
     );

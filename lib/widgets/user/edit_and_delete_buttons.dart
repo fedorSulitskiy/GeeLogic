@@ -11,8 +11,7 @@ import 'package:frontend/providers/input_code_providers.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/screens/edit_screen.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Buttons for editing and deleting the algorithm, found in the corner of
 /// [UserAlgorithm] widget.
@@ -127,7 +126,7 @@ class _EditAndDeleteButtonsState extends ConsumerState<EditAndDeleteButtons> {
         ),
         margin: const EdgeInsets.only(right: 8.0),
         decoration: BoxDecoration(
-          color: googleRed,
+          color: GeeLogicColourScheme.red,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: _isDeleting
@@ -160,7 +159,7 @@ class _EditAndDeleteButtonsState extends ConsumerState<EditAndDeleteButtons> {
                       scaffoldMessengerContext
                           .showSnackBar(
                             snackBar(
-                              color: googleRed,
+                              color: GeeLogicColourScheme.red,
                               icon: Icons.delete_forever_outlined,
                               subtitle: "To undo change click UNDO now!",
                               title: "Algorithm deleted",
@@ -235,7 +234,7 @@ class _EditAndDeleteButtonsState extends ConsumerState<EditAndDeleteButtons> {
             child: IconButton(
               icon: Icon(
                 Icons.edit_square,
-                color: _editHover ? googleBlue : null,
+                color: _editHover ? GeeLogicColourScheme.blue : null,
               ),
               onPressed: () async {
                 // Establish a context before async gap
@@ -288,7 +287,7 @@ class _EditAndDeleteButtonsState extends ConsumerState<EditAndDeleteButtons> {
             child: IconButton(
               icon: Icon(
                 Icons.delete,
-                color: _deleteHover ? googleRed : null,
+                color: _deleteHover ? GeeLogicColourScheme.red : null,
               ),
               onPressed: () {
                 setState(() {

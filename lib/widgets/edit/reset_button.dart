@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/providers/edit_controller_provider.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
@@ -67,7 +67,7 @@ class _ResetButtonState extends ConsumerState<ResetButton>
         ? CircularProgressIndicator(
             value: animationController.value,
             strokeWidth: 10.0,
-            color: googleBlue,
+            color: GeeLogicColourScheme.blue,
           )
         : TextButton.icon(
             onPressed: () async {
@@ -104,19 +104,19 @@ class _ResetButtonState extends ConsumerState<ResetButton>
                     controllerDescr,
                     controllerCode,
                   );
-                
+
               // Separately reset the selected tags
               ref.read(selectedTagsProvider.notifier).getSelectedTags(
                     widget.algoData.tags,
                   );
             },
-            icon: const Icon(Icons.refresh, color: googleBlue),
+            icon: const Icon(Icons.refresh, color: GeeLogicColourScheme.blue),
             label: SizedBox(
               height: 30.0,
               child: Text(
                 'reset',
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: googleBlue,
+                      color: GeeLogicColourScheme.blue,
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:languagetool_textfield/languagetool_textfield.dart';
 
 import 'package:frontend/providers/input_title_provider.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Widget to display the title input field.
 class TitleInput extends ConsumerWidget {
@@ -23,14 +23,14 @@ class TitleInput extends ConsumerWidget {
         hintStyle:
             Theme.of(context).textTheme.displayMedium!.copyWith(height: 1.0),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: googleYellow),
+          borderSide: BorderSide(color: GeeLogicColourScheme.yellow),
         ),
         constraints: BoxConstraints(
           maxWidth: width,
         ),
       ),
       maxLength: 60,
-      cursorColor: googleYellow,
+      cursorColor: GeeLogicColourScheme.yellow,
       cursorHeight: 40.0,
       maxLines: null,
       onChanged: (value) {

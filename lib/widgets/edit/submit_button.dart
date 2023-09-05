@@ -8,7 +8,7 @@ import 'package:frontend/providers/input_description_provider.dart';
 import 'package:frontend/providers/input_map_html_code_provider.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/providers/input_title_provider.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 const double borderRadius = 30.0;
 const List<double> buttonDimensions = [30.0, 100.0];
@@ -191,7 +191,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   scaffoldMessengerContext.clearSnackBars();
                   scaffoldMessengerContext.showSnackBar(
                     snackBar(
-                      color: googleRed,
+                      color: GeeLogicColourScheme.red,
                       icon: Icons.error_outline_outlined,
                       subtitle: isValid.isValid != true
                           ? "Please ensure that your code is verified!"
@@ -233,7 +233,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   scaffoldMessengerContext.clearSnackBars();
                   scaffoldMessengerContext.showSnackBar(
                     snackBar(
-                      color: googleGreen,
+                      color: GeeLogicColourScheme.green,
                       icon: Icons.check_circle_outline_rounded,
                       subtitle:
                           "Algorithm successfully updated, check it out on the catalogue page!",

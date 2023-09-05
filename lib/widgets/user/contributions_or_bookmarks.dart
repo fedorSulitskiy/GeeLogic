@@ -10,7 +10,7 @@ import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/helpers/get_user_details/get_user_details.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
 import 'package:frontend/widgets/user/users_algorithm.dart';
 
@@ -108,7 +108,7 @@ class _ContributionsOrBookmarksState
   /// The function removes an item from the bookmarkedAlgorithms list. This
   /// allows for swift removal of an algorithm from the list, without having
   /// to refresh the page.
-  /// 
+  ///
   /// Args:
   ///   - `item` (dynamic): algo is the algorithm to be removed from the widget
   /// tree upon deletion.
@@ -134,7 +134,9 @@ class _ContributionsOrBookmarksState
                     "Contributions",
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 24.0,
-                        color: isContributions ? googleBlue : Colors.black87),
+                        color: isContributions
+                            ? GeeLogicColourScheme.blue
+                            : Colors.black87),
                   ),
                   onPressed: () {
                     setState(() {
@@ -147,7 +149,9 @@ class _ContributionsOrBookmarksState
                     "Bookmarks",
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 24.0,
-                        color: !isContributions ? googleBlue : Colors.black87),
+                        color: !isContributions
+                            ? GeeLogicColourScheme.blue
+                            : Colors.black87),
                   ),
                   onPressed: () {
                     setState(() {

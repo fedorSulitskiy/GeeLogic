@@ -7,14 +7,16 @@ import 'package:flutter_highlight/themes/googlecode.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
-import 'package:frontend/widgets/common/app_bar/side_menu.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Widget to display source code of each algorithms.
 class CodeDisplayWidget extends StatelessWidget {
-  const CodeDisplayWidget({super.key, required this.code, required this.apiType});
+  const CodeDisplayWidget(
+      {super.key, required this.code, required this.apiType});
 
-  /// Code displayed to the user. 
+  /// Code displayed to the user.
   final String code;
+
   /// If 1 -> python api . If 0 -> JS api.
   final int apiType;
 
@@ -42,7 +44,7 @@ class CodeDisplayWidget extends StatelessWidget {
                 // height: 40.0,
                 width: 570.0,
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 248, 248, 248),
+                  color: GeeLogicColourScheme.borderGrey,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.zero,
                     topRight: Radius.zero,
@@ -59,17 +61,21 @@ class CodeDisplayWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      apiType == 1 ? const Row(
-                        children: [
-                          Icon(CustomIcons.python, color: iconGrey),
-                          Text('Python API'),
-                        ],
-                      ) : const Row(
-                        children: [
-                          Icon(CustomIcons.jsSquare, color: iconGrey),
-                          Text('JavaScript API'),
-                        ],
-                      ),
+                      apiType == 1
+                          ? const Row(
+                              children: [
+                                Icon(CustomIcons.python,
+                                    color: GeeLogicColourScheme.iconGrey),
+                                Text('Python API'),
+                              ],
+                            )
+                          : const Row(
+                              children: [
+                                Icon(CustomIcons.jsSquare,
+                                    color: GeeLogicColourScheme.iconGrey),
+                                Text('JavaScript API'),
+                              ],
+                            ),
                       CopyButton(code: code),
                     ],
                   ),

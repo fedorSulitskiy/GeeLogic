@@ -90,14 +90,14 @@ Future<Map<String, dynamic>> fetchData({
 ///
 /// Args:
 ///
-///  params (String): The [params] parameter is a string that is an encoded JSON file
+///  - `params` (String): The [params] parameter is a string that is an encoded JSON file
 /// that contains the following keys: [offset], [orderCondition], and [apiCondition].
 ///
 /// Keys:
 ///
-///   offset (int): used to implement pagination
+///   - `offset` (int): used to implement pagination
 ///
-///   orderCondition (String):
+///   - `orderCondition` (String):
 ///     Potential order conditions:
 ///
 ///       * 'date_created'
@@ -106,7 +106,7 @@ Future<Map<String, dynamic>> fetchData({
 ///       * 'up_votes - down_votes'
 ///     All need 'ASC' or 'DESC' specified after the condition
 ///
-///  apiCondition (String):
+///  - `apiCondition` (String):
 ///     Potential api conditions:
 ///
 ///       * '0'    - javascript
@@ -138,14 +138,14 @@ final allAlgorithmsProvider =
   return algosFromBackend;
 });
 
-/// The [singleAlgorithmProvider] is a [FutureProvider.family] that provides a
+/// The [singleAlgorithmProvider] is a [Provider.family] that provides a
 /// [Map] of [AlgoData] objects under key [results] and total length of 1
 /// under key [count], since only one result is returned.
 ///
 /// This provider is used by the search widget to get a single algorithm.
 ///
 /// Args:
-///   algoId (String): The [algoId] parameter is a string that represents the ID of an algorithm.
+///   - `algoId` (String): The [algoId] parameter is a string that represents the ID of an algorithm.
 final singleAlgorithmProvider =
     Provider.family<Future<Map<String, dynamic>>, String>((ref, algoId) async {
   // NOTE: params is a string that is an encoded JSON file.
@@ -174,7 +174,7 @@ class DataManager extends ChangeNotifier {
   /// The function updates the data list with new data and notifies listeners.
   ///
   /// Args:
-  ///   newDataList (List<AlgoData>): The parameter [newDataList] is a List of objects of type
+  ///   - `newDataList` (List<AlgoData>): The parameter [newDataList] is a List of objects of type
   /// [AlgoData].
   void updateDataList(List<AlgoData> newDataList) {
     // Create a map of existing ids

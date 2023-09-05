@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 import 'package:frontend/widgets/feedback/submit_button.dart';
-import 'package:frontend/widgets/input/input_content.dart';
 
 const double inputWidth = 800.0;
 
@@ -107,7 +106,7 @@ class _FeedbackContentState extends State<FeedbackContent> {
   /// The [submit] function validates user inputs, displays a snackbar if inputs are invalid, saves the
   /// inputs and sends an email if inputs are valid, and displays a snackbar to notify the user that
   /// their feedback has been sent.
-  /// 
+  ///
   /// Returns:
   ///   'nothing' (void).
   void submit() async {
@@ -119,7 +118,7 @@ class _FeedbackContentState extends State<FeedbackContent> {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         snackBar(
-          color: googleRed,
+          color: GeeLogicColourScheme.red,
           icon: Icons.warning_amber_rounded,
           title: 'Message NOT sent!',
           subtitle:
@@ -144,7 +143,7 @@ class _FeedbackContentState extends State<FeedbackContent> {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       snackBar(
-        color: googleGreen,
+        color: GeeLogicColourScheme.green,
         icon: Icons.mark_email_read_rounded,
         title: 'Feedback sent!',
         subtitle:
@@ -247,13 +246,13 @@ class _InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: googleBlue,
+      cursorColor: GeeLogicColourScheme.blue,
       decoration: InputDecoration(
         labelText: title,
         floatingLabelBehavior: floatingLabelBehavior,
-        floatingLabelStyle: const TextStyle(color: googleBlue),
+        floatingLabelStyle: const TextStyle(color: GeeLogicColourScheme.blue),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: googleBlue),
+          borderSide: BorderSide(color: GeeLogicColourScheme.blue),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.only(

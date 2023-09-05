@@ -8,8 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:frontend/screens/details_screen.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
-
-const backgroundColor = Color.fromARGB(255, 254, 251, 255);
+import 'package:frontend/app_theme.dart';
 
 /// The top search bar that allow for searching of algorithms.
 class SearchGeeLogicBar extends ConsumerStatefulWidget {
@@ -55,7 +54,7 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
               child: Container(
                 height: apiResponse.length * 30.0 +
                     (apiResponse.isEmpty ? 0 : 15.0),
-                color: backgroundColor,
+                color: GeeLogicColourScheme.backgroundColour,
                 // TODO: adjust for responsive design
                 constraints: const BoxConstraints(maxHeight: 900.0),
                 child: ListView.builder(
@@ -116,7 +115,7 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
         bottom: 16.0,
         right: 54.0,
       ),
-      color: backgroundColor,
+      color: GeeLogicColourScheme.backgroundColour,
       child: TextField(
         style:
             Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 18.0),

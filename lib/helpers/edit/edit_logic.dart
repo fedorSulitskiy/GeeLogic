@@ -3,13 +3,14 @@ import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/models/algo_data.dart';
 import 'package:frontend/models/tag.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
-import 'package:frontend/widgets/input/input_content.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
+import 'package:frontend/app_theme.dart';
 
 /// This function is called when the user presses the [SubmitButton] widget in the
 /// [EditScreen]. It assists with the process of updating the algorithm in the
@@ -100,7 +101,7 @@ Future<bool> editLogic({
       scaffoldMessengerContext.clearSnackBars();
       scaffoldMessengerContext.showSnackBar(
         snackBar(
-          color: googleRed,
+          color: GeeLogicColourScheme.red,
           icon: Icons.error_outline_outlined,
           subtitle: e.toString(),
           title: "Something went wrong!",
@@ -124,7 +125,7 @@ Future<bool> editLogic({
       scaffoldMessengerContext.clearSnackBars();
       scaffoldMessengerContext.showSnackBar(
         snackBar(
-          color: googleRed,
+          color: GeeLogicColourScheme.red,
           icon: Icons.error_outline_outlined,
           subtitle: e.toString(),
           title: "Something went wrong!",
@@ -149,7 +150,7 @@ Future<bool> editLogic({
       scaffoldMessengerContext.clearSnackBars();
       scaffoldMessengerContext.showSnackBar(
         snackBar(
-          color: googleRed,
+          color: GeeLogicColourScheme.red,
           icon: Icons.error_outline_outlined,
           subtitle: e.toString(),
           title: "Something went wrong!",
@@ -187,7 +188,7 @@ Future<bool> editLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -213,7 +214,7 @@ Future<bool> editLogic({
       scaffoldMessengerContext.clearSnackBars();
       scaffoldMessengerContext.showSnackBar(
         snackBar(
-          color: googleRed,
+          color: GeeLogicColourScheme.red,
           icon: Icons.error_outline_outlined,
           subtitle: e.toString(),
           title: "Something went wrong!",
@@ -243,7 +244,7 @@ Future<bool> editLogic({
     scaffoldMessengerContext.clearSnackBars();
     scaffoldMessengerContext.showSnackBar(
       snackBar(
-        color: googleRed,
+        color: GeeLogicColourScheme.red,
         icon: Icons.error_outline_outlined,
         subtitle: e.toString(),
         title: "Something went wrong!",
@@ -255,7 +256,7 @@ Future<bool> editLogic({
   // Update local data.
   ref.read(dataManagerProvider).updateSingleData(
       id: initialAlgoData.id,
-      newData:  AlgoData(
+      newData: AlgoData(
         id: initialAlgoData.id,
         title: title,
         upVotes: initialAlgoData.upVotes,

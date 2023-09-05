@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 final _firebase = FirebaseAuth.instance;
 
 /// Button found at the corner of [UserAlogirthm] widget, which on press
 /// removes the bookmark from the database.
-/// 
-/// When pressed it doesn't immediate remove the bookmark, it leaves the 
+///
+/// When pressed it doesn't immediate remove the bookmark, it leaves the
 /// algorithm on the screen allowing user to undo the change in case they
 /// pressed the button accidentally.
 class BookmarkButton extends StatefulWidget {
@@ -111,9 +111,13 @@ class _BookmarkButtonState extends State<BookmarkButton> {
         scaffoldMessengerContext.clearSnackBars();
         scaffoldMessengerContext.showSnackBar(
           snackBar(
-            color: isBookmarked ? googleRed : googleGreen,
+            color: isBookmarked
+                ? GeeLogicColourScheme.red
+                : GeeLogicColourScheme.green,
             icon: isBookmarked ? Icons.bookmark_outline : Icons.bookmark,
-            subtitle: isBookmarked ? "To undo change click on the bookmark until it's filled!" : "To remove bookmark click on the bookmark until it's empty!",
+            subtitle: isBookmarked
+                ? "To undo change click on the bookmark until it's filled!"
+                : "To remove bookmark click on the bookmark until it's empty!",
             title: isBookmarked ? "Bookmark removed" : "Bookmark returned",
           ),
         );

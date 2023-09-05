@@ -6,8 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:frontend/widgets/_archive/login_details.dart';
+import 'package:frontend/app_theme.dart';
 
 // TODO: image doesn't show up in the background
 
@@ -195,7 +194,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           // submit button
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: googleBlue),
+                              backgroundColor: GeeLogicColourScheme.blue,
+                            ),
                             onPressed: () {
                               _submit();
                             },
@@ -243,13 +243,13 @@ class _InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: googleBlue,
+      cursorColor: GeeLogicColourScheme.blue,
       decoration: InputDecoration(
         labelText: title,
         prefixIcon: icon,
-        floatingLabelStyle: const TextStyle(color: googleBlue),
+        floatingLabelStyle: const TextStyle(color: GeeLogicColourScheme.blue),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: googleBlue),
+          borderSide: BorderSide(color: GeeLogicColourScheme.blue),
         ),
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0))),

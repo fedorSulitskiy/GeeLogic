@@ -9,7 +9,7 @@ import 'package:frontend/providers/input_map_html_code_provider.dart';
 import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/providers/input_title_provider.dart';
 import 'package:frontend/screens/catalogue_screen.dart';
-import 'package:frontend/widgets/input/input_content.dart';
+import 'package:frontend/app_theme.dart';
 
 const double borderRadius = 30.0;
 const List<double> buttonDimensions = [30.0, 100.0];
@@ -188,10 +188,12 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   String warningSubtitle = '';
                   if (isValid.isValid != true) {
                     warningTitle = "Verify your code";
-                    warningSubtitle = "Please ensure that your code is verified!";
+                    warningSubtitle =
+                        "Please ensure that your code is verified!";
                   } else if (title.isEmpty) {
                     warningTitle = "Submit a title";
-                    warningSubtitle = "Please ensure that your algorithm has a title";
+                    warningSubtitle =
+                        "Please ensure that your algorithm has a title";
                   } else if (description.isEmpty) {
                     warningTitle = "Submit description";
                     warningSubtitle = "Please describe your algorithm for us";
@@ -202,7 +204,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                   scaffoldMessengerContext.clearSnackBars();
                   scaffoldMessengerContext.showSnackBar(
                     snackBar(
-                      color: googleRed,
+                      color: GeeLogicColourScheme.red,
                       icon: Icons.error_outline_outlined,
                       subtitle: warningSubtitle,
                       title: warningTitle,
@@ -234,7 +236,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 scaffoldMessengerContext.clearSnackBars();
                 scaffoldMessengerContext.showSnackBar(
                   snackBar(
-                    color: googleYellow,
+                    color: GeeLogicColourScheme.yellow,
                     icon: Icons.cloud_upload_outlined,
                     subtitle: "Your algorithm is being uploaded",
                     title: "Uploading!",

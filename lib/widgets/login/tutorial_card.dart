@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/app_theme.dart';
 
 /// Card to display the content of the tutorial.
 class TutorialCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class TutorialCard extends StatelessWidget {
         width: 450.0,
         height: 600.0,
         child: Card(
-          color: const Color.fromARGB(255, 255, 255, 240),
+          color: GeeLogicColourScheme.backgroundColour,
           elevation: 10.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40.0),

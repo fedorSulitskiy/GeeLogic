@@ -3,14 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
 
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
-import 'package:frontend/widgets/_archive/login_details.dart';
-import 'package:frontend/widgets/user/user_content.dart';
+import 'package:frontend/app_theme.dart';
 
 /// The widget responsible for page selection in the [CatalogueContent] widget.
 class PageSelection extends ConsumerStatefulWidget {
   const PageSelection({super.key, required this.range});
 
-  /// Range is the number of pages required to show all algorithms loaded 
+  /// Range is the number of pages required to show all algorithms loaded
   /// from the backend.
   final int range;
 
@@ -60,7 +59,9 @@ class _NumberButton extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: isSelected ? googleBlue : borderColor,
+        color: isSelected
+            ? GeeLogicColourScheme.blue
+            : GeeLogicColourScheme.borderGrey,
       ),
       margin: const EdgeInsets.only(
         top: 4.0,
@@ -75,7 +76,9 @@ class _NumberButton extends ConsumerWidget {
             // Set the index of selected algorithm to 0 to show the first algorithm by default.
             ref.read(selectedAlgoIndexProvider.notifier).selectCard(0);
             // Set the selected page to the page selected by the user.
-            ref.read(selectedPageProvider.notifier).setPage(int.parse(number) - 1);
+            ref
+                .read(selectedPageProvider.notifier)
+                .setPage(int.parse(number) - 1);
           },
           child: SizedBox(
             width: number.length * 15.0,
@@ -83,7 +86,8 @@ class _NumberButton extends ConsumerWidget {
               child: Text(
                 number,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: isSelected ? Colors.white : googleBlue,
+                      color:
+                          isSelected ? Colors.white : GeeLogicColourScheme.blue,
                       fontSize: 24.0,
                     ),
               ),

@@ -12,6 +12,7 @@ import 'package:frontend/widgets/details/code_display.dart';
 import 'package:frontend/widgets/details/map.dart';
 import 'package:frontend/providers/algo_selection_provider.dart';
 import 'package:frontend/models/algo_data.dart';
+import 'package:frontend/app_theme.dart';
 
 /// The card that displays the details of the selected algorithm. Used by the [CatalogueScreen],
 /// bears great resemblance to the [DetailsContent] widget.
@@ -35,7 +36,7 @@ class DetailsCard extends ConsumerWidget {
             width: 700,
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.blue,
+                color: GeeLogicColourScheme.blue,
                 width: 3.0,
               ),
               borderRadius: BorderRadius.circular(16.0),
