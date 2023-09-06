@@ -11,25 +11,32 @@ const List<String> scopes = <String>[
 /// Signs in with Google service and returns the OAuthCredential which is 
 /// then used to sign in with Firebase in the [SignInButton] widget.
 Future<OAuthCredential> signInWithGoogle() async {
-  // TODO: consider using silentSingIn or sth
+  // Trigger the silent sign-in flow
+  try {
+    final GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
 
-  // Trigger the authentication flow
-  final GoogleSignInAccount? googleUser =
-      await GoogleSignIn(scopes: scopes).signIn();
+    if (googleUser == null) {
+      // If silent sign-in fails, trigger the normal authentication flow
+      final GoogleSignInAccount? googleUser =
+          await GoogleSignIn(scopes: scopes).signIn();
 
-  if (googleUser == null) {
-    throw Exception('Something went wrong!');
+      if (googleUser == null) {
+        throw Exception('Something went wrong!');
+      }
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the OAuthCredential
+    return credential;
+  } catch (error) {
+    throw Exception('Something went wrong while signing in with Google');
   }
-
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-
-  // Once signed in, return the OAuthCredential
-  return credential;
 }
