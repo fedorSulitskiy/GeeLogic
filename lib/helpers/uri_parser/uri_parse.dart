@@ -1,5 +1,4 @@
 /// Returns parsed Uri of node API with end point specified
-/// TODO: implement for all apis once deployed
 Uri nodeUri(String endpoint) {
   const String deployed = "https://geelogic-node-api.onrender.com/node_api/";
   // const String local = "http://localhost:3000/node_api/";

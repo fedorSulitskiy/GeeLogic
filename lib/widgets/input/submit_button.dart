@@ -10,6 +10,7 @@ import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/providers/input_title_provider.dart';
 import 'package:frontend/screens/catalogue_screen.dart';
 import 'package:frontend/app_theme.dart';
+import 'package:frontend/custom_page_route.dart';
 
 const double borderRadius = 30.0;
 const List<double> buttonDimensions = [30.0, 100.0];
@@ -227,7 +228,7 @@ class _SignInButtonState extends ConsumerState<SubmitButton> {
                 // Navigate to CatalogueScreen by default so user has something
                 // to do while loading occurs
                 Navigator.of(context).push(
-                  MaterialPageRoute(
+                  CustomPageRoute(
                     builder: (ctx) => const CatalogueScreen(),
                   ),
                 );

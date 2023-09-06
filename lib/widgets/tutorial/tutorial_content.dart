@@ -6,6 +6,7 @@ import 'package:frontend/widgets/tutorial/mock_add_algorithm_button.dart';
 import 'package:frontend/widgets/tutorial/mock_submit_button.dart';
 import 'package:frontend/widgets/tutorial/mock_tags_input.dart';
 import 'package:frontend/widgets/tutorial/mock_verify_button.dart';
+import 'package:frontend/custom_page_route.dart';
 
 class TutorialContent extends StatelessWidget {
   const TutorialContent({super.key});
@@ -83,7 +84,7 @@ class TutorialContent extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
+                    CustomPageRoute(
                       builder: (context) => const FeedbackScreen(),
                     ),
                   );

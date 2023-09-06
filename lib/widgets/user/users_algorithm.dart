@@ -7,6 +7,7 @@ import 'package:frontend/widgets/common/tag_bubble_plain.dart';
 import 'package:frontend/widgets/user/bookmark_button.dart';
 import 'package:frontend/widgets/user/edit_and_delete_buttons.dart';
 import 'package:frontend/app_theme.dart';
+import 'package:frontend/custom_page_route.dart';
 
 /// Displays the widget seen inside the [UserScreen], holding information
 /// about one of the algorithms either contributed or bookmarked by the user.
@@ -31,7 +32,7 @@ class UsersAlgorithm extends ConsumerWidget {
 
         // Navigate to the details screen of selected algorithm
         navContext.push(
-          MaterialPageRoute(
+          CustomPageRoute(
             builder: (ctx) => DetailsScreen(data: data),
           ),
         );

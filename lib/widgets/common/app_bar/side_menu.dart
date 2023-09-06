@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/screens/about_screen.dart';
-import 'package:frontend/screens/catalogue_screen.dart';
-import 'package:frontend/screens/feedback_screen.dart';
-import 'package:frontend/screens/tutorial_screen.dart';
-import 'package:frontend/screens/user_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:frontend/helpers/custom_icons/custom_icons_icons.dart';
 import 'package:frontend/providers/catalogue_api_provider.dart';
 import 'package:frontend/providers/catalogue_page_selection_provider.dart';
 import 'package:frontend/app_theme.dart';
+import 'package:frontend/custom_page_route.dart';
+import 'package:frontend/screens/about_screen.dart';
+import 'package:frontend/screens/catalogue_screen.dart';
+import 'package:frontend/screens/feedback_screen.dart';
+import 'package:frontend/screens/tutorial_screen.dart';
+import 'package:frontend/screens/user_screen.dart';
 
 /// Displays the menu of options visible on the left side of the screen.
 class SideMenu extends ConsumerStatefulWidget {
@@ -83,7 +84,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             icon: Icons.person_outline_rounded,
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const UserScreen(),
                 ),
               );
@@ -101,7 +102,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("0,1");
               ref.read(selectedPageProvider.notifier).setPage(0);
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const CatalogueScreen(),
                 ),
               );
@@ -119,7 +120,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("1");
               ref.read(selectedPageProvider.notifier).setPage(0);
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const CatalogueScreen(),
                 ),
               );
@@ -137,7 +138,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
               ref.read(catalogueSelectedApiProvider.notifier).selectApi("0");
               ref.read(selectedPageProvider.notifier).setPage(0);
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const CatalogueScreen(),
                 ),
               );
@@ -177,7 +178,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             icon: Icons.lightbulb_outline_rounded,
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const TutorialScreen(),
                 ),
               );
@@ -193,7 +194,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             icon: Icons.info_outline_rounded,
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const AboutScreen(),
                 ),
               );
@@ -209,7 +210,7 @@ class _SideMenuState extends ConsumerState<SideMenu>
             icon: Icons.feedback_outlined,
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                CustomPageRoute(
                   builder: (ctx) => const FeedbackScreen(),
                 ),
               );

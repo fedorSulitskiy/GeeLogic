@@ -9,6 +9,7 @@ import 'package:frontend/screens/details_screen.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/providers/algo_info_provider.dart';
 import 'package:frontend/app_theme.dart';
+import 'package:frontend/custom_page_route.dart';
 
 /// The top search bar that allow for searching of algorithms.
 class SearchGeeLogicBar extends ConsumerStatefulWidget {
@@ -55,7 +56,6 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
                 height: apiResponse.length * 30.0 +
                     (apiResponse.isEmpty ? 0 : 15.0),
                 color: GeeLogicColourScheme.backgroundColour,
-                // TODO: adjust for responsive design
                 constraints: const BoxConstraints(maxHeight: 900.0),
                 child: ListView.builder(
                   itemExtent: 30.0,
@@ -79,7 +79,7 @@ class _SearchGeeLogicBarState extends ConsumerState<SearchGeeLogicBar> {
                           );
                           // Navigate to the details screen of selected algorithm
                           navContext.push(
-                            MaterialPageRoute(
+                            CustomPageRoute(
                               builder: (ctx) =>
                                   DetailsScreen(data: data['results'][0]),
                             ),

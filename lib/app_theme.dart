@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:frontend/custom_page_route.dart';
+
 /// Custom color scheme for the application.
 class GeeLogicColourScheme extends ColorScheme {
   const GeeLogicColourScheme()
@@ -32,8 +34,18 @@ class GeeLogicColourScheme extends ColorScheme {
 
 /// Theme of the application.
 final appTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: const GeeLogicColourScheme(),
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  textTheme: GoogleFonts.josefinSansTextTheme(),
-);
+    useMaterial3: true,
+    colorScheme: const GeeLogicColourScheme(),
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    textTheme: GoogleFonts.josefinSansTextTheme(),
+    pageTransitionsTheme: const PageTransitionsTheme(
+      // To be on the safe side I have included these animations for all platforms
+      builders: {
+        TargetPlatform.windows: CustomTransitionBuilder(),
+        TargetPlatform.macOS: CustomTransitionBuilder(),
+        TargetPlatform.linux: CustomTransitionBuilder(),
+        TargetPlatform.android: CustomTransitionBuilder(),
+        TargetPlatform.iOS: CustomTransitionBuilder(),
+        TargetPlatform.fuchsia: CustomTransitionBuilder(),
+      },
+    ));

@@ -12,6 +12,7 @@ import 'package:frontend/providers/input_tags_provider.dart';
 import 'package:frontend/screens/edit_screen.dart';
 import 'package:frontend/helpers/uri_parser/uri_parse.dart';
 import 'package:frontend/app_theme.dart';
+import 'package:frontend/custom_page_route.dart';
 
 /// Buttons for editing and deleting the algorithm, found in the corner of
 /// [UserAlgorithm] widget.
@@ -242,7 +243,7 @@ class _EditAndDeleteButtonsState extends ConsumerState<EditAndDeleteButtons> {
 
                 // Start loading animation
                 navContext.push(
-                  MaterialPageRoute(
+                  CustomPageRoute(
                     builder: (ctx) => const StarLoadingScreen(),
                   ),
                 );
@@ -266,7 +267,7 @@ class _EditAndDeleteButtonsState extends ConsumerState<EditAndDeleteButtons> {
 
                 // Navigate to the edit screen
                 navContext.pushReplacement(
-                  MaterialPageRoute(
+                  CustomPageRoute(
                     builder: (ctx) => EditScreen(data: data),
                   ),
                 );

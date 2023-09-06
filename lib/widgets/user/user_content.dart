@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/screens/login_screen.dart';
 
+import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/widgets/user/contributions_or_bookmarks.dart';
 import 'package:frontend/widgets/common/loading_star.dart';
+import 'package:frontend/custom_page_route.dart';
 
 /// Organises the content of the [UserScreen].
 class UserContent extends StatefulWidget {
@@ -40,9 +41,8 @@ class _UserContentState extends State<UserContent> {
                   _firebase.signOut();
                   // Navigate to LoginScreen with no option to go back
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const LoginScreen(),
+                    CustomPageRoute(
+                      builder: (BuildContext context) => const LoginScreen(),
                     ),
                     (Route<dynamic> route) => false,
                   );
