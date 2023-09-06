@@ -44,7 +44,7 @@ class CodeDisplayWidget extends StatelessWidget {
                 // height: 40.0,
                 width: 570.0,
                 decoration: const BoxDecoration(
-                  color: GeeLogicColourScheme.borderGrey,
+                  color: GeeLogicColourScheme.lightGrey,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.zero,
                     topRight: Radius.zero,

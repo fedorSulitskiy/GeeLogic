@@ -30,6 +30,7 @@ class GeeLogicColourScheme extends ColorScheme {
   static const Color iconGrey = Color.fromARGB(255, 110, 110, 110);
   static const Color borderGrey = Color.fromARGB(255, 203, 205, 214);
   static const Color backgroundColour = Color.fromARGB(255, 254, 251, 255);
+  static const Color lightGrey = Color.fromARGB(255, 248, 248, 248);
 }
 
 /// Theme of the application.
