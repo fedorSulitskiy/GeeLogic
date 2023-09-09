@@ -120,114 +120,102 @@ class _ContributionsOrBookmarksState
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  child: Text(
-                    "Contributions",
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                        fontSize: 24.0,
-                        color: isContributions
-                            ? GeeLogicColourScheme.blue
-                            : Colors.black87),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isContributions = true;
-                    });
-                  },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                child: Text(
+                  "Contributions",
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      fontSize: 24.0,
+                      color: isContributions
+                          ? GeeLogicColourScheme.blue
+                          : Colors.black87),
                 ),
-                TextButton(
-                  child: Text(
-                    "Bookmarks",
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                        fontSize: 24.0,
-                        color: !isContributions
-                            ? GeeLogicColourScheme.blue
-                            : Colors.black87),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isContributions = false;
-                    });
-                  },
+                onPressed: () {
+                  setState(() {
+                    isContributions = true;
+                  });
+                },
+              ),
+              TextButton(
+                child: Text(
+                  "Bookmarks",
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      fontSize: 24.0,
+                      color: !isContributions
+                          ? GeeLogicColourScheme.blue
+                          : Colors.black87),
                 ),
-              ],
-            ),
+                onPressed: () {
+                  setState(() {
+                    isContributions = false;
+                  });
+                },
+              ),
+            ],
           ),
-          isContributions
-              // Contributed algorithms
-              ? Expanded(
-                  child: FutureBuilder<List<dynamic>>(
-                    future: _getContributedAlgorithmsData(ref),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        final contributedAlgorithms = snapshot.data;
-                        return contributedAlgorithms.isNull
-                            ? const Text('No contributions yet')
-                            : SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    ...contributedAlgorithms!
-                                        .map((contribution) {
-                                      return UsersAlgorithm(
-                                        data: contribution,
-                                        isContribution: true,
-                                        removeFunction: removeFromBookmarks,
-                                      );
-                                    }).toList(),
-                                  ],
-                                ),
-                              );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      return const LoadingStar();
-                    },
-                  ),
-                )
-              // Bookmarked algorithms
-              : Expanded(
-                  child: FutureBuilder<List<dynamic>>(
-                    future: _getBookmarkedAlgorithmData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        bookmarkedAlgorithms = snapshot.data;
-                        // FutureBuilder requesting tags
-                        return bookmarkedAlgorithms.isNull
-                            ? const Text('No bookmarks yet')
-                            : SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    ...bookmarkedAlgorithms!
-                                        .map((bookmarkedAlgo) {
-                                      return UsersAlgorithm(
-                                        data: AlgoData.fromJson(
-                                          bookmarkedAlgo,
-                                          bookmarkedAlgo['creatorDetails'],
-                                        ),
-                                        isContribution: false,
-                                      );
-                                    }).toList(),
-                                  ],
-                                ),
-                              );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      return const LoadingStar();
-                    },
-                  ),
-                ),
-        ],
-      ),
+        ),
+        isContributions
+            // Contributed algorithms
+            ? FutureBuilder<List<dynamic>>(
+                future: _getContributedAlgorithmsData(ref),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    final contributedAlgorithms = snapshot.data;
+                    return contributedAlgorithms.isNull
+                        ? const Text('No contributions yet')
+                        : Column(
+                            children: [
+                              ...contributedAlgorithms!.map((contribution) {
+                                return UsersAlgorithm(
+                                  data: contribution,
+                                  isContribution: true,
+                                  removeFunction: removeFromBookmarks,
+                                );
+                              }).toList(),
+                            ],
+                          );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  return const LoadingStar();
+                },
+              )
+
+            // Bookmarked algorithms
+            : FutureBuilder<List<dynamic>>(
+                future: _getBookmarkedAlgorithmData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    bookmarkedAlgorithms = snapshot.data;
+                    // FutureBuilder requesting tags
+                    return bookmarkedAlgorithms.isNull
+                        ? const Text('No bookmarks yet')
+                        : Column(
+                            children: [
+                              ...bookmarkedAlgorithms!.map((bookmarkedAlgo) {
+                                return UsersAlgorithm(
+                                  data: AlgoData.fromJson(
+                                    bookmarkedAlgo,
+                                    bookmarkedAlgo['creatorDetails'],
+                                  ),
+                                  isContribution: false,
+                                );
+                              }).toList(),
+                            ],
+                          );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  return const LoadingStar();
+                },
+              ),
+      ],
     );
   }
 }

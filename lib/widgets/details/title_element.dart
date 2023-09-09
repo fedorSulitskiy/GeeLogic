@@ -28,12 +28,16 @@ class TitleElement extends ConsumerWidget {
     // the isBookmarked attribute of any algorithm, without having to wait for the
     // [FutureBuilder] to rebuild the widget.
     final dataManager = ref.watch(dataManagerProvider);
+    
+    /// Reponsive desing element to extract current screensize
+    var screenSize = MediaQuery.of(context).size;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: 550.0,
+          width: 550.0 * screenSize.width / 1536,
           padding: const EdgeInsets.only(top: 20.0, left: 50.0),
           child: Text(
             title,

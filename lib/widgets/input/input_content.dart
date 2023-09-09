@@ -9,8 +9,6 @@ import 'package:frontend/widgets/input/tags_input.dart';
 import 'package:frontend/widgets/input/title_input.dart';
 import 'package:highlight/languages/python.dart';
 
-const _width = 900.0;
-
 /// Widget to organise the content of the [InputScreen].
 class InputContent extends StatefulWidget {
   const InputContent({super.key});
@@ -26,7 +24,7 @@ class _InputContentState extends State<InputContent> {
   final _controllerDescr = LanguageToolController();
   late CodeController _controllerCode;
 
-   @override
+  @override
   void initState() {
     super.initState();
     // Instantiate the CodeController
@@ -46,29 +44,48 @@ class _InputContentState extends State<InputContent> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    
+    var width = screenSize.width * 0.6;
+
+    if (width < 500) {
+      width = screenSize.width * 0.9;
+    }
+
     return SingleChildScrollView(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: _width,
+            width: width,
             child: Form(
               key: _formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Giving the appbar some space
                   const SizedBox(height: 25.0),
                   // Title Input
-                  TitleInput(controller: _controllerTitle),
+                  TitleInput(
+                    controller: _controllerTitle,
+                    width: width,
+                  ),
                   // Code Input
-                  CodeInput(controller: _controllerCode),
+                  CodeInput(
+                    controller: _controllerCode,
+                    width: width,
+                  ),
                   const SizedBox(height: 15.0),
                   // Description Input
-                  DescriptionInput(controller: _controllerDescr),
+                  DescriptionInput(
+                    controller: _controllerDescr,
+                    width: width,
+                  ),
                   const SizedBox(height: 15.0),
                   // Tags Inputs
-                  const TagsInput(),
+                  TagsInput(
+                    width: width,
+                  ),
                   const SizedBox(height: 30.0),
                   // Submit Button
                   const SubmitButton(),

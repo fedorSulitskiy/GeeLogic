@@ -47,6 +47,8 @@ class _TutorialCarouselState extends State<TutorialCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -75,8 +77,8 @@ class _TutorialCarouselState extends State<TutorialCarousel> {
         ),
         if (currentPageValue < tutorialCards.length-1)
           Positioned(
-            bottom: 340.0,
-            right: 100.0,
+            bottom: 340.0 * screenSize.height / 739.2,
+            right: 100.0 * (screenSize.width / 1600.0) * (screenSize.width / 1600),
             child: CarouselButton(
               direction: 'right',
               nextSlide: () {
@@ -90,8 +92,8 @@ class _TutorialCarouselState extends State<TutorialCarousel> {
           ),
         if (currentPageValue > 0)
           Positioned(
-            bottom: 340.0,
-            left: 100.0,
+            bottom: 340.0 * screenSize.height / 739.2,
+            left: 100.0 * (screenSize.width / 1600) * (screenSize.width / 1600),
             child: CarouselButton(
               direction: 'left',
               nextSlide: () {

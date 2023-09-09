@@ -28,11 +28,14 @@ class DetailsContent extends StatelessWidget {
             height: 25,
           ),
           SubTitleText(title: data.title, fontSize: 50.0),
-          UserCreatorDisplay(
-            name: data.creatorName,
-            surname: data.creatorSurname,
-            imageURL: data.creatorImageURL,
-            dateCreated: data.formattedDate,
+          SizedBox(
+            width: 900.0,
+            child: UserCreatorDisplay(
+              name: data.creatorName,
+              surname: data.creatorSurname,
+              imageURL: data.creatorImageURL,
+              dateCreated: data.formattedDate,
+            ),
           ),
           MapWidget(
             code: data.code,
@@ -46,7 +49,10 @@ class DetailsContent extends StatelessWidget {
           const SubTitleText(title: 'Tags'),
           TagsDisplay(tags: data.tags),
           const SubTitleText(title: 'Comments'),
-          CommentSection(algoId: data.id),
+          SizedBox(
+            width: 900.0,
+            child: CommentSection(algoId: data.id),
+          ),
           const SizedBox(height: 50),
         ],
       ),

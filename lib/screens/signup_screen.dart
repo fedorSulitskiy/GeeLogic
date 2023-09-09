@@ -12,11 +12,6 @@ import 'package:frontend/app_theme.dart';
 
 final _firebase = FirebaseAuth.instance;
 
-/// Constant responsible for the width of the default input field, for inputting
-/// the name and surname. The width of the bio input field is calculated by
-/// doubling it and adding the space between the two input fields for name and
-/// surname.
-const double inputWidth = 300.0;
 var _enteredName = '';
 var _enteredSurname = '';
 var _enteredBio = '';
@@ -130,15 +125,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       memoryImage = MemoryImage(_pickedImageFileInBytes!);
     }
 
+    double inputWidth = 300.0 * MediaQuery.of(context).size.width / 1536;
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset('background.png'),
+          Image.asset('background.png', fit: BoxFit.fitHeight),
           Center(
             child: SizedBox(
               height: 550,
-              width: inputWidth * 2 + 100,
+              width: MediaQuery.of(context).size.width > 750
+                  ? inputWidth * 2 + 100
+                  : 440,
               child: Card(
                 elevation: 10.0,
                 surfaceTintColor: Colors.white,
@@ -242,6 +241,8 @@ class _InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double inputWidth = 300.0 * MediaQuery.of(context).size.width / 1536;
+
     return TextFormField(
       cursorColor: GeeLogicColourScheme.blue,
       decoration: InputDecoration(
@@ -254,8 +255,10 @@ class _InputField extends StatelessWidget {
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0))),
         constraints: BoxConstraints(
-          maxWidth:
-              inputField == InputField.bio ? inputWidth * 2 + 25.0 : inputWidth,
+          maxWidth: MediaQuery.of(context).size.width > 750
+                  ? inputField == InputField.bio ? inputWidth * 2 + 25.0 : inputWidth
+                  : inputField == InputField.bio ? 365 : 170
+              ,
         ),
       ),
       autocorrect: true,

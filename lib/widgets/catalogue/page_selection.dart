@@ -30,6 +30,7 @@ class _PageSelectionState extends ConsumerState<PageSelection> {
     }
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ...numbers.map(
           (e) => _NumberButton(

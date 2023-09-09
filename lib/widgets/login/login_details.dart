@@ -8,42 +8,62 @@ class LoginDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
+    var topWelcomePosition =
+        120.0 * screenSize.height / 739.2 * 1500 / screenSize.width;
+    var signInButtonPostion = 400 * screenSize.height / 739.2 * screenSize.width / 1500;
+
+    var welcomeTextSize =
+        100.0 * screenSize.height / 739.2 * screenSize.width / 1500;
+    var geeLogicTextSize =
+        600.0 * screenSize.height / 739.2 * screenSize.width / 1500;
+
     return Stack(
       alignment: Alignment.center,
       children: [
         Positioned(
-          top: 120.0,
+          top: (topWelcomePosition < 140) ? topWelcomePosition : 140,
           left: 20.0,
           child: SizedBox(
             width: 700.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Welcome to ',
-                  style: TextStyle(fontSize: 100.0, height: -1),
+                  style: TextStyle(
+                      fontSize: welcomeTextSize > 50 ? welcomeTextSize : 50,
+                      height: -1),
                 ),
                 Image.asset(
                   'assets/logo_bold.png',
-                  width: 600.0,
+                  width: geeLogicTextSize > 300 ? geeLogicTextSize : 300,
                   // height: 40.0,
                 ),
               ],
             ),
           ),
         ),
-        const Positioned(
-          bottom: 280.0,
-          child: SignInButton(),
+        Positioned(
+          top: signInButtonPostion > topWelcomePosition + 160
+              ? signInButtonPostion
+              : topWelcomePosition + 160,
+          child: const SignInButton(),
         ),
         Positioned(
-          bottom: 200.0,
-          child: Text(
-            'to access our resources you must sign up using your Google account',
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall!
-                .copyWith(fontSize: 20.0),
+          top: signInButtonPostion > topWelcomePosition + 150
+              ? signInButtonPostion + 130
+              : topWelcomePosition + 230,
+          child: SizedBox(
+            width: 610.0 * screenSize.width / 1400.0,
+            child: Text(
+              'to access our resources you must sign up using your Google account',
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall!
+                  .copyWith(fontSize: 20.0),
+            ),
           ),
         ),
       ],

@@ -44,185 +44,204 @@ class _SideMenuState extends ConsumerState<SideMenu>
 
   @override
   Widget build(BuildContext context) {
+    /// Responsive design element to extract current screensize
+    var screenSize = MediaQuery.of(context).size;
+
+    if (screenSize.width < 1450) {
+      setState(() {
+        _isOpened = false;
+        _renderTitle = false;
+      });
+    }
     return Padding(
       padding: const EdgeInsets.only(
         top: 10.0,
         left: 16.0,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          // MENU
-          _MenuOption(
-            title: '',
-            icon: Icons.menu,
-            onPressed: () {
-              if (_isOpened) {
-                Future.delayed(const Duration(milliseconds: 300), () {
-                  setState(() {
-                    _renderTitle = false;
-                  });
-                });
-              } else {
-                setState(() {
-                  _renderTitle = true;
-                });
-              }
-              setState(() {
-                _isOpened = !_isOpened;
-              });
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-            isMenu: true,
+          SizedBox(
+            height: screenSize.height - 20.0,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // MENU
+                  _MenuOption(
+                    title: '',
+                    icon: Icons.menu,
+                    onPressed: () {
+                      if (_isOpened) {
+                        Future.delayed(const Duration(milliseconds: 300), () {
+                          setState(() {
+                            _renderTitle = false;
+                          });
+                        });
+                      } else {
+                        setState(() {
+                          _renderTitle = true;
+                        });
+                      }
+                      setState(() {
+                        _isOpened = !_isOpened;
+                      });
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                    isMenu: true,
+                  ),
+                  
+                  // PROFILE
+                  _MenuOption(
+                    title: 'profile',
+                    icon: Icons.person_outline_rounded,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const UserScreen(),
+                        ),
+                      );
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // ALL ALGORITHMS CATALOGUE
+                  _MenuOption(
+                    title: 'all algorithms',
+                    icon: Icons.language,
+                    onPressed: () {
+                      ref.read(catalogueSelectedApiProvider.notifier).selectApi("0,1");
+                      ref.read(selectedPageProvider.notifier).setPage(0);
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const CatalogueScreen(),
+                        ),
+                      );
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // PYTHON API CATALOGUE
+                  _MenuOption(
+                    title: 'python api',
+                    icon: CustomIcons.python,
+                    onPressed: () {
+                      ref.read(catalogueSelectedApiProvider.notifier).selectApi("1");
+                      ref.read(selectedPageProvider.notifier).setPage(0);
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const CatalogueScreen(),
+                        ),
+                      );
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // JAVASCRIPT API CATALOGUE
+                  _MenuOption(
+                    title: 'javaScript api',
+                    icon: CustomIcons.jsSquare,
+                    onPressed: () {
+                      ref.read(catalogueSelectedApiProvider.notifier).selectApi("0");
+                      ref.read(selectedPageProvider.notifier).setPage(0);
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const CatalogueScreen(),
+                        ),
+                      );
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // GOOGLE EARTH ENGINE REDIRECT
+                  _MenuOption(
+                    title: 'earth engine',
+                    icon: CustomIcons.google,
+                    onPressed: () {
+                      _launchURL(googleEarthEngineURL);
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // GEEMAP REDIRECT
+                  _MenuOption(
+                    title: 'geemap',
+                    icon: CustomIcons.geemap,
+                    onPressed: () {
+                      _launchURL(geemapURL);
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // TUTORIALS PAGE
+                  _MenuOption(
+                    title: 'tutorial',
+                    icon: Icons.lightbulb_outline_rounded,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const TutorialScreen(),
+                        ),
+                      );
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // ABOUT PAGE
+                  _MenuOption(
+                    title: 'about',
+                    icon: Icons.info_outline_rounded,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const AboutScreen(),
+                        ),
+                      );
+                    },
+                    iconSize: 30.0,
+                    isOpened: _isOpened,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // FEEDBACK
+                  _MenuOption(
+                    title: 'feedback',
+                    icon: Icons.feedback_outlined,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          builder: (ctx) => const FeedbackScreen(),
+                        ),
+                      );
+                    },
+                    isOpened: _isOpened,
+                    iconSize: 30.0,
+                    renderTitle: _renderTitle,
+                  ),
+                  
+                  // Since Screen widgets rely on flexibles, we need to add a Spacer
+                  // widget to fill the remaining space when the menu has contracted.
+                  // Expanded(child: Container()),
+                ],
+              ),
+            ),
           ),
-
-          // PROFILE
-          _MenuOption(
-            title: 'profile',
-            icon: Icons.person_outline_rounded,
-            onPressed: () {
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const UserScreen(),
-                ),
-              );
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // ALL ALGORITHMS CATALOGUE
-          _MenuOption(
-            title: 'all algorithms',
-            icon: Icons.language,
-            onPressed: () {
-              ref.read(catalogueSelectedApiProvider.notifier).selectApi("0,1");
-              ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const CatalogueScreen(),
-                ),
-              );
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // PYTHON API CATALOGUE
-          _MenuOption(
-            title: 'python api',
-            icon: CustomIcons.python,
-            onPressed: () {
-              ref.read(catalogueSelectedApiProvider.notifier).selectApi("1");
-              ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const CatalogueScreen(),
-                ),
-              );
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // JAVASCRIPT API CATALOGUE
-          _MenuOption(
-            title: 'javaScript api',
-            icon: CustomIcons.jsSquare,
-            onPressed: () {
-              ref.read(catalogueSelectedApiProvider.notifier).selectApi("0");
-              ref.read(selectedPageProvider.notifier).setPage(0);
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const CatalogueScreen(),
-                ),
-              );
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // GOOGLE EARTH ENGINE REDIRECT
-          _MenuOption(
-            title: 'earth engine',
-            icon: CustomIcons.google,
-            onPressed: () {
-              _launchURL(googleEarthEngineURL);
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // GEEMAP REDIRECT
-          _MenuOption(
-            title: 'geemap',
-            icon: CustomIcons.geemap,
-            onPressed: () {
-              _launchURL(geemapURL);
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // TUTORIALS PAGE
-          _MenuOption(
-            title: 'tutorial',
-            icon: Icons.lightbulb_outline_rounded,
-            onPressed: () {
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const TutorialScreen(),
-                ),
-              );
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // ABOUT PAGE
-          _MenuOption(
-            title: 'about',
-            icon: Icons.info_outline_rounded,
-            onPressed: () {
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const AboutScreen(),
-                ),
-              );
-            },
-            iconSize: 30.0,
-            isOpened: _isOpened,
-            renderTitle: _renderTitle,
-          ),
-
-          // FEEDBACK
-          _MenuOption(
-            title: 'feedback',
-            icon: Icons.feedback_outlined,
-            onPressed: () {
-              Navigator.of(context).push(
-                CustomPageRoute(
-                  builder: (ctx) => const FeedbackScreen(),
-                ),
-              );
-            },
-            isOpened: _isOpened,
-            iconSize: 30.0,
-            renderTitle: _renderTitle,
-          ),
-
-          // Since Screen widgets rely on flexibles, we need to add an expanded
-          // widget to fill the remaining space when the menu has contracted.
-          Expanded(child: Container())
+          const Spacer(),
         ],
       ),
     );

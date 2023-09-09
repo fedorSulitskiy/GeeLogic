@@ -17,9 +17,10 @@ const javaScriptDefaultCode = "// Input your code here please!\n\n";
 
 /// Widget to display the code input field.
 class CodeInput extends ConsumerStatefulWidget {
-  const CodeInput({super.key, required this.controller});
+  const CodeInput({super.key, required this.controller, this.width = 900.0});
 
   final CodeController controller;
+  final double width;
 
   @override
   ConsumerState<CodeInput> createState() => _CodeInputState();
@@ -42,7 +43,7 @@ class _CodeInputState extends ConsumerState<CodeInput> {
           child: Column(
             children: [
               SizedBox(
-                width: 900.0,
+                width: widget.width,
                 child: CodeTheme(
                   data: const CodeThemeData(styles: googlecodeTheme),
                   child: CodeField(
@@ -78,72 +79,84 @@ class _CodeInputState extends ConsumerState<CodeInput> {
                     right: 12.0,
                     left: 12.0,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Column(
                     children: [
-                      // Python or JavaScript API
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                ref
-                                    .read(apiLanguageProvider.notifier)
-                                    .setLanguage(true);
-                                widget.controller.language = python;
-                                widget.controller.text = _codeChanged
-                                    ? currentCode
-                                    : pythonDefaultCode;
-                              });
-                            },
-                            child: Text(
-                              '<< Python',
+                          // Python or JavaScript API
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    ref
+                                        .read(apiLanguageProvider.notifier)
+                                        .setLanguage(true);
+                                    widget.controller.language = python;
+                                    widget.controller.text = _codeChanged
+                                        ? currentCode
+                                        : pythonDefaultCode;
+                                  });
+                                },
+                                child: Text(
+                                  '<< Python',
+                                  style: GoogleFonts.sourceCodePro(
+                                    color: isPython
+                                        ? GeeLogicColourScheme.blue
+                                        : Colors.black87,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '/',
+                                style: GoogleFonts.sourceCodePro(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    ref
+                                        .read(apiLanguageProvider.notifier)
+                                        .setLanguage(false);
+                                    widget.controller.language = javascript;
+                                    widget.controller.text = _codeChanged
+                                        ? currentCode
+                                        : javaScriptDefaultCode;
+                                  });
+                                },
+                                child: Text(
+                                  'JavaScript >>',
+                                  style: GoogleFonts.sourceCodePro(
+                                    color: isPython
+                                        ? Colors.black87
+                                        : GeeLogicColourScheme.yellow,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (!isPython &&
+                              MediaQuery.of(context).size.width > 1360)
+                            Text(
+                              "JavaScript API doesn't always work with any code!",
                               style: GoogleFonts.sourceCodePro(
-                                color: isPython
-                                    ? GeeLogicColourScheme.blue
-                                    : Colors.black87,
+                                color: GeeLogicColourScheme.red,
                               ),
                             ),
-                          ),
-                          Text(
-                            '/',
-                            style: GoogleFonts.sourceCodePro(
-                                fontWeight: FontWeight.bold),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                ref
-                                    .read(apiLanguageProvider.notifier)
-                                    .setLanguage(false);
-                                widget.controller.language = javascript;
-                                widget.controller.text = _codeChanged
-                                    ? currentCode
-                                    : javaScriptDefaultCode;
-                              });
-                            },
-                            child: Text(
-                              'JavaScript >>',
-                              style: GoogleFonts.sourceCodePro(
-                                color: isPython
-                                    ? Colors.black87
-                                    : GeeLogicColourScheme.yellow,
-                              ),
-                            ),
-                          ),
+                          // Verify code
+                          const VerifyButton(),
                         ],
                       ),
-                      if (!isPython)
+                      if (!isPython && MediaQuery.of(context).size.width < 1360)
                         Text(
                           "JavaScript API doesn't always work with any code!",
                           style: GoogleFonts.sourceCodePro(
                             color: GeeLogicColourScheme.red,
                           ),
                         ),
-                      // Verify code
-                      const VerifyButton(),
                     ],
                   ),
                 ),

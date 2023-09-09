@@ -53,7 +53,7 @@ class _TagsInputState extends ConsumerState<TagsInput> {
       },
       child: Container(
         margin: const EdgeInsets.all(8.0),
-        width: 884.0,
+        width: widget.width,
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),

@@ -1,12 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:frontend/app_theme.dart';
 import 'package:frontend/widgets/feedback/submit_button.dart';
-
-const double inputWidth = 800.0;
 
 var _enteredName = '';
 var _enteredEmail = '';
@@ -154,67 +153,85 @@ class _FeedbackContentState extends State<FeedbackContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _feedbackKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 50.0),
+    /// Responsive design element to extract current screensize
+    var screenSize = MediaQuery.of(context).size;
 
-            // PAGE TITLE
-            Text(
-              'Please let us know what you think!',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-            const SizedBox(height: 50.0),
+    double inputWidth = 800.0 * sqrt(screenSize.width / 1536);
 
-            // NAME INPUT
-            _InputField(
-              title: 'name',
-              onSaved: (value) {
-                _enteredName = value!;
-              },
-            ),
-            const SizedBox(height: 20.0),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Form(
+        key: _feedbackKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 50.0),
 
-            // EMAIL INPUT
-            _InputField(
-              title: 'email',
-              isEmail: true,
-              onSaved: (value) {
-                _enteredEmail = value!;
-              },
-            ),
-            const SizedBox(height: 30.0),
+              // PAGE TITLE
+              Container(
+                width: 910 * sqrt(screenSize.width / 1536),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  'Please let us know what you think!',
+                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                        fontSize: 57.0 * pow(screenSize.width / 1536, 1 / 4),
+                      ),
+                ),
+              ),
+              const SizedBox(height: 50.0),
 
-            // TITLE INPUT
-            _InputField(
-              title: 'title',
-              bottomRadius: 0.0,
-              onSaved: (value) {
-                _enteredTitle = value!;
-              },
-            ),
+              // NAME INPUT
+              _InputField(
+                title: 'name',
+                inputWidth: inputWidth,
+                onSaved: (value) {
+                  _enteredName = value!;
+                },
+              ),
+              const SizedBox(height: 20.0),
 
-            // MESSAGE INPUT (JOINT WITH TITLE)
-            _InputField(
-              title: 'message',
-              minLines: 5,
-              maxLines: null,
-              topRadius: 0.0,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              onSaved: (value) {
-                _enteredMessage = value!;
-              },
-            ),
-            const SizedBox(height: 30.0),
+              // EMAIL INPUT
+              _InputField(
+                title: 'email',
+                isEmail: true,
+                inputWidth: inputWidth,
+                onSaved: (value) {
+                  _enteredEmail = value!;
+                },
+              ),
+              const SizedBox(height: 30.0),
 
-            // SUBMIT BUTTON
-            SubmitButton(
-              onPressed: submit,
-            ),
-            const SizedBox(height: 200.0),
-          ],
+              // TITLE INPUT
+              _InputField(
+                title: 'title',
+                bottomRadius: 0.0,
+                inputWidth: inputWidth,
+                onSaved: (value) {
+                  _enteredTitle = value!;
+                },
+              ),
+
+              // MESSAGE INPUT (JOINT WITH TITLE)
+              _InputField(
+                title: 'message',
+                minLines: 5,
+                maxLines: null,
+                topRadius: 0.0,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                inputWidth: inputWidth,
+                onSaved: (value) {
+                  _enteredMessage = value!;
+                },
+              ),
+              const SizedBox(height: 30.0),
+
+              // SUBMIT BUTTON
+              SubmitButton(
+                onPressed: submit,
+              ),
+              const SizedBox(height: 200.0),
+            ],
+          ),
         ),
       ),
     );
@@ -224,15 +241,17 @@ class _FeedbackContentState extends State<FeedbackContent> {
 /// The [_InputField] class is a customizable text input field widget in Dart that includes validation
 /// for empty values and email format.
 class _InputField extends StatelessWidget {
-  const _InputField(
-      {required this.title,
-      required this.onSaved,
-      this.minLines = 1,
-      this.maxLines = 1,
-      this.topRadius = 20.0,
-      this.bottomRadius = 20.0,
-      this.floatingLabelBehavior = FloatingLabelBehavior.auto,
-      this.isEmail = false});
+  const _InputField({
+    required this.title,
+    required this.onSaved,
+    this.minLines = 1,
+    this.maxLines = 1,
+    this.topRadius = 20.0,
+    this.bottomRadius = 20.0,
+    this.floatingLabelBehavior = FloatingLabelBehavior.auto,
+    this.isEmail = false,
+    required this.inputWidth,
+  });
 
   final String title;
   final void Function(String?) onSaved;
@@ -242,6 +261,7 @@ class _InputField extends StatelessWidget {
   final double bottomRadius;
   final FloatingLabelBehavior floatingLabelBehavior;
   final bool isEmail;
+  final double inputWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +282,7 @@ class _InputField extends StatelessWidget {
             bottomRight: Radius.circular(bottomRadius),
           ),
         ),
-        constraints: const BoxConstraints(
+        constraints: BoxConstraints(
           maxWidth: inputWidth,
         ),
       ),

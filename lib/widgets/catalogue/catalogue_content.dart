@@ -57,6 +57,11 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
     /// the selection aura around the selected card.
     bool isSelected = false;
 
+    /// Responsive design element to extract current screensize
+    var screenSize = MediaQuery.of(context).size;
+
+    var algoCardScaling = screenSize.width / 1536;
+
     return algosFromBackend.when(
       data: (algosFromBackend) {
         return Row(
@@ -64,47 +69,67 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Scrollable column of AlgoCard widgets for user selection
-            ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Ensures I can scroll beyond the app bar
-                    const SizedBox(height: 25),
-                    // The algo cards
-                    ...List<Widget>.generate(
-                      algosFromBackend['results'].length,
-                      (index) {
-                        // Data gathered from the backend
-                        AlgoData data = algosFromBackend['results'][index];
+            Expanded(
+              flex: 7,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: SingleChildScrollView(
+                    child: Transform(
+                      transform: Matrix4.identity()
+                        ..scale(algoCardScaling > 0.7 ? algoCardScaling : 0.7),
+                      alignment: Alignment.topRight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          // Ensures I can scroll beyond the app bar
+                          SizedBox(
+                            height: algoCardScaling > 0.7
+                                ? 25 / algoCardScaling
+                                : 25 / 0.7,
+                          ),
+                          // The algo cards
+                          ...List<Widget>.generate(
+                            algosFromBackend['results'].length,
+                            (index) {
+                              // Data gathered from the backend
+                              AlgoData data =
+                                  algosFromBackend['results'][index];
 
-                        // Visually determines which card is selected, by setting
-                        // the selection aura to on depending on the selectionIndex
-                        if (selectedIndex == index) {
-                          setState(() {
-                            isSelected = true;
-                          });
-                        } else {
-                          setState(() {
-                            isSelected = false;
-                          });
-                        }
+                              // Visually determines which card is selected, by setting
+                              // the selection aura to on depending on the selectionIndex
+                              if (selectedIndex == index) {
+                                setState(() {
+                                  isSelected = true;
+                                });
+                              } else {
+                                setState(() {
+                                  isSelected = false;
+                                });
+                              }
 
-                        // Display the AlgoCard widget
-                        return AlgoCard(
-                          data: data,
-                          index: index,
-                          isSelected: isSelected,
-                        );
-                      },
+                              // Display the AlgoCard widget
+                              return AlgoCard(
+                                data: data,
+                                index: index,
+                                isSelected: isSelected,
+                              );
+                            },
+                          ),
+
+                          // The page selection widget
+                          SizedBox(
+                            width: 368,
+                            child: PageSelection(
+                                range: (algosFromBackend['count'] / 5).ceil()),
+                          ),
+                          const SizedBox(height: 25),
+                        ],
+                      ),
                     ),
-
-                    // The page selection widget
-                    PageSelection(
-                        range: (algosFromBackend['count'] / 5).ceil()),
-                    const SizedBox(height: 25),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -113,18 +138,22 @@ class _CatalogueContentState extends ConsumerState<CatalogueContent> {
             ),
             // Scrollable column of DetailsCard widget with details of the selected
             // algorithm.
-            ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Ensures I can scroll beyond the app bar
-                    const SizedBox(height: 25),
-                    // Details about each algorithm
-                    DetailsCard(loadedAlgos: algosFromBackend['results']),
-                    const SizedBox(height: 25),
-                  ],
+            Expanded(
+              flex: 10,
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Ensures I can scroll beyond the app bar
+                      const SizedBox(height: 25),
+                      // Details about each algorithm
+                      DetailsCard(loadedAlgos: algosFromBackend['results']),
+                      const SizedBox(height: 25),
+                    ],
+                  ),
                 ),
               ),
             )

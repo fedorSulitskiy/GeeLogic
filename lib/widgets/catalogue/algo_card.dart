@@ -52,6 +52,10 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
     // the isBookmarked attribute of any algorithm, without having to wait for the
     // [FutureBuilder] to rebuild the widget.
     final dataManager = ref.watch(dataManagerProvider);
+
+    /// Responsive desing element to extract current screensize
+    var screenSize = MediaQuery.of(context).size;
+
     return InkWell(
       onTap: () {
         // Notifies the [selectedAlgoIndexProvider] that this card has been selected,
@@ -171,349 +175,32 @@ class _AlgoCardState extends ConsumerState<AlgoCard> {
                   // Side buttons; votes and bookmark
                   Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        _SideButton(
-                          // Notice my use of provider for the bookmark status,
-                          // and only for bookmark status. This allows for quick
-                          // updates of the bookmark status without having to
-                          // wait for the FutureBuilder to rebuild the widget.
-                          icon: dataManager
-                                  .getDataItem(widget.data.id)
-                                  .isBookmarked
-                              ? const Icon(Icons.bookmark, size: 24.0)
-                              : const Icon(Icons.bookmark_border, size: 24.0),
-                          size: 24.0,
-                          onPressed: () async {
-                            // Update data in the database
-                            if (dataManager
-                                .getDataItem(widget.data.id)
-                                .isBookmarked) {
-                              // Delete bookmark if it exists
-                              final headers = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body = json.encode({
-                                "algo_id": widget.data.id,
-                                "user_id": _firebase.currentUser!.uid,
-                              });
-                              await http.delete(
-                                nodeUri('remove_bookmark'),
-                                headers: headers,
-                                body: body,
-                              );
-                            } else {
-                              // Add bookmark if it doesn't exist
-                              final headers = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body = json.encode({
-                                "algo_id": widget.data.id,
-                                "user_id": _firebase.currentUser!.uid,
-                              });
-                              await http.post(
-                                nodeUri('bookmark_algo'),
-                                headers: headers,
-                                body: body,
-                              );
-                            }
-
-                            // Update data locally
-                            final updatedAlgo = AlgoData(
-                              id: widget.data.id,
-                              title: widget.data.title,
-                              upVotes: widget.data.upVotes,
-                              downVotes: widget.data.downVotes,
-                              datePosted: widget.data.datePosted,
-                              image: widget.data.image,
-                              description: widget.data.description,
-                              isBookmarked: !dataManager
-                                  .getDataItem(widget.data.id)
-                                  .isBookmarked,
-                              api: widget.data.api,
-                              code: widget.data.code,
-                              userCreator: widget.data.userCreator,
-                              creatorName: widget.data.creatorName,
-                              creatorSurname: widget.data.creatorSurname,
-                              creatorImageURL: widget.data.creatorImageURL,
-                              tags: widget.data.tags,
-                              userVote: widget.data.userVote,
-                            );
-                            // Notifies the [dataManagerProvider] that this algorithm has been bookmarked,
-                            // by passing its index to the provider's notifier. This index will be used in
-                            // CatalogueScreen to show bookmarked icon on the card, and in the
-                            // DetailsCard on the same screen to show the details of the bookmarked algorithm.
-                            dataManager.updateSingleData(
-                              id: widget.data.id,
-                              newData: updatedAlgo,
-                            );
-                          },
-                        ),
-                        _SideButton(
-                          icon: Icon(
-                            Icons.arrow_drop_up,
-                            size: 35.0,
-                            color: widget.data.userVote == 1
-                                ? GeeLogicColourScheme.blue
-                                : null,
+                    child: screenSize.width > 870
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ...buildSideButtons(
+                                widget: widget,
+                                dataManager: dataManager,
+                                setState: setState,
+                                context: context,
+                                positiveNet: positiveNet,
+                                negativeNet: negativeNet,
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              ...buildSideButtons(
+                                widget: widget,
+                                dataManager: dataManager,
+                                setState: setState,
+                                context: context,
+                                positiveNet: positiveNet,
+                                negativeNet: negativeNet,
+                              ),
+                            ],
                           ),
-                          size: 35.0,
-                          onPressed: () async {
-                            // TODO: Clean up this repetitive code. I was too sleepy when I wrote this :,,,(
-                            final int? currentUserVote = widget.data.userVote;
-
-                            if (currentUserVote == 1) {
-                              // If user has already upvoted then remove upvote
-
-                              // Delete upvote for the user.
-                              final headers = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body = json.encode({
-                                "algo_id": widget.data.id,
-                                "user_id": _firebase.currentUser!.uid,
-                              });
-                              await http.delete(
-                                nodeUri('remove_vote'),
-                                headers: headers,
-                                body: body,
-                              );
-
-                              // Update the total upvote count.
-                              final headers2 = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body2 = json.encode({
-                                "algo_id": widget.data.id,
-                                "change": -1,
-                              });
-                              await http.patch(
-                                nodeUri('up_vote'),
-                                headers: headers2,
-                                body: body2,
-                              );
-
-                              // Update local state:
-                              setState(() {
-                                widget.data.userVote = null;
-                                widget.data.upVotes--;
-                              });
-
-                              // Stop logic from progressing further.
-                              return;
-                            } else if (currentUserVote == -1) {
-                              // If user has downvoted then remove downvote and
-                              // add upvote.
-
-                              // Delete downvote for the user.
-                              final headers = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body = json.encode({
-                                "algo_id": widget.data.id,
-                                "user_id": _firebase.currentUser!.uid,
-                              });
-                              await http.delete(
-                                nodeUri('remove_vote'),
-                                headers: headers,
-                                body: body,
-                              );
-
-                              // Update the total downvote count.
-                              final headers2 = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body2 = json.encode({
-                                "algo_id": widget.data.id,
-                                "change": -1,
-                              });
-                              await http.patch(
-                                nodeUri('down_vote'),
-                                headers: headers2,
-                                body: body2,
-                              );
-
-                              // Update local state:
-                              // No need to setState because widget will be rebuilt
-                              // later in the logic
-                              widget.data.downVotes--;
-                            }
-
-                            // If user has not voted yet or voted negative
-                            // before, add upvote to user's votes.
-                            final headers3 = {
-                              'Content-Type': 'application/json'
-                            };
-                            final body3 = json.encode({
-                              "algo_id": widget.data.id,
-                              "user_id": _firebase.currentUser!.uid,
-                              "vote": 1,
-                            });
-                            await http.post(
-                              nodeUri('add_vote'),
-                              headers: headers3,
-                              body: body3,
-                            );
-
-                            // Update the total number of upvotes.
-                            final headers4 = {
-                              'Content-Type': 'application/json'
-                            };
-                            final body4 = json.encode({
-                              "algo_id": widget.data.id,
-                              "change": 1,
-                            });
-                            await http.patch(
-                              nodeUri('up_vote'),
-                              headers: headers4,
-                              body: body4,
-                            );
-
-                            // Update local state
-                            setState(() {
-                              widget.data.userVote = 1;
-                              widget.data.upVotes++;
-                            });
-                          },
-                        ),
-                        Text(
-                          // widget.data.netVotes.abs().toString(),
-                          widget.data.netVotes.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color: widget.data.netVotes.isNegative
-                                      ? negativeNet
-                                      : positiveNet),
-                        ),
-                        // Down vote button
-                        _SideButton(
-                          icon: Icon(Icons.arrow_drop_down,
-                              size: 35.0,
-                              color: widget.data.userVote == -1
-                                  ? GeeLogicColourScheme.red
-                                  : null),
-                          size: 35.0,
-                          onPressed: () async {
-                            final int? currentUserVote = widget.data.userVote;
-
-                            if (currentUserVote == 1) {
-                              // If user has already upvoted, remove upvote and downvote
-
-                              // Delete upvote for the user.
-                              final headers = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body = json.encode({
-                                "algo_id": widget.data.id,
-                                "user_id": _firebase.currentUser!.uid,
-                              });
-                              await http.delete(
-                                nodeUri('remove_vote'),
-                                headers: headers,
-                                body: body,
-                              );
-
-                              // Update the total upvote count.
-                              final headers2 = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body2 = json.encode({
-                                "algo_id": widget.data.id,
-                                "change": -1,
-                              });
-                              await http.patch(
-                                nodeUri('up_vote'),
-                                headers: headers2,
-                                body: body2,
-                              );
-
-                              // Update local state:
-                              // No need to setState because widget will be rebuilt
-                              // later in the logic
-                              widget.data.upVotes--;
-                            } else if (currentUserVote == -1) {
-                              // If user has already downvoted then remove downvote
-
-                              // Delete downvote for the user.
-                              final headers = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body = json.encode({
-                                "algo_id": widget.data.id,
-                                "user_id": _firebase.currentUser!.uid,
-                              });
-                              await http.delete(
-                                nodeUri('remove_vote'),
-                                headers: headers,
-                                body: body,
-                              );
-
-                              // Update the total downvote count.
-                              final headers2 = {
-                                'Content-Type': 'application/json'
-                              };
-                              final body2 = json.encode({
-                                "algo_id": widget.data.id,
-                                "change": -1,
-                              });
-                              await http.patch(
-                                nodeUri('down_vote'),
-                                headers: headers2,
-                                body: body2,
-                              );
-
-                              // Update local state:
-                              setState(() {
-                                widget.data.userVote = null;
-                                widget.data.downVotes--;
-                              });
-
-                              // Stop logic from progressing further.
-                              return;
-                            }
-
-                            // If user has not voted yet or voted positive
-                            // before, add downvote to user's votes.
-                            final headers3 = {
-                              'Content-Type': 'application/json'
-                            };
-                            final body3 = json.encode({
-                              "algo_id": widget.data.id,
-                              "user_id": _firebase.currentUser!.uid,
-                              "vote": -1,
-                            });
-                            await http.post(
-                              nodeUri('add_vote'),
-                              headers: headers3,
-                              body: body3,
-                            );
-
-                            // Update the total number of downvotes.
-                            final headers4 = {
-                              'Content-Type': 'application/json'
-                            };
-                            final body4 = json.encode({
-                              "algo_id": widget.data.id,
-                              "change": 1,
-                            });
-                            await http.patch(
-                              nodeUri('down_vote'),
-                              headers: headers4,
-                              body: body4,
-                            );
-
-                            // Update local state
-                            setState(() {
-                              widget.data.userVote = -1;
-                              widget.data.downVotes++;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
@@ -568,4 +255,312 @@ class _SideButtonState extends State<_SideButton> {
       ),
     );
   }
+}
+
+/// Collection of side buttons
+List<Widget> buildSideButtons({
+  required widget,
+  required dataManager,
+  required setState,
+  required context,
+  required positiveNet,
+  required negativeNet,
+}) {
+  return [
+    _SideButton(
+      // Notice my use of provider for the bookmark status,
+      // and only for bookmark status. This allows for quick
+      // updates of the bookmark status without having to
+      // wait for the FutureBuilder to rebuild the widget.
+      icon: dataManager.getDataItem(widget.data.id).isBookmarked
+          ? const Icon(Icons.bookmark, size: 24.0)
+          : const Icon(Icons.bookmark_border, size: 24.0),
+      size: 24.0,
+      onPressed: () async {
+        // Update data in the database
+        if (dataManager.getDataItem(widget.data.id).isBookmarked) {
+          // Delete bookmark if it exists
+          final headers = {'Content-Type': 'application/json'};
+          final body = json.encode({
+            "algo_id": widget.data.id,
+            "user_id": _firebase.currentUser!.uid,
+          });
+          await http.delete(
+            nodeUri('remove_bookmark'),
+            headers: headers,
+            body: body,
+          );
+        } else {
+          // Add bookmark if it doesn't exist
+          final headers = {'Content-Type': 'application/json'};
+          final body = json.encode({
+            "algo_id": widget.data.id,
+            "user_id": _firebase.currentUser!.uid,
+          });
+          await http.post(
+            nodeUri('bookmark_algo'),
+            headers: headers,
+            body: body,
+          );
+        }
+
+        // Update data locally
+        final updatedAlgo = AlgoData(
+          id: widget.data.id,
+          title: widget.data.title,
+          upVotes: widget.data.upVotes,
+          downVotes: widget.data.downVotes,
+          datePosted: widget.data.datePosted,
+          image: widget.data.image,
+          description: widget.data.description,
+          isBookmarked: !dataManager.getDataItem(widget.data.id).isBookmarked,
+          api: widget.data.api,
+          code: widget.data.code,
+          userCreator: widget.data.userCreator,
+          creatorName: widget.data.creatorName,
+          creatorSurname: widget.data.creatorSurname,
+          creatorImageURL: widget.data.creatorImageURL,
+          tags: widget.data.tags,
+          userVote: widget.data.userVote,
+        );
+        // Notifies the [dataManagerProvider] that this algorithm has been bookmarked,
+        // by passing its index to the provider's notifier. This index will be used in
+        // CatalogueScreen to show bookmarked icon on the card, and in the
+        // DetailsCard on the same screen to show the details of the bookmarked algorithm.
+        dataManager.updateSingleData(
+          id: widget.data.id,
+          newData: updatedAlgo,
+        );
+      },
+    ),
+    _SideButton(
+      icon: Icon(
+        Icons.arrow_drop_up,
+        size: 35.0,
+        color: widget.data.userVote == 1 ? GeeLogicColourScheme.blue : null,
+      ),
+      size: 35.0,
+      onPressed: () async {
+        // TODO: Clean up this repetitive code. I was too sleepy when I wrote this :,,,(
+        final int? currentUserVote = widget.data.userVote;
+
+        if (currentUserVote == 1) {
+          // If user has already upvoted then remove upvote
+
+          // Delete upvote for the user.
+          final headers = {'Content-Type': 'application/json'};
+          final body = json.encode({
+            "algo_id": widget.data.id,
+            "user_id": _firebase.currentUser!.uid,
+          });
+          await http.delete(
+            nodeUri('remove_vote'),
+            headers: headers,
+            body: body,
+          );
+
+          // Update the total upvote count.
+          final headers2 = {'Content-Type': 'application/json'};
+          final body2 = json.encode({
+            "algo_id": widget.data.id,
+            "change": -1,
+          });
+          await http.patch(
+            nodeUri('up_vote'),
+            headers: headers2,
+            body: body2,
+          );
+
+          // Update local state:
+          setState(() {
+            widget.data.userVote = null;
+            widget.data.upVotes--;
+          });
+
+          // Stop logic from progressing further.
+          return;
+        } else if (currentUserVote == -1) {
+          // If user has downvoted then remove downvote and
+          // add upvote.
+
+          // Delete downvote for the user.
+          final headers = {'Content-Type': 'application/json'};
+          final body = json.encode({
+            "algo_id": widget.data.id,
+            "user_id": _firebase.currentUser!.uid,
+          });
+          await http.delete(
+            nodeUri('remove_vote'),
+            headers: headers,
+            body: body,
+          );
+
+          // Update the total downvote count.
+          final headers2 = {'Content-Type': 'application/json'};
+          final body2 = json.encode({
+            "algo_id": widget.data.id,
+            "change": -1,
+          });
+          await http.patch(
+            nodeUri('down_vote'),
+            headers: headers2,
+            body: body2,
+          );
+
+          // Update local state:
+          // No need to setState because widget will be rebuilt
+          // later in the logic
+          widget.data.downVotes--;
+        }
+
+        // If user has not voted yet or voted negative
+        // before, add upvote to user's votes.
+        final headers3 = {'Content-Type': 'application/json'};
+        final body3 = json.encode({
+          "algo_id": widget.data.id,
+          "user_id": _firebase.currentUser!.uid,
+          "vote": 1,
+        });
+        await http.post(
+          nodeUri('add_vote'),
+          headers: headers3,
+          body: body3,
+        );
+
+        // Update the total number of upvotes.
+        final headers4 = {'Content-Type': 'application/json'};
+        final body4 = json.encode({
+          "algo_id": widget.data.id,
+          "change": 1,
+        });
+        await http.patch(
+          nodeUri('up_vote'),
+          headers: headers4,
+          body: body4,
+        );
+
+        // Update local state
+        setState(() {
+          widget.data.userVote = 1;
+          widget.data.upVotes++;
+        });
+      },
+    ),
+    Text(
+      // widget.data.netVotes.abs().toString(),
+      widget.data.netVotes.toString(),
+      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+          color: widget.data.netVotes.isNegative ? negativeNet : positiveNet),
+    ),
+    // Down vote button
+    _SideButton(
+      icon: Icon(Icons.arrow_drop_down,
+          size: 35.0,
+          color: widget.data.userVote == -1 ? GeeLogicColourScheme.red : null),
+      size: 35.0,
+      onPressed: () async {
+        final int? currentUserVote = widget.data.userVote;
+
+        if (currentUserVote == 1) {
+          // If user has already upvoted, remove upvote and downvote
+
+          // Delete upvote for the user.
+          final headers = {'Content-Type': 'application/json'};
+          final body = json.encode({
+            "algo_id": widget.data.id,
+            "user_id": _firebase.currentUser!.uid,
+          });
+          await http.delete(
+            nodeUri('remove_vote'),
+            headers: headers,
+            body: body,
+          );
+
+          // Update the total upvote count.
+          final headers2 = {'Content-Type': 'application/json'};
+          final body2 = json.encode({
+            "algo_id": widget.data.id,
+            "change": -1,
+          });
+          await http.patch(
+            nodeUri('up_vote'),
+            headers: headers2,
+            body: body2,
+          );
+
+          // Update local state:
+          // No need to setState because widget will be rebuilt
+          // later in the logic
+          widget.data.upVotes--;
+        } else if (currentUserVote == -1) {
+          // If user has already downvoted then remove downvote
+
+          // Delete downvote for the user.
+          final headers = {'Content-Type': 'application/json'};
+          final body = json.encode({
+            "algo_id": widget.data.id,
+            "user_id": _firebase.currentUser!.uid,
+          });
+          await http.delete(
+            nodeUri('remove_vote'),
+            headers: headers,
+            body: body,
+          );
+
+          // Update the total downvote count.
+          final headers2 = {'Content-Type': 'application/json'};
+          final body2 = json.encode({
+            "algo_id": widget.data.id,
+            "change": -1,
+          });
+          await http.patch(
+            nodeUri('down_vote'),
+            headers: headers2,
+            body: body2,
+          );
+
+          // Update local state:
+          setState(() {
+            widget.data.userVote = null;
+            widget.data.downVotes--;
+          });
+
+          // Stop logic from progressing further.
+          return;
+        }
+
+        // If user has not voted yet or voted positive
+        // before, add downvote to user's votes.
+        final headers3 = {'Content-Type': 'application/json'};
+        final body3 = json.encode({
+          "algo_id": widget.data.id,
+          "user_id": _firebase.currentUser!.uid,
+          "vote": -1,
+        });
+        await http.post(
+          nodeUri('add_vote'),
+          headers: headers3,
+          body: body3,
+        );
+
+        // Update the total number of downvotes.
+        final headers4 = {'Content-Type': 'application/json'};
+        final body4 = json.encode({
+          "algo_id": widget.data.id,
+          "change": 1,
+        });
+        await http.patch(
+          nodeUri('down_vote'),
+          headers: headers4,
+          body: body4,
+        );
+
+        // Update local state
+        setState(() {
+          widget.data.userVote = -1;
+          widget.data.downVotes++;
+        });
+      },
+    ),
+  ];
 }
