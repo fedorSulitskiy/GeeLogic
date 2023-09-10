@@ -1,5 +1,6 @@
 # GeeLogic Project
-In this project I am creating a web application using Flutter for researchers and developers to share and learn new algorithms for GIS using Google Earth Engine API.
-[Github](https://github.com/fedorSulitskiy/GIS-GEE-Project) repository is my main workplace, with this [replit repl](https://replit.com/@fedorSulitskiy/GIS-GEE-Project) mirroring progress. I will be using this readme to
-demonstrate my progress and detail it on my [Medium page](https://medium.com/@f.sulitskiy). Who ever stumbles upon this repository wish me luck and/or please give me
-advice!
+The field of Earth observation is a rapidly developing industry. Space applications see more and more adoption within the non-space economy, and new startups are experiencing rapid growth. However despite this incredible advancement, there is a notable lack of space for scientists and developers to find common ground and explore each other’s ideas in orbital imagery analysis. GeeLogic aims to bridge this gap, and create such a space.
+
+By the end of the project fully functional internet platform for researchers and developers to post and discuss their Earth-observation oriented work was successfully developed. The aim of the project was to design a proof-of-concept application and experiment with technologies and approaches that could be used to develop such a platform. The deliverable was to create a working prototype which could facilitate information about algorithms working on Google Earth Engine submitted by the users. Both were successfully achieved.
+
+The resultant product uses Flutter Web framework for its frontend and three APIs using Python and Node.JS along with Firebase for its backend. It is successfully deployed and can be access through [this link](https://gee-gis-project-393016.firebaseapp.com/), and is hosted by an array of services including Firebase for frontend, Render for backend APIs and Clever Cloud for SQL database.
